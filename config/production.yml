@@ -1,0 +1,22 @@
+app:
+  name: TSIGNAL
+  host: localhost
+  port: 5656
+  debug: False
+
+environment:
+  is_production: True
+  
+database:
+  host: localhost
+  port: 5432
+  name: my_database
+  user: my_user
+  password: my_password
+logging:
+  level: info
+  filename: myapp.log
+
+jwt:
+  secret: MYSECRET
+  expiration: 12000
