@@ -1,7 +1,7 @@
 app:
   name: TSIGNAL
   host: localhost
-  port: 5656
+  port: 5666
   debug: False
 
 environment:
