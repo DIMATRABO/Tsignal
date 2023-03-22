@@ -21,7 +21,7 @@ services:
   tsignal:
     image: tsignal:latest
     ports:
-      - "5557:5557"
+      - "80:80"
     command: bash ./app/app.py
     depends_on:
       - vault
