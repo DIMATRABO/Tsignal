@@ -4,7 +4,7 @@ from flask import Response
 
 healthcheck_bp = Blueprint('healthcheck', __name__)
 
-@healthcheck_bp.route('/healthcheck')
+@healthcheck_bp.route('')
 def healthcheck():
     json_data = dumps({"msg":"Service is healthy"})
     return Response(json_data , status=200, mimetype='application/json')

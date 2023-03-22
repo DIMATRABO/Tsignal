@@ -1,11 +1,11 @@
 app:
   name: TSIGNAL
-  host: localhost
-  port: 80
+  host: 0.0.0.0
+  port: 5656
   debug: False
 
 environment:
-  is_production: True
+  is_production: False
   
 database:
   host: localhost

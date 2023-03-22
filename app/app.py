@@ -21,7 +21,7 @@ def not_found(error):
     return jsonify(error='Not found'), 404
 
 app.register_error_handler(404, not_found)
-app.register_blueprint(healthcheck_bp)
+app.register_blueprint(healthcheck_bp,url_prefix = "/healthcheck")
 app.register_blueprint(UserController,url_prefix = "/user")
 
 
