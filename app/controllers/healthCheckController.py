@@ -4,8 +4,11 @@ from flask import Response
 
 healthcheck_bp = Blueprint('healthcheck', __name__)
 
-@healthcheck_bp.route('')
+@healthcheck_bp.route('', methods=['GET'])
 def healthcheck():
-    json_data = dumps({"msg":"Service is healthy"})
-    return Response(json_data , status=200, mimetype='application/json')
-    
+    try:
+        json_data = dumps({"msg":"Service is healthy"})
+        return Response(json_data , status=200, mimetype='application/json')
+    except Exception as e :
+        json_data = dumps({"status_message":str(e)})
+        return Response(json_data , status=400, mimetype='application/json')

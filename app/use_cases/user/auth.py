@@ -12,7 +12,7 @@ class Auth:
             user = self.repo.getUserByLogin(session , authForm.login)
             if not user is None:
                 if bcrypt.checkpw(
-                    authForm.passwd.encode('utf-8'),
+                    authForm.password.encode('utf-8'),
                     user.password.encode('utf-8')
                     ):
                     return user

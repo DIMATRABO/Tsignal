@@ -10,12 +10,12 @@ environment:
 database:
   host: localhost
   port: 5432
-  name: my_database
-  user: my_user
-  password: my_password
+  name: tsignal
+  user: postgres
+  password: postgres
 logging:
   level: info
-  filename: myapp.log
+  filename: ../app.log
 
 jwt:
   secret: MYSECRET

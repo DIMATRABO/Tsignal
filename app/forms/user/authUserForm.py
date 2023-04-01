@@ -2,7 +2,7 @@ from models.model import User
 
 class AuthUserForm:
     login: str 
-    passwd:str
+    password:str
     
 
     def __init__(self , jsonCredentials):
@@ -12,13 +12,13 @@ class AuthUserForm:
         else:
             self.login=jsonCredentials["login"]
 
-        if(  not "passwd" in  jsonCredentials):
-            raise Exception("passwd required")
+        if(  not "password" in  jsonCredentials):
+            raise Exception("password required")
         else:
-            if(  len(jsonCredentials["passwd"]) <8):
-                raise Exception("passwd must be have more then 8 characters")
-            else:
-                self.passwd=jsonCredentials["passwd"]
+            #if(  len(jsonCredentials["password"]) <8):
+            #    raise Exception("password must be have more then 8 characters")
+            #else:
+                self.password=jsonCredentials["password"]
 
 
 

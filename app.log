@@ -1,0 +1,190 @@
+29-Mar-23 21:52:36 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5656
+ * Running on http://192.168.8.103:5656
+29-Mar-23 21:52:36 - [33mPress CTRL+C to quit[0m
+29-Mar-23 21:52:36 -  * Restarting with stat
+29-Mar-23 21:52:37 -  * Debugger is active!
+29-Mar-23 21:52:37 -  * Debugger PIN: 795-099-658
+29-Mar-23 23:15:48 - 127.0.0.1 - - [29/Mar/2023 23:15:48] "[33mPOST /users HTTP/1.1[0m" 404 -
+29-Mar-23 23:16:08 - 127.0.0.1 - - [29/Mar/2023 23:16:08] "[32mPOST /user HTTP/1.1[0m" 308 -
+29-Mar-23 23:16:08 - saving User first_name last_name
+29-Mar-23 23:16:08 - 127.0.0.1 - - [29/Mar/2023 23:16:08] "[31m[1mPOST /user/ HTTP/1.1[0m" 400 -
+29-Mar-23 23:16:43 - 127.0.0.1 - - [29/Mar/2023 23:16:43] "[32mPOST /user HTTP/1.1[0m" 308 -
+29-Mar-23 23:16:43 - saving User first_name last_name
+29-Mar-23 23:16:44 - 127.0.0.1 - - [29/Mar/2023 23:16:44] "[31m[1mPOST /user/ HTTP/1.1[0m" 400 -
+29-Mar-23 23:18:22 -  * Detected change in 'C:\\Users\\a.aitbenha\\Desktop\\TRABO\\trueSignal\\code\\Tsignal\\app\\forms\\user\\saveUserForm.py', reloading
+29-Mar-23 23:18:22 -  * Restarting with stat
+29-Mar-23 23:18:26 -  * Debugger is active!
+29-Mar-23 23:18:26 -  * Debugger PIN: 795-099-658
+29-Mar-23 23:18:31 - 127.0.0.1 - - [29/Mar/2023 23:18:31] "[32mPOST /user HTTP/1.1[0m" 308 -
+29-Mar-23 23:18:31 - saving User first_name last_name
+29-Mar-23 23:18:31 - 127.0.0.1 - - [29/Mar/2023 23:18:31] "[31m[1mPOST /user/ HTTP/1.1[0m" 400 -
+29-Mar-23 23:19:04 -  * Detected change in 'C:\\Users\\a.aitbenha\\Desktop\\TRABO\\trueSignal\\code\\Tsignal\\app\\forms\\user\\saveUserForm.py', reloading
+29-Mar-23 23:19:04 -  * Restarting with stat
+29-Mar-23 23:19:08 -  * Debugger is active!
+29-Mar-23 23:19:08 -  * Debugger PIN: 795-099-658
+29-Mar-23 23:21:29 - 127.0.0.1 - - [29/Mar/2023 23:21:29] "[32mPOST /user HTTP/1.1[0m" 308 -
+29-Mar-23 23:21:29 - saving User first_name last_name
+29-Mar-23 23:21:30 - 127.0.0.1 - - [29/Mar/2023 23:21:30] "[31m[1mPOST /user/ HTTP/1.1[0m" 400 -
+29-Mar-23 23:21:31 -  * Detected change in 'C:\\Users\\a.aitbenha\\Desktop\\TRABO\\trueSignal\\code\\Tsignal\\app\\models\\model.py', reloading
+29-Mar-23 23:21:31 -  * Restarting with stat
+29-Mar-23 23:21:33 -  * Debugger is active!
+29-Mar-23 23:21:33 -  * Debugger PIN: 795-099-658
+29-Mar-23 23:55:35 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5656
+ * Running on http://192.168.8.103:5656
+29-Mar-23 23:55:35 - [33mPress CTRL+C to quit[0m
+29-Mar-23 23:55:35 -  * Restarting with stat
+29-Mar-23 23:55:38 -  * Debugger is active!
+29-Mar-23 23:55:38 -  * Debugger PIN: 795-099-658
+29-Mar-23 23:55:44 - 127.0.0.1 - - [29/Mar/2023 23:55:44] "[32mPOST /user HTTP/1.1[0m" 308 -
+29-Mar-23 23:55:44 - saving User first_name last_name
+29-Mar-23 23:55:44 - 127.0.0.1 - - [29/Mar/2023 23:55:44] "POST /user/ HTTP/1.1" 200 -
+29-Mar-23 23:57:13 - exeption: passwd required
+29-Mar-23 23:57:13 - 127.0.0.1 - - [29/Mar/2023 23:57:13] "[31m[1mPOST /user/auth HTTP/1.1[0m" 400 -
+29-Mar-23 23:57:26 - Logged in as: abdo123
+29-Mar-23 23:57:26 - 127.0.0.1 - - [29/Mar/2023 23:57:26] "POST /user/auth HTTP/1.1" 200 -
+30-Mar-23 09:25:07 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5656
+ * Running on http://192.168.8.103:5656
+30-Mar-23 09:25:07 - [33mPress CTRL+C to quit[0m
+30-Mar-23 09:25:07 -  * Restarting with stat
+30-Mar-23 09:25:09 -  * Debugger is active!
+30-Mar-23 09:25:09 -  * Debugger PIN: 795-099-658
+01-Apr-23 20:08:14 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5656
+ * Running on http://192.168.100.165:5656
+01-Apr-23 20:08:14 - [33mPress CTRL+C to quit[0m
+01-Apr-23 20:08:14 -  * Restarting with stat
+01-Apr-23 20:08:16 -  * Debugger is active!
+01-Apr-23 20:08:16 -  * Debugger PIN: 795-099-658
+01-Apr-23 20:09:07 -  * Detected change in 'C:\\Users\\a.aitbenha\\Desktop\\TRABO\\trueSignal\\code\\Tsignal\\app\\app.py', reloading
+01-Apr-23 20:09:07 -  * Restarting with stat
+01-Apr-23 20:09:09 -  * Debugger is active!
+01-Apr-23 20:09:09 -  * Debugger PIN: 795-099-658
+01-Apr-23 20:14:11 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5656
+ * Running on http://192.168.100.165:5656
+01-Apr-23 20:14:11 - [33mPress CTRL+C to quit[0m
+01-Apr-23 20:14:11 -  * Restarting with stat
+01-Apr-23 20:14:12 -  * Debugger is active!
+01-Apr-23 20:14:13 -  * Debugger PIN: 795-099-658
+01-Apr-23 20:14:24 -  * Detected change in 'C:\\Users\\a.aitbenha\\Desktop\\TRABO\\trueSignal\\code\\Tsignal\\app\\app.py', reloading
+01-Apr-23 20:14:24 -  * Restarting with stat
+01-Apr-23 20:14:26 -  * Debugger is active!
+01-Apr-23 20:14:26 -  * Debugger PIN: 795-099-658
+01-Apr-23 20:14:29 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5656
+ * Running on http://192.168.100.165:5656
+01-Apr-23 20:14:29 - [33mPress CTRL+C to quit[0m
+01-Apr-23 20:14:29 -  * Restarting with stat
+01-Apr-23 20:14:31 -  * Debugger is active!
+01-Apr-23 20:14:31 -  * Debugger PIN: 795-099-658
+01-Apr-23 20:15:12 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5656
+ * Running on http://192.168.100.165:5656
+01-Apr-23 20:15:12 - [33mPress CTRL+C to quit[0m
+01-Apr-23 20:15:12 -  * Restarting with stat
+01-Apr-23 20:15:14 -  * Debugger is active!
+01-Apr-23 20:15:14 -  * Debugger PIN: 795-099-658
+01-Apr-23 20:15:47 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5656
+ * Running on http://192.168.100.165:5656
+01-Apr-23 20:15:47 - [33mPress CTRL+C to quit[0m
+01-Apr-23 20:15:47 -  * Restarting with stat
+01-Apr-23 20:15:48 -  * Debugger is active!
+01-Apr-23 20:15:48 -  * Debugger PIN: 795-099-658
+01-Apr-23 20:16:40 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5656
+ * Running on http://192.168.100.165:5656
+01-Apr-23 20:16:40 - [33mPress CTRL+C to quit[0m
+01-Apr-23 20:16:40 -  * Restarting with stat
+01-Apr-23 20:16:41 -  * Debugger is active!
+01-Apr-23 20:16:41 -  * Debugger PIN: 795-099-658
+01-Apr-23 20:17:33 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5656
+ * Running on http://192.168.100.165:5656
+01-Apr-23 20:17:33 - [33mPress CTRL+C to quit[0m
+01-Apr-23 20:17:33 -  * Restarting with stat
+01-Apr-23 20:17:34 -  * Debugger is active!
+01-Apr-23 20:17:34 -  * Debugger PIN: 795-099-658
+01-Apr-23 20:19:16 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5656
+ * Running on http://192.168.100.165:5656
+01-Apr-23 20:19:16 - [33mPress CTRL+C to quit[0m
+01-Apr-23 20:19:16 -  * Restarting with stat
+01-Apr-23 20:19:18 -  * Debugger is active!
+01-Apr-23 20:19:18 -  * Debugger PIN: 795-099-658
+01-Apr-23 20:19:59 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5656
+ * Running on http://192.168.100.165:5656
+01-Apr-23 20:19:59 - [33mPress CTRL+C to quit[0m
+01-Apr-23 20:19:59 -  * Restarting with stat
+01-Apr-23 20:20:01 -  * Debugger is active!
+01-Apr-23 20:20:01 -  * Debugger PIN: 795-099-658
+01-Apr-23 20:21:35 -  * Detected change in 'C:\\Users\\a.aitbenha\\Desktop\\TRABO\\trueSignal\\code\\Tsignal\\app\\app.py', reloading
+01-Apr-23 20:21:35 -  * Restarting with stat
+01-Apr-23 20:21:37 -  * Debugger is active!
+01-Apr-23 20:21:37 -  * Debugger PIN: 795-099-658
+01-Apr-23 20:22:32 - 127.0.0.1 - - [01/Apr/2023 20:22:32] "[33mGET /visy/info/permitid/13139 HTTP/1.1[0m" 404 -
+01-Apr-23 20:22:37 - 127.0.0.1 - - [01/Apr/2023 20:22:37] "[31m[1mPOST /healthcheck HTTP/1.1[0m" 405 -
+01-Apr-23 20:22:46 - 127.0.0.1 - - [01/Apr/2023 20:22:46] "GET /healthcheck HTTP/1.1" 200 -
+01-Apr-23 20:22:56 - 127.0.0.1 - - [01/Apr/2023 20:22:56] "[31m[1mPOST /healthcheck HTTP/1.1[0m" 405 -
+01-Apr-23 20:24:01 -  * Detected change in 'C:\\Users\\a.aitbenha\\Desktop\\TRABO\\trueSignal\\code\\Tsignal\\app\\controllers\\healthCheckController.py', reloading
+01-Apr-23 20:24:01 -  * Restarting with stat
+01-Apr-23 20:24:02 -  * Debugger is active!
+01-Apr-23 20:24:02 -  * Debugger PIN: 795-099-658
+01-Apr-23 20:24:04 - 127.0.0.1 - - [01/Apr/2023 20:24:04] "[31m[1mPOST /healthcheck HTTP/1.1[0m" 405 -
+01-Apr-23 20:24:41 -  * Detected change in 'C:\\Users\\a.aitbenha\\Desktop\\TRABO\\trueSignal\\code\\Tsignal\\app\\controllers\\healthCheckController.py', reloading
+01-Apr-23 20:24:41 -  * Restarting with stat
+01-Apr-23 20:24:43 -  * Debugger is active!
+01-Apr-23 20:24:43 -  * Debugger PIN: 795-099-658
+01-Apr-23 20:24:45 - 127.0.0.1 - - [01/Apr/2023 20:24:45] "[31m[1mPOST /healthcheck HTTP/1.1[0m" 405 -
+01-Apr-23 20:24:48 -  * Detected change in 'C:\\Users\\a.aitbenha\\Desktop\\TRABO\\trueSignal\\code\\Tsignal\\app\\controllers\\healthCheckController.py', reloading
+01-Apr-23 20:24:48 -  * Restarting with stat
+01-Apr-23 20:24:49 -  * Debugger is active!
+01-Apr-23 20:24:49 -  * Debugger PIN: 795-099-658
+01-Apr-23 20:27:41 - 127.0.0.1 - - [01/Apr/2023 20:27:41] "[32mPOST /users HTTP/1.1[0m" 308 -
+01-Apr-23 20:27:41 - exeption: The birthday is not a date
+01-Apr-23 20:27:41 - 127.0.0.1 - - [01/Apr/2023 20:27:41] "[31m[1mPOST /users/ HTTP/1.1[0m" 400 -
+01-Apr-23 20:28:01 - 127.0.0.1 - - [01/Apr/2023 20:28:01] "[32mPOST /users HTTP/1.1[0m" 308 -
+01-Apr-23 20:28:01 - saving User anass anass
+01-Apr-23 20:28:02 - 127.0.0.1 - - [01/Apr/2023 20:28:02] "POST /users/ HTTP/1.1" 200 -
+01-Apr-23 20:29:59 -  * Detected change in 'C:\\Users\\a.aitbenha\\Desktop\\TRABO\\trueSignal\\code\\Tsignal\\app\\forms\\user\\authUserForm.py', reloading
+01-Apr-23 20:29:59 -  * Restarting with stat
+01-Apr-23 20:30:01 -  * Debugger is active!
+01-Apr-23 20:30:01 -  * Debugger PIN: 795-099-658
+01-Apr-23 20:30:22 -  * Detected change in 'C:\\Users\\a.aitbenha\\Desktop\\TRABO\\trueSignal\\code\\Tsignal\\app\\forms\\user\\authUserForm.py', reloading
+01-Apr-23 20:30:22 -  * Restarting with stat
+01-Apr-23 20:30:23 -  * Debugger is active!
+01-Apr-23 20:30:23 -  * Debugger PIN: 795-099-658
+01-Apr-23 20:30:37 -  * Detected change in 'C:\\Users\\a.aitbenha\\Desktop\\TRABO\\trueSignal\\code\\Tsignal\\app\\use_cases\\user\\auth.py', reloading
+01-Apr-23 20:30:37 -  * Restarting with stat
+01-Apr-23 20:30:38 -  * Debugger is active!
+01-Apr-23 20:30:38 -  * Debugger PIN: 795-099-658
+01-Apr-23 20:30:41 - exeption: password must be have more then 8 characters
+01-Apr-23 20:30:41 - 127.0.0.1 - - [01/Apr/2023 20:30:41] "[31m[1mPOST /users/auth HTTP/1.1[0m" 400 -
+01-Apr-23 20:31:20 -  * Detected change in 'C:\\Users\\a.aitbenha\\Desktop\\TRABO\\trueSignal\\code\\Tsignal\\app\\forms\\user\\authUserForm.py', reloading
+01-Apr-23 20:31:20 -  * Restarting with stat
+01-Apr-23 20:31:21 -  * Debugger is active!
+01-Apr-23 20:31:21 -  * Debugger PIN: 795-099-658
+01-Apr-23 20:31:24 - Logged in as: anass 
+01-Apr-23 20:31:24 - 127.0.0.1 - - [01/Apr/2023 20:31:24] "POST /users/auth HTTP/1.1" 200 -
+01-Apr-23 20:39:00 -  * Detected change in 'C:\\Users\\a.aitbenha\\Desktop\\TRABO\\trueSignal\\code\\Tsignal\\app\\test.py', reloading
+01-Apr-23 20:39:00 -  * Restarting with stat
+01-Apr-23 20:39:05 -  * Debugger is active!
+01-Apr-23 20:39:05 -  * Debugger PIN: 795-099-658
+01-Apr-23 20:40:10 -  * Detected change in 'C:\\Users\\a.aitbenha\\Desktop\\TRABO\\trueSignal\\code\\Tsignal\\app\\test.py', reloading
+01-Apr-23 20:40:10 -  * Restarting with stat
