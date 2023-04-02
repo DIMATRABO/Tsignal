@@ -8,7 +8,7 @@ environment:
   is_production: False
   
 database:
-  host: localhost
+  host: db
   port: 5432
   name: tsignal
   user: postgres
