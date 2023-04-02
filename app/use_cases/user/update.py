@@ -5,7 +5,7 @@ class Update:
         self.repo=repo
         self.sessionContext = SessionContext()
 
-    def handel(self, user:User):
+    def handle(self, user:User):
         with self.sessionContext as session:
             return self.repo.update(session , user)
     

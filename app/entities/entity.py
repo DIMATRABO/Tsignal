@@ -8,7 +8,8 @@ Base = declarative_base()
 class AccountEntity(Base):
     __tablename__ = "accounts"
     id = Column("id",String , primary_key=True)
-    exchange = Column("exchange",String)
+    exchange_id = Column(String, ForeignKey("exchanges.id"))
+    exchange = relationship("ExchangeEntity", back_populates="exchanges")
     key_id = Column("key_id",String)
     user_id = Column(String, ForeignKey("users.id"))
     user = relationship("UserEntity", back_populates="accounts")
@@ -27,20 +28,18 @@ class AccountEntity(Base):
             self.user.first_name + " " + self.user.last_name
         )
 
-    def from_domain(self, model: Account):
+    def from_domain(self, model: Account , user_id):
         self.id = model.id
         self.exchange = model.exchange
-        self.api_key = model.api_key
-        self.api_secret = model.api_secret
-        self.user_id = model.user_id
+        self.key_id = model.key_id
+        self.user_id = user_id
 
     def to_domain(self):
         return Account(
             id=self.id,
             exchange=self.exchange,
-            api_key=self.api_key,
-            api_secret=self.api_secret,
-            user_id=self.user_id
+            key_id=self.key_id,
+            orders=self.orders
         )
 
 class UserEntity(Base):

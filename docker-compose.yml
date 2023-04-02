@@ -25,6 +25,7 @@ services:
     command: bash run.sh
     depends_on:
       - vault
+      - db
 
   
 

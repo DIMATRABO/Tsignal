@@ -5,7 +5,7 @@ class GetAll:
         self.repo=repo
         self.sessionContext = SessionContext() 
 
-    def handel(self  ,user ,getUsersInput):
+    def handle(self  ,user ,getUsersInput):
         with self.sessionContext as session:
             if not getUsersInput.all is None :
                 to_return = self.repo.getAllUsers(session , user)

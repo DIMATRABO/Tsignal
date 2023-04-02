@@ -29,23 +29,36 @@ auth = Auth(postgres_repo)
 @UserController.route('/<userId>', methods=['GET'])
 @jwt_required()
 def getUserById(userId):
-    user = User()
-    user = getOne.handel(user , getUserInput=GetOneInput(id=userId))
-    if(user is None):
-        json_data = json.dumps({"status_message":"no user found"})
-        return Response(json_data ,  status=400, mimetype='application/json')
-    return Response(user.to_dict() , status = 200, mimetype='application/json')
+    try:
+        user = User()
+        user = getOne.handle(user , getUserInput=GetOneInput(id=userId))
+        if(user is None):
+            json_data = json.dumps({"status_message":"no user found"})
+            return Response(json_data ,  status=400, mimetype='application/json')
+        return Response(user.to_dict() , status = 200, mimetype='application/json')
+    except Exception as e :
+        json_data = json.dumps({"status_message":str(e)})
+        return Response(json_data , status=400, mimetype='application/json')
+
+
 
 
 @UserController.route('/cardid/<cardid>', methods=['GET'])
 @jwt_required()
 def getUserBycardId(cardid):
-    user = User()
-    user = getOne.handel(user , getUserInput=GetOneInput(id_card=cardid))
-    if(user is None): 
-        json_data = json.dumps({"status_message":"no user found"})
-        return Response(json_data ,  status=400, mimetype='application/json')
-    return Response(user.to_dict(),status=200, mimetype='application/json')
+    try:
+        user = User()
+        user = getOne.handle(user , getUserInput=GetOneInput(id_card=cardid))
+        if(user is None): 
+            json_data = json.dumps({"status_message":"no user found"})
+            return Response(json_data ,  status=400, mimetype='application/json')
+        return Response(user.to_dict(),status=200, mimetype='application/json')
+    
+    except Exception as e :
+        json_data = json.dumps({"status_message":str(e)})
+        return Response(json_data , status=400, mimetype='application/json')
+
+
     
 
 @UserController.route('/', methods=['POST'])
@@ -61,7 +74,7 @@ def save():
     user = form.to_domain()
     try:
         logger.log("saving User "+ user_json["first_name"] +" "+ user_json["last_name"] )
-        user_saved = saving_handler.handel(user=user)
+        user_saved = saving_handler.handle(user=user)
         json_data = json.dumps(user_saved.to_dict())
         return Response(json_data , status=200, mimetype='application/json')
     except Exception as e :
@@ -95,17 +108,23 @@ def authUser():
 @UserController.route('/<id>', methods=['DELETE'])
 @jwt_required()
 def delete(id):
-    if delete_handler.handel(user= User(id=id)):
+    try:
+        if delete_handler.handle(user= User(id=id)):
+
+            status_message = "User deleted successfully"
+            logger.log(status_message)
+            json_data = json.dumps({"status_message":status_message})
+            return  Response(json_data , status=200, mimetype='application/json')
 
         status_message = "User deleted successfully"
-        logger.log(status_message)
         json_data = json.dumps({"status_message":status_message})
-        return  Response(json_data , status=200, mimetype='application/json')
+        return  Response(json_data , status=400, mimetype='application/json')
+        
+    except Exception as e :
+        json_data = json.dumps({"status_message":str(e)})
+        return Response(json_data , status=400, mimetype='application/json')
 
-    status_message = "User deleted successfully"
-    json_data = json.dumps({"status_message":status_message})
-    return  Response(json_data , status=400, mimetype='application/json')
-    
-    
+
+        
 
 

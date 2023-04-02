@@ -1,12 +1,12 @@
 
 from gate_ways.dataBaseSession.sessionContext import SessionContext
-from use_cases.account.getAll import GetAllInput
+
 class GetAll:
     def __init__(self , repo):
         self.repo=repo
         self.sessionContext = SessionContext() 
 
-    def handel(self  ,account ,getAccountsInput:GetAllInput):
+    def handle(self  ,account ,getAccountsInput):
         with self.sessionContext as session:
             if not getAccountsInput.all is None :
                 to_return = self.repo.getAllAccounts(session , account)

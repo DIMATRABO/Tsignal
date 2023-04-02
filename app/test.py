@@ -1,4 +1,4 @@
-from gate_ways.user.secretsManager import SecretRepo
+from gate_ways.account.secretsManager import SecretRepo
 
 sr =SecretRepo()
-sr.save("myId",data={"apikey":"mkhmojlhmkjh","apisecrete":"klhgjklhgljkhgl"})
+print(sr.read("myId2"))

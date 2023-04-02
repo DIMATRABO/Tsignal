@@ -6,8 +6,8 @@ class Save:
         self.repo=repo
         self.sessionContext = SessionContext()
 
-    def handel(self, account:Account):
+    def handle(self, account:Account , user_id):
         with self.sessionContext as session:
-            to_return = self.repo.save(session , account)
+            to_return = self.repo.save(session , account , user_id)
             return to_return
 

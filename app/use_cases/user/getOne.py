@@ -5,7 +5,7 @@ class GetOne:
         self.repo=repo
         self.sessionContext = SessionContext()
 
-    def handel(self, getUserInput):
+    def handle(self, getUserInput):
         with self.sessionContext as session : 
             if not getUserInput.uuid is None :
                 user = self.repo.getUserById(session , getUserInput.uuid)

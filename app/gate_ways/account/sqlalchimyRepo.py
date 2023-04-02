@@ -15,9 +15,9 @@ class SqlAlchimy_repo :
         self.Base = Base
 
         
-    def save(self, session , account:Account):
+    def save(self, session , account:Account , user_id):
         accountEntity = AccountEntity()
-        accountEntity.from_domain(model=account)
+        accountEntity.from_domain(model=account,user_id=user_id)
         accountEntity.id=str(uuid.uuid4())
         
         session.add(accountEntity)
