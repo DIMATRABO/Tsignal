@@ -4,10 +4,7 @@ from flask_jwt_extended import JWTManager
 from gate_ways.config_handler import Config_handler
 from controllers.userController import UserController
 from controllers.healthCheckController import healthcheck_bp
-
 from flask_cors import CORS
-
-
 
 config = Config_handler()
 

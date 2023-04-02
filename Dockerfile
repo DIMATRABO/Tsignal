@@ -16,4 +16,4 @@ COPY . .
 EXPOSE 5656
 
 # Run the application
-CMD ["/bin/sh", "-c", "cd app && python app.py"]
+CMD ["python", "./app/app.py"]
