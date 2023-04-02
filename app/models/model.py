@@ -27,7 +27,6 @@ class Exchange:
 class Order:
     id: str = None
     account_id: str = None
-    exchange_id: str = None
     is_buy: bool = None
     is_future: bool = None
     is_limit: bool = None
@@ -40,7 +39,6 @@ class Order:
         return cls(
             id=d.get('id'),
             account_id=d.get('account_id'),
-            exchange_id=d.get('exchange_id'),
             is_buy=d.get('is_buy'),
             is_future=d.get('is_future'),
             is_limit=d.get('is_limit'),
@@ -53,7 +51,6 @@ class Order:
         return {
             'id': self.id,
             'account_id': self.account_id,
-            'exchange_id': self.exchange_id,
             'is_buy': self.is_buy,
             'is_future': self.is_future,
             'is_limit': self.is_limit,

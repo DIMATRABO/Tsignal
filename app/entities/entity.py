@@ -9,7 +9,7 @@ class AccountEntity(Base):
     __tablename__ = "accounts"
     id = Column("id",String , primary_key=True)
     exchange_id = Column(String, ForeignKey("exchanges.id"))
-    exchange = relationship("ExchangeEntity", back_populates="exchanges")
+    exchange = relationship("ExchangeEntity", back_populates="orders")
     key_id = Column("key_id",String)
     user_id = Column(String, ForeignKey("users.id"))
     user = relationship("UserEntity", back_populates="accounts")
@@ -96,8 +96,6 @@ class OrderEntity(Base):
     id = Column("id", String, primary_key=True)
     account_id = Column(String, ForeignKey("accounts.id"))
     account = relationship("AccountEntity", back_populates="orders")
-    exchange_id = Column(String, ForeignKey("exchanges.id"))
-    exchange = relationship("ExchangeEntity", back_populates="orders")
     is_buy = Column("is_buy", Boolean)
     is_future = Column("is_future", Boolean)
     is_limit = Column("is_limit", Boolean)
@@ -105,11 +103,10 @@ class OrderEntity(Base):
     symbol = Column("symbol", String)
     amount = Column("amount", Float)
 
-    def __init__(self, id=None, account=None, exchange=None, is_buy=None, is_future=None,
+    def __init__(self, id=None, account=None, is_buy=None, is_future=None,
                  is_limit=None, limit_price=None, symbol=None, amount=None):
         self.id = id
         self.account = account
-        self.exchange = exchange
         self.is_buy = is_buy
         self.is_future = is_future
         self.is_limit = is_limit
@@ -118,16 +115,14 @@ class OrderEntity(Base):
         self.amount = amount
 
     def __repr__(self):
-        return "<OrderEntity(id='%s', account='%s', exchange='%s')>" % (
+        return "<OrderEntity(id='%s', account='%s')>" % (
             self.id,
-            self.account.id,
-            self.exchange.name
+            self.account.id
         )
 
     def from_domain(self, model: Order):
         self.id = model.id
         self.account_id = model.account_id
-        self.exchange_id = model.exchange_id
         self.is_buy = model.is_buy
         self.is_future = model.is_future
         self.is_limit = model.is_limit
@@ -139,7 +134,6 @@ class OrderEntity(Base):
         return Order(
             id=self.id,
             account_id=self.account_id,
-            exchange_id=self.exchange_id,
             is_buy=self.is_buy,
             is_future=self.is_future,
             is_limit=self.is_limit,
