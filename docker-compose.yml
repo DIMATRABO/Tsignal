@@ -1,4 +1,4 @@
-version: "3.3"
+version: '3.8'
 services:
   db:
     image: postgres:14.1-alpine
@@ -22,7 +22,7 @@ services:
     image: tsignal:latest
     ports:
       - "5656:5656"
-    command: python ./app/app.py
+    command: bash run.sh
     depends_on:
       - vault
 
