@@ -8,38 +8,35 @@ Base = declarative_base()
 class AccountEntity(Base):
     __tablename__ = "accounts"
     id = Column("id",String , primary_key=True)
-    exchange_id = Column(String, ForeignKey("exchanges.id"))
-    exchange = relationship("ExchangeEntity", back_populates="orders")
+    exchange_id = Column(String)
     key_id = Column("key_id",String)
-    user_id = Column(String, ForeignKey("users.id"))
-    user = relationship("UserEntity", back_populates="accounts")
-    orders = relationship("OrderEntity", back_populates="account")
+    user_id = Column("user_id", String)
 
-    def __init__(self, id=None, exchange=None, key_id=None, user=None):
+    def __init__(self, id=None, exchange_id=None, key_id=None, user_id=None):
         self.id = id
-        self.exchange = exchange
+        self.exchange_id = exchange_id
         self.key_id = key_id
-        self.user = user
+        self.user_id = user_id
 
     def __repr__(self):
         return "<AccountEntity(id='%s', exchange='%s', user='%s')>" % (
             self.id,
-            self.exchange,
-            self.user.first_name + " " + self.user.last_name
+            self.exchange_id,
+            self.user_id
         )
 
-    def from_domain(self, model: Account , user_id):
+    def from_domain(self, model: Account):
         self.id = model.id
-        self.exchange = model.exchange
+        self.exchange_id = model.exchange.id
         self.key_id = model.key_id
-        self.user_id = user_id
+        self.user_id = model.user_id
 
     def to_domain(self):
         return Account(
             id=self.id,
-            exchange=self.exchange,
+            exchange=Exchange(self.exchange_id),
             key_id=self.key_id,
-            orders=self.orders
+            user_id=self.user_id
         )
 
 class UserEntity(Base):
@@ -51,7 +48,6 @@ class UserEntity(Base):
     last_name = Column("last_name", String)
     birthday = Column("birthday", DateTime)
     
-    accounts = relationship("AccountEntity", back_populates="user")
 
     def __init__(self, id=None, login=None, password=None, first_name=None, last_name=None, birthday=None):
         self.id = id
@@ -76,9 +72,7 @@ class UserEntity(Base):
         self.last_name = model.last_name
         self.birthday = model.birthday
         
-        # Map list of accounts to AccountEntities
-        self.accounts = [] if model.accounts is None else[AccountEntity.from_domain(account) for account in model.accounts]
- 
+
     def to_domain(self):
         return User(
             id=self.id,
@@ -86,8 +80,7 @@ class UserEntity(Base):
             password=self.password,
             first_name=self.first_name,
             last_name=self.last_name,
-            birthday=self.birthday,
-            accounts=[account.to_domain() for account in self.accounts]
+            birthday=self.birthday
         )
 
 
@@ -95,7 +88,6 @@ class OrderEntity(Base):
     __tablename__ = "orders"
     id = Column("id", String, primary_key=True)
     account_id = Column(String, ForeignKey("accounts.id"))
-    account = relationship("AccountEntity", back_populates="orders")
     is_buy = Column("is_buy", Boolean)
     is_future = Column("is_future", Boolean)
     is_limit = Column("is_limit", Boolean)
@@ -103,10 +95,10 @@ class OrderEntity(Base):
     symbol = Column("symbol", String)
     amount = Column("amount", Float)
 
-    def __init__(self, id=None, account=None, is_buy=None, is_future=None,
+    def __init__(self, id=None, account_id=None, is_buy=None, is_future=None,
                  is_limit=None, limit_price=None, symbol=None, amount=None):
         self.id = id
-        self.account = account
+        self.account = account_id
         self.is_buy = is_buy
         self.is_future = is_future
         self.is_limit = is_limit
@@ -117,7 +109,7 @@ class OrderEntity(Base):
     def __repr__(self):
         return "<OrderEntity(id='%s', account='%s')>" % (
             self.id,
-            self.account.id
+            self.account_id
         )
 
     def from_domain(self, model: Order):
@@ -147,7 +139,6 @@ class ExchangeEntity(Base):
     __tablename__ = "exchanges"
     id = Column("id", String, primary_key=True)
     name = Column("name", String)
-    orders = relationship("OrderEntity", back_populates="exchange")
 
     def __init__(self, id=None, name=None):
         self.id = id

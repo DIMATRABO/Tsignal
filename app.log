@@ -110,3 +110,97 @@
 02-Apr-23 19:32:13 - http://localhost:8200 "GET /v1/auth/token/lookup-self HTTP/1.1" 200 506
 02-Apr-23 19:32:13 -  * Debugger is active!
 02-Apr-23 19:32:13 -  * Debugger PIN: 795-099-658
+02-Apr-23 19:33:25 - Starting new HTTP connection (1): localhost:8200
+02-Apr-23 19:33:25 - http://localhost:8200 "GET /v1/auth/token/lookup-self HTTP/1.1" 200 506
+02-Apr-23 19:33:25 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5656
+ * Running on http://192.168.8.103:5656
+02-Apr-23 19:33:25 - [33mPress CTRL+C to quit[0m
+02-Apr-23 19:33:25 -  * Restarting with stat
+02-Apr-23 19:33:27 - Starting new HTTP connection (1): localhost:8200
+02-Apr-23 19:33:27 - http://localhost:8200 "GET /v1/auth/token/lookup-self HTTP/1.1" 200 506
+02-Apr-23 19:33:27 -  * Debugger is active!
+02-Apr-23 19:33:27 -  * Debugger PIN: 795-099-658
+02-Apr-23 19:33:29 - 127.0.0.1 - - [02/Apr/2023 19:33:29] "[32mPOST /accounts HTTP/1.1[0m" 308 -
+02-Apr-23 19:33:29 - saving Account 
+02-Apr-23 19:33:29 - 127.0.0.1 - - [02/Apr/2023 19:33:29] "[31m[1mPOST /accounts/ HTTP/1.1[0m" 400 -
+03-Apr-23 20:51:09 - Starting new HTTP connection (1): localhost:8200
+03-Apr-23 20:52:27 - Starting new HTTP connection (1): localhost:8200
+03-Apr-23 20:52:27 - http://localhost:8200 "GET /v1/auth/token/lookup-self HTTP/1.1" 200 506
+03-Apr-23 20:52:27 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5656
+ * Running on http://192.168.8.103:5656
+03-Apr-23 20:52:27 - [33mPress CTRL+C to quit[0m
+03-Apr-23 20:52:27 -  * Restarting with stat
+03-Apr-23 20:52:29 - Starting new HTTP connection (1): localhost:8200
+03-Apr-23 20:52:29 - http://localhost:8200 "GET /v1/auth/token/lookup-self HTTP/1.1" 200 506
+03-Apr-23 20:52:29 -  * Debugger is active!
+03-Apr-23 20:52:29 -  * Debugger PIN: 795-099-658
+03-Apr-23 21:54:08 -  * Detected change in 'C:\\Users\\a.aitbenha\\Desktop\\TRABO\\trueSignal\\code\\Tsignal\\app\\app.py', reloading
+03-Apr-23 21:54:09 -  * Restarting with stat
+03-Apr-23 21:54:12 - Starting new HTTP connection (1): localhost:8200
+03-Apr-23 21:54:12 - http://localhost:8200 "GET /v1/auth/token/lookup-self HTTP/1.1" 200 506
+03-Apr-23 21:54:12 -  * Debugger is active!
+03-Apr-23 21:54:12 -  * Debugger PIN: 795-099-658
+03-Apr-23 21:55:26 - Starting new HTTP connection (1): localhost:8200
+03-Apr-23 21:55:26 - http://localhost:8200 "GET /v1/auth/token/lookup-self HTTP/1.1" 200 506
+03-Apr-23 21:55:26 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5656
+ * Running on http://192.168.8.103:5656
+03-Apr-23 21:55:26 - [33mPress CTRL+C to quit[0m
+03-Apr-23 21:55:26 -  * Restarting with stat
+03-Apr-23 21:55:28 - Starting new HTTP connection (1): localhost:8200
+03-Apr-23 21:55:28 - http://localhost:8200 "GET /v1/auth/token/lookup-self HTTP/1.1" 200 506
+03-Apr-23 21:55:28 -  * Debugger is active!
+03-Apr-23 21:55:28 -  * Debugger PIN: 795-099-658
+03-Apr-23 21:56:21 - 127.0.0.1 - - [03/Apr/2023 21:56:21] "[31m[1mPOST /accounts/ HTTP/1.1[0m" 401 -
+03-Apr-23 21:56:26 - 127.0.0.1 - - [03/Apr/2023 21:56:26] "[32mPOST /accounts HTTP/1.1[0m" 308 -
+03-Apr-23 21:56:26 - 127.0.0.1 - - [03/Apr/2023 21:56:26] "[31m[1mPOST /accounts/ HTTP/1.1[0m" 401 -
+03-Apr-23 21:56:51 - 127.0.0.1 - - [03/Apr/2023 21:56:51] "[32mPOST /accounts HTTP/1.1[0m" 308 -
+03-Apr-23 21:56:51 - saving Account 
+03-Apr-23 21:56:51 - 127.0.0.1 - - [03/Apr/2023 21:56:51] "[31m[1mPOST /accounts/ HTTP/1.1[0m" 400 -
+03-Apr-23 22:01:15 -  * Detected change in 'C:\\Users\\a.aitbenha\\Desktop\\TRABO\\trueSignal\\code\\Tsignal\\app\\entities\\entity.py', reloading
+03-Apr-23 22:01:15 -  * Restarting with stat
+03-Apr-23 22:01:17 - Starting new HTTP connection (1): localhost:8200
+03-Apr-23 22:01:17 - http://localhost:8200 "GET /v1/auth/token/lookup-self HTTP/1.1" 200 506
+03-Apr-23 22:01:17 -  * Debugger is active!
+03-Apr-23 22:01:17 -  * Debugger PIN: 795-099-658
+03-Apr-23 22:01:25 -  * Detected change in 'C:\\Users\\a.aitbenha\\Desktop\\TRABO\\trueSignal\\code\\Tsignal\\app\\entities\\entity.py', reloading
+03-Apr-23 22:01:25 -  * Restarting with stat
+03-Apr-23 22:01:27 - Starting new HTTP connection (1): localhost:8200
+03-Apr-23 22:01:27 - http://localhost:8200 "GET /v1/auth/token/lookup-self HTTP/1.1" 200 506
+03-Apr-23 22:01:27 -  * Debugger is active!
+03-Apr-23 22:01:27 -  * Debugger PIN: 795-099-658
+03-Apr-23 22:01:29 - 127.0.0.1 - - [03/Apr/2023 22:01:29] "[32mPOST /accounts HTTP/1.1[0m" 308 -
+03-Apr-23 22:01:29 - saving Account 
+03-Apr-23 22:01:29 - 127.0.0.1 - - [03/Apr/2023 22:01:29] "[31m[1mPOST /accounts/ HTTP/1.1[0m" 400 -
+03-Apr-23 22:02:19 - 127.0.0.1 - - [03/Apr/2023 22:02:19] "[32mPOST /accounts HTTP/1.1[0m" 308 -
+03-Apr-23 22:02:19 - saving Account 
+03-Apr-23 22:02:19 - 127.0.0.1 - - [03/Apr/2023 22:02:19] "[31m[1mPOST /accounts/ HTTP/1.1[0m" 400 -
+03-Apr-23 22:02:20 -  * Detected change in 'C:\\Users\\a.aitbenha\\Desktop\\TRABO\\trueSignal\\code\\Tsignal\\app\\entities\\entity.py', reloading
+03-Apr-23 22:02:20 -  * Restarting with stat
+03-Apr-23 22:02:21 - Starting new HTTP connection (1): localhost:8200
+03-Apr-23 22:02:21 - http://localhost:8200 "GET /v1/auth/token/lookup-self HTTP/1.1" 200 506
+03-Apr-23 22:02:21 -  * Debugger is active!
+03-Apr-23 22:02:21 -  * Debugger PIN: 795-099-658
+03-Apr-23 22:03:08 -  * Detected change in 'C:\\Users\\a.aitbenha\\Desktop\\TRABO\\trueSignal\\code\\Tsignal\\app\\entities\\entity.py', reloading
+03-Apr-23 22:03:08 -  * Restarting with stat
+03-Apr-23 22:03:10 - Starting new HTTP connection (1): localhost:8200
+03-Apr-23 22:03:10 - http://localhost:8200 "GET /v1/auth/token/lookup-self HTTP/1.1" 200 506
+03-Apr-23 22:03:10 -  * Debugger is active!
+03-Apr-23 22:03:10 -  * Debugger PIN: 795-099-658
+03-Apr-23 22:03:12 - 127.0.0.1 - - [03/Apr/2023 22:03:12] "[32mPOST /accounts HTTP/1.1[0m" 308 -
+03-Apr-23 22:03:12 - saving Account 
+03-Apr-23 22:03:12 - 127.0.0.1 - - [03/Apr/2023 22:03:12] "[31m[1mPOST /accounts/ HTTP/1.1[0m" 400 -
+03-Apr-23 22:06:38 -  * Detected change in 'C:\\Users\\a.aitbenha\\Desktop\\TRABO\\trueSignal\\code\\Tsignal\\app\\entities\\entity.py', reloading
+03-Apr-23 22:06:38 -  * Restarting with stat
+03-Apr-23 22:06:40 - Starting new HTTP connection (1): localhost:8200
+03-Apr-23 22:06:40 - http://localhost:8200 "GET /v1/auth/token/lookup-self HTTP/1.1" 200 506
+03-Apr-23 22:06:40 -  * Debugger is active!
+03-Apr-23 22:06:40 -  * Debugger PIN: 795-099-658
+03-Apr-23 22:08:46 -  * Detected change in 'C:\\Users\\a.aitbenha\\Desktop\\TRABO\\trueSignal\\code\\Tsignal\\app\\models\\model.py', reloading
+03-Apr-23 22:08:46 -  * Restarting with stat
+03-Apr-23 22:38:05 - Starting new HTTP connection (1): localhost:8200

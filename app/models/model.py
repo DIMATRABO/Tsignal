@@ -65,6 +65,7 @@ class Account:
     exchange: Exchange = None
     key_id: str = None
     key: object = None
+    user_id: str = None
     orders: List[Order] = None
 
     @classmethod
