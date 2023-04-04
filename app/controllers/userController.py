@@ -31,11 +31,11 @@ auth = Auth(postgres_repo)
 def getUserById(userId):
     try:
         user = User()
-        user = getOne.handle(user , getUserInput=GetOneInput(id=userId))
+        user = getOne.handle(getUserInput=GetOneInput(id=userId))
         if(user is None):
             json_data = json.dumps({"status_message":"no user found"})
             return Response(json_data ,  status=400, mimetype='application/json')
-        return Response(user.to_dict() , status = 200, mimetype='application/json')
+        return Response( json.dumps(user.to_dict()) , status = 200, mimetype='application/json')
     except Exception as e :
         json_data = json.dumps({"status_message":str(e)})
         return Response(json_data , status=400, mimetype='application/json')
@@ -108,7 +108,7 @@ def authUser():
 @UserController.route('/<id>', methods=['DELETE'])
 @jwt_required()
 def delete(id):
-    try:
+   
         if delete_handler.handle(user= User(id=id)):
 
             status_message = "User deleted successfully"
@@ -119,11 +119,6 @@ def delete(id):
         status_message = "User deleted successfully"
         json_data = json.dumps({"status_message":status_message})
         return  Response(json_data , status=400, mimetype='application/json')
-        
-    except Exception as e :
-        json_data = json.dumps({"status_message":str(e)})
-        return Response(json_data , status=400, mimetype='application/json')
-
 
         
 

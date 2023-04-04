@@ -45,18 +45,18 @@ class SqlAlchimy_repo :
       
     
     def delete(self, session , user):
-        userEntity = UserEntity()
-        userEntity.from_domain(model=user)
-        
-        session.delete(userEntity)
-        try:        
+        num_deleted = session.query(UserEntity).filter_by(id=user.id).delete()
+        if num_deleted == 0:
+            # handle case where no matching records were found
+            raise Exception("No matching records found for user ID {}".format(user.id))
+
+        try:
             session.commit()
         except exc.SQLAlchemyError as e:
             logger.log(e)
             session.rollback()
-            raise Exception("user not deleted")
-         
-      
+            raise Exception("Error deleting user with ID {}".format(user.id))
+            
     
 
     def getAllUsers(self, session):

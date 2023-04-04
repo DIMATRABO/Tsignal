@@ -33,11 +33,11 @@ getAll = GetAll(postgres_repo)
 def getAccountById(accountId):
     try:
         account = Account()
-        account = getOne.handle(account , getAccountInput=GetOneInput(id=accountId))
+        account = getOne.handle(getAccountInput=GetOneInput(id=accountId))
         if(account is None):
             json_data = json.dumps({"status_message":"no account found"})
             return Response(json_data ,  status=400, mimetype='application/json')
-        return Response(account.to_dict() , status = 200, mimetype='application/json')
+        return Response( json.dumps(account.to_dict()) , status = 200, mimetype='application/json')
       
     except Exception as e :
         json_data = json.dumps({"status_message":str(e)})

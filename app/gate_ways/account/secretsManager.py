@@ -1,6 +1,7 @@
 from dotenv import load_dotenv
 import hvac
 
+
 class SecretRepo:
 
     def __init__(self):

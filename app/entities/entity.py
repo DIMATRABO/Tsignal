@@ -27,7 +27,7 @@ class AccountEntity(Base):
 
     def from_domain(self, model: Account):
         self.id = model.id
-        self.exchange_id = model.exchange.id
+        self.exchange_id = None if model.exchange is None else model.exchange.id
         self.key_id = model.key_id
         self.user_id = model.user_id
 

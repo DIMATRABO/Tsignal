@@ -15,9 +15,9 @@ class SqlAlchimy_repo :
         self.Base = Base
 
         
-    def save(self, session , account:Account , user_id):
+    def save(self, session , account:Account):
         accountEntity = AccountEntity()
-        accountEntity.from_domain(model=account,user_id=user_id)
+        accountEntity.from_domain(model=account)
         accountEntity.id=str(uuid.uuid4())
         
         session.add(accountEntity)
@@ -47,18 +47,18 @@ class SqlAlchimy_repo :
       
     
     def delete(self, session , account):
-        accountEntity = AccountEntity()
-        accountEntity.from_domain(model=account)
-        
-        session.delete(accountEntity)
-        try:        
+        num_deleted = session.query(AccountEntity).filter_by(id=account.id).delete()
+        if num_deleted == 0:
+            # handle case where no matching records were found
+            raise Exception("No matching records found for account ID {}".format(account.id))
+
+        try:
             session.commit()
         except exc.SQLAlchemyError as e:
             logger.log(e)
             session.rollback()
-            raise Exception("account not deleted")
-         
-      
+            raise Exception("Error deleting account with ID {}".format(account.id))
+            
 
     def getAllAccounts(self, session):
         accounts = session.query("accounts")

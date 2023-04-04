@@ -9,7 +9,10 @@ services:
       - POSTGRES_DB=tsignal
     ports:
       - '5432:5432'
-    
+    volumes:
+      - mydata:/var/lib/postgresql/data
+
+
   vault:
     image: vault:1.5.2
     environment:
@@ -27,7 +30,6 @@ services:
       - vault
       - db
 
-  
-
-
-   
+      
+volumes:
+  mydata:
