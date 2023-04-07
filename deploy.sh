@@ -11,6 +11,7 @@ if cd /home/Tsignal/gitRepo && git diff --exit-code >/dev/null; then
  
 else
 
+   echo "changes detected"
    # if there are changes, stop and remove existing containers
   docker-compose down
 
