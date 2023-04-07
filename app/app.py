@@ -17,7 +17,7 @@ jwt = JWTManager(app)
 
 @app.errorhandler(404)
 def not_found(error):
-    return jsonify(error='Not found'), 404
+    return jsonify(error='URL Not found'), 404
 
 app.register_blueprint(healthcheck_bp,url_prefix = "/healthcheck")
 app.register_blueprint(UserController,url_prefix = "/users")
