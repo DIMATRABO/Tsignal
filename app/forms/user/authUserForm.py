@@ -1,4 +1,3 @@
-from models.model import User
 
 class AuthUserForm:
     login: str 
