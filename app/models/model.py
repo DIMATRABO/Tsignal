@@ -70,4 +70,5 @@ class User:
 
     def to_dict(self):
         self.birthday = self.birthday.isoformat()
+        self.password = None
         return asdict(self)

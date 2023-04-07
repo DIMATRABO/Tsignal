@@ -61,9 +61,9 @@ class SqlAlchimy_repo :
             
 
     def getAllAccounts(self, session):
-        accounts = session.query("accounts")
-        return accounts
-
+        accounts = session.query(AccountEntity).all()
+        return [account.to_domain() for account in accounts]
+      
  
     def getAccountById(self, session , uuid):
         account = session.query(AccountEntity).filter(AccountEntity.id == uuid).first()
