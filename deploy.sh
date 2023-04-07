@@ -28,6 +28,6 @@ else
 fi
 
 # start containers
-docker-
+docker-compose up -d
 chmod u+x deploy.sh
 ignal/deploy.sh
