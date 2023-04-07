@@ -24,4 +24,4 @@ fi
 # start containers
 docker-compose up -d
 
-chmod u+x /home/Tsignal/deploy.sh
+chmod u+x deploy.sh
