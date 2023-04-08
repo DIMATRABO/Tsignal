@@ -85,17 +85,18 @@ def save():
 @AccountController.route('/<id>', methods=['DELETE'])
 @jwt_required()
 def delete(id):
-    if delete_handler.handle(account= Account(id=id)):
-
+    try:
+        delete_handler.handle(account= Account(id=id))
         status_message = "Account deleted successfully"
         logger.log(status_message)
         json_data = json.dumps({"status_message":status_message})
         return  Response(json_data , status=200, mimetype='application/json')
 
-    status_message = "Account deleted successfully"
-    json_data = json.dumps({"status_message":status_message})
-    return  Response(json_data , status=400, mimetype='application/json')
-    
+    except Exception as e :
+        json_data = json.dumps({"status_message":str(e)})
+        return Response(json_data , status=400, mimetype='application/json')
+
+
     
 
 

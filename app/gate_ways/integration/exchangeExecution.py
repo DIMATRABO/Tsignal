@@ -89,9 +89,9 @@ class ExchangeExecution:
         order_type = "limit" if order.is_limit else "market"
         symbol = self.get_symbol(exchange_id=exchange_id , base=order.base , quote=order.quote)
         if order.is_buy:
-            self.buy(symbol , order.amount , order.limit_price , order_type)
+            return self.buy(symbol , order.amount , order.limit_price , order_type)
         else:
-            self.sell(order.symbol , order.amount , order.limit_price , order_type)
+            return self.sell(symbol , order.amount , order.limit_price , order_type)
 
 
 
