@@ -6,7 +6,6 @@ from entities.entity import Base , UserEntity
 from models.model import User
 import uuid
 
-#######################""
 logger = Log()
 class SqlAlchimy_repo :
     def __init__(self ):
