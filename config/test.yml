@@ -15,7 +15,7 @@ database:
   password: postgres
 logging:
   level: info
-  filename: ../app.log
+  filename: app.log
 
 jwt:
   secret: MYSECRET
