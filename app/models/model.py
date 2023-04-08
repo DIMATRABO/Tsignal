@@ -28,6 +28,7 @@ class Order:
     base: str = None
     quote: str = None
     amount: float = None
+    response: str = None
 
     @classmethod
     def from_dict(self, d):

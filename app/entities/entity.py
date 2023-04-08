@@ -95,9 +95,10 @@ class OrderEntity(Base):
     base = Column("base", String)
     quote = Column("quote", String)
     amount = Column("amount", Float)
+    response = Column("response", String)
 
     def __init__(self, id=None, account_id=None, is_buy=None, is_future=None,
-                 is_limit=None, limit_price=None, base=None, quote = None ,amount=None):
+                 is_limit=None, limit_price=None, base=None, quote = None ,amount=None, response = None):
         self.id = id
         self.account = account_id
         self.is_buy = is_buy
@@ -107,6 +108,7 @@ class OrderEntity(Base):
         self.base = base
         self.quote = quote
         self.amount = amount
+        self.response = response
 
     def __repr__(self):
         return "<OrderEntity(id='%s', account='%s')>" % (
@@ -124,6 +126,7 @@ class OrderEntity(Base):
         self.base = model.base
         self.quote = model.quote
         self.amount = model.amount
+        self.response = model.response
 
     def to_domain(self):
         return Order(
@@ -135,7 +138,8 @@ class OrderEntity(Base):
             limit_price=self.limit_price,
             base=self.base,
             quote=self.quote,
-            amount=self.amount
+            amount=self.amount,
+            response=self.response
         )
 
 
