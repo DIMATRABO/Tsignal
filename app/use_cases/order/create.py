@@ -24,6 +24,7 @@ class Create:
             
     def accountTreatment(self, order:Order , account:Account):
         try:
+            logger.log("/////////////////////// sending order to "+account.exchange.id + "////////////////////")
             order.account_id = account.id
             order.id = str(uuid.uuid4())
             with self.sessionContext as session:
