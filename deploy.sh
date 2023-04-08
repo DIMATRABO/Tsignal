@@ -6,7 +6,7 @@ cd /home/Tsignal/gitRepo
 # fetch the latest changes from remote repository
 git fetch
 
-# check if the local branch is behind the remote branch
+
 if [ $(git status -uno | grep 'Your branch is behind' | wc -l) -eq 0 ]; then
 
   # if there are no changes, do nothing
