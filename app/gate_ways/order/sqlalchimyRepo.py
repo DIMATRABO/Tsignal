@@ -63,16 +63,9 @@ class SqlAlchimy_repo :
         orders = session.query("orders")
         return orders
 
-    def getOrderByLogin(self, session , login):
-        order = session.query(OrderEntity).filter(OrderEntity.login == login).first()
-        return None if order == None else order.to_domain()
-    
+
     def getOrderById(self, session , uuid):
         order = session.query(OrderEntity).filter(OrderEntity.id == uuid).first()
         return None if order == None else order.to_domain()
     
-    def getOrderByLoginPasswd(self, session , login , passwd):
-        first =  session.query(OrderEntity).filter(and_(OrderEntity.login == login ,OrderEntity.password == passwd)).first()
-        return first
-        
-    
+ 

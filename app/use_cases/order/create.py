@@ -31,7 +31,7 @@ class Create:
             
             account.key = self.secretRepo.read(account.key_id)
             exchange = ExchangeExecution(account.exchange.id , account.key)
-            response = exchange.executeOrder(order)
+            response = exchange.executeOrder(account.exchange.id , order)
             logger.log(response)
         except Exception as e :
             json_data = dumps({"status_message":str(e)})

@@ -14,7 +14,13 @@ class Db_creator :
         self.Base = Base
 
     def create(self):
+        # Drop all existing tables
+        self.Base.metadata.drop_all(bind=self.engine)
+
+        # Create new tables
         self.Base.metadata.create_all(bind=self.engine)
+
+        # Commit changes
         Session = sessionmaker(bind=self.engine)
-        session=Session()
+        session = Session()
         session.commit()

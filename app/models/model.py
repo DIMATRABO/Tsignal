@@ -25,7 +25,8 @@ class Order:
     is_future: bool = None
     is_limit: bool = None
     limit_price: float = None
-    symbol: str = None
+    base: str = None
+    quote: str = None
     amount: float = None
 
     @classmethod

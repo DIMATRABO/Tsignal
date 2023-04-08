@@ -7,7 +7,16 @@ class ExchangeExecution:
     def __init__(self, exchange_id , key):
         self.exchange = getattr(ccxt, exchange_id)(key)
 
-
+    def get_symbol(self ,exchange_id, base , quote):
+        if exchange_id == "binance":
+            return base+quote
+        
+        elif exchange_id == "kucoin":
+            return base+'/'+quote
+        
+        elif exchange_id == "bybit":
+            return base+'_'+quote
+        
     def get_balance(self):
         try:
             balance = self.exchange.fetch_balance()
@@ -76,10 +85,11 @@ class ExchangeExecution:
       
 
 
-    def executeOrder(self , order: Order):
+    def executeOrder(self ,exchange_id ,  order: Order):
         order_type = "limit" if order.is_limit else "market"
+        symbol = self.get_symbol(exchange_id=exchange_id , base=order.base , quote=order.quote)
         if order.is_buy:
-            self.buy(order.symbol , order.amount , order.limit_price , order_type)
+            self.buy(symbol , order.amount , order.limit_price , order_type)
         else:
             self.sell(order.symbol , order.amount , order.limit_price , order_type)
 

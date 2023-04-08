@@ -92,18 +92,20 @@ class OrderEntity(Base):
     is_future = Column("is_future", Boolean)
     is_limit = Column("is_limit", Boolean)
     limit_price = Column("limit_price", Float)
-    symbol = Column("symbol", String)
+    base = Column("base", String)
+    quote = Column("quote", String)
     amount = Column("amount", Float)
 
     def __init__(self, id=None, account_id=None, is_buy=None, is_future=None,
-                 is_limit=None, limit_price=None, symbol=None, amount=None):
+                 is_limit=None, limit_price=None, base=None, quote = None ,amount=None):
         self.id = id
         self.account = account_id
         self.is_buy = is_buy
         self.is_future = is_future
         self.is_limit = is_limit
         self.limit_price = limit_price
-        self.symbol = symbol
+        self.base = base
+        self.quote = quote
         self.amount = amount
 
     def __repr__(self):
@@ -119,7 +121,8 @@ class OrderEntity(Base):
         self.is_future = model.is_future
         self.is_limit = model.is_limit
         self.limit_price = model.limit_price
-        self.symbol = model.symbol
+        self.base = model.base
+        self.quote = model.quote
         self.amount = model.amount
 
     def to_domain(self):
@@ -130,7 +133,8 @@ class OrderEntity(Base):
             is_future=self.is_future,
             is_limit=self.is_limit,
             limit_price=self.limit_price,
-            symbol=self.symbol,
+            base=self.base,
+            quote=self.quote,
             amount=self.amount
         )
 

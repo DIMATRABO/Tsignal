@@ -73,8 +73,3 @@ class SqlAlchimy_repo :
         user = session.query(UserEntity).filter(UserEntity.id == uuid).first()
         return None if user == None else user.to_domain()
     
-    def getUserByLoginPasswd(self, session , login , passwd):
-        first =  session.query(UserEntity).filter(and_(UserEntity.login == login ,UserEntity.password == passwd)).first()
-        return first
-        
-    
