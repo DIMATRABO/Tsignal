@@ -32,7 +32,7 @@ class Create:
             account.key = self.secretRepo.read(account.key_id)
             exchange = ExchangeExecution(account.exchange.id , account.key)
             response = exchange.executeOrder(account.exchange.id , order)
-            order.response  =  str(response)[:100]
+            order.response  =  str(response)
             with self.sessionContext as session:
                 self.orderRepo.save(session, order)
             logger.log(response)
