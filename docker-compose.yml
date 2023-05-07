@@ -24,7 +24,7 @@ services:
   tsignal:
     image: tsignal:latest
     ports:
-      - "5656:5656"
+      - "80:5656"
     command: bash run.sh
     depends_on:
       - vault
