@@ -8,6 +8,7 @@ from use_cases.order.create import Create
 
 from gate_ways.order.sqlalchimyRepo import SqlAlchimy_repo
 from gate_ways.account.sqlalchimyRepo import SqlAlchimy_repo as AccountRepo
+from gate_ways.strategy.sqlalchimyRepo import SqlAlchimy_repo as StrategyRepo
 from gate_ways.log import Log
 
 
@@ -17,7 +18,7 @@ OrderController = Blueprint('OrderController', __name__)
 logger = Log()
 postgres_repo = SqlAlchimy_repo()
 accountRepo = AccountRepo()
-create_handler = Create(orderRepo = postgres_repo , accountRepo=accountRepo)
+create_handler = Create(orderRepo = postgres_repo , accountRepo=accountRepo , strategyRepo=StrategyRepo())
 
 
 @OrderController.route('/<webhookid>', methods=['POST'])
@@ -28,7 +29,7 @@ def healthcheck(webhookid):
         order = form.to_domain()
         order.strategy_id=webhookid
         logger.log("new order on strategy :"+webhookid)
-        nb = create_handler.handle(order=order)
+        nb = create_handler.handle(order=order , key=form.key)
         json_data = dumps({"nombre_executions": nb})
         return Response(json_data , status=200, mimetype='application/json')
     

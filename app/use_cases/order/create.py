@@ -22,31 +22,6 @@ class Create:
 
 
 
-       
-            
-    def accountTreatment(self, order:Order , account:Account):
-        try:
-            logger.log("/////////////////////// sending order to "+account.exchange.id + "////////////////////")
-            order.account_id = account.id
-            order.id = str(uuid.uuid4())
-            
-            
-            account.key = self.secretRepo.read(account.key_id)
-            exchange = ExchangeExecution(account.exchange.id , account.key)
-            response = exchange.executeOrder(account.exchange.id , order)
-            order.response  =  str(response)
-            with self.sessionContext as session:
-                self.orderRepo.save(session, order)
-            logger.log(response)
-        except Exception as e :
-            json_data = dumps({"status_message":str(e)})
-            logger.log(json_data)
-       
-
-
-        
-
-
 
     def handle(self, order:Order , key:str):
         with self.sessionContext as session:
