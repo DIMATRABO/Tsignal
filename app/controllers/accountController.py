@@ -47,12 +47,12 @@ def getAccountById(accountId):
 
 @AccountController.route('/me', methods=['GET'])
 @jwt_required()
-def getAccountsByUserId(userId):
+def getAccountsByUserId():
     try:
-        account = Account()
         userId = get_jwt()["userId"]
-        accounts = getAll.handle(account , getAccountsInput=GetAllInput(user_id=userId))
-        return Response(accounts.to_dict() , status = 200, mimetype='application/json')
+        accounts = getAll.handle(getAccountsInput=GetAllInput(user_id=userId))
+        json_data = json.dumps([account.to_dict() for account in accounts] )
+        return Response(json_data, status = 200, mimetype='application/json')
       
     except Exception as e :
         json_data = json.dumps({"status_message":str(e)})

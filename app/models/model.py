@@ -20,15 +20,44 @@ class Exchange:
 @dataclass
 class Order:
     id: str = None
-    account_id: str = None
+    strategy_id:str = None
     is_buy: bool = None
     is_future: bool = None
     is_limit: bool = None
     limit_price: float = None
-    base: str = None
-    quote: str = None
+    symbol_base: str = None
+    symbol_quote: str = None
     amount: float = None
-    response: str = None
+    status: str = None
+    reception_date: datetime = None 
+    execution_date: datetime = None
+    response: str = None    
+    
+
+    @classmethod
+    def from_dict(self, d):
+        return self(**d)
+
+    def to_dict(self):
+        return asdict(self)
+
+
+
+@dataclass
+class Strategy:
+    id: str = None
+    account_id: str = None
+    name: str = None
+    webhook_id: str = None
+    webhook_key: str = None
+    symbol_base: str = None
+    symbol_quote: str = None
+    is_future: bool = None
+    leverage: float = None
+    entry_size: float = None
+    is_percentage: bool = None
+    capital: float = None
+    orders: List[Order] = field(default_factory=list)
 
     @classmethod
     def from_dict(self, d):
@@ -45,7 +74,7 @@ class Account:
     key_id: str = None
     key: object = None
     user_id: str = None
-    orders: List[Order] = field(default_factory=list)
+    strategies: List[Strategy] = field(default_factory=list)
 
     @classmethod
     def from_dict(self, d):
@@ -53,8 +82,6 @@ class Account:
 
     def to_dict(self):
         return asdict(self)
-
-
 
 @dataclass
 class User:

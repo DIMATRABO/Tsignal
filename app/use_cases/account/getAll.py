@@ -6,14 +6,14 @@ class GetAll:
         self.repo=repo
         self.sessionContext = SessionContext() 
 
-    def handle(self  ,account ,getAccountsInput):
+    def handle(self  ,getAccountsInput):
         with self.sessionContext as session:
             if not getAccountsInput.all is None :
-                to_return = self.repo.getAllAccounts(session , account)
-            if not getAccountsInput.account_id is  None : 
-                to_return = self.repo.getAllByAccountId(session , account , getAccountsInput.account_id)
+                to_return = self.repo.getAllAccounts(session )
+            if not getAccountsInput.user_id is  None : 
+                to_return = self.repo.getAllByUserId(session, getAccountsInput.user_id)
             if not getAccountsInput.exchange_id is  None : 
-                to_return = self.repo.getAllByExchangeId(session  , account , getAccountsInput.exchange_id)  
+                to_return = self.repo.getAllByExchangeId(session , getAccountsInput.exchange_id)  
             return to_return
 
 

@@ -1,6 +1,7 @@
 from models.model import Order
 
 class CreateOrderForm:
+    key:str = None
     is_buy: bool = None
     is_future: bool = None
     is_limit: bool = None
@@ -12,7 +13,11 @@ class CreateOrderForm:
 
     def __init__(self , jsonAccount):
        
-        
+        if(  not "key" in  jsonAccount):
+            raise Exception("key required")
+        else:
+            self.is_buy=jsonAccount["is_buy"]
+
         if(  not "is_buy" in  jsonAccount):
             raise Exception("is_buy required")
         else:
@@ -54,7 +59,6 @@ class CreateOrderForm:
     def to_domain(self):
         return Order(
             id=None,
-            account_id=None,
             is_buy=self.is_buy,
             is_future=self.is_future,
             is_limit=self.is_limit,

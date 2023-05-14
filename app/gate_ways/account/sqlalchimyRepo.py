@@ -75,10 +75,10 @@ class SqlAlchimy_repo :
         return account
     
     def getAllByUserId(self, session , user_id):
-        accounts = session.query("accounts")
-        return accounts
-
+        accounts = session.query(AccountEntity).filter_by(user_id=user_id).all()
+        return [account.to_domain() for account in accounts]
 
     def getAllByExchangeId(self, session, exchange_id):
-            accounts = session.query("accounts")
-            return accounts
+        accounts = session.query(AccountEntity).filter_by(user_id=exchange_id).all()
+        return accounts
+

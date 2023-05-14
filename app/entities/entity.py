@@ -1,4 +1,4 @@
-from sqlalchemy import Column, ForeignKey , String , DateTime, Float , Boolean
+from sqlalchemy import Column , String , DateTime, Float , Boolean , UniqueConstraint
 from sqlalchemy.orm import declarative_base 
 from models.model import *
 
@@ -47,6 +47,7 @@ class UserEntity(Base):
     first_name = Column("first_name", String)
     last_name = Column("last_name", String)
     birthday = Column("birthday", DateTime)
+
     
 
     def __init__(self, id=None, login=None, password=None, first_name=None, last_name=None, birthday=None):
@@ -84,64 +85,156 @@ class UserEntity(Base):
         )
 
 
+
+
+class StrategyEntity(Base):
+    __tablename__ = "strategies"
+
+    id = Column(String, primary_key=True)
+    account_id = Column(String)
+    name = Column(String)
+    webhook_id = Column(String, unique=True)  # Make webhook_id unique
+    webhook_key = Column(String)
+    symbol_base = Column(String)
+    symbol_quote = Column(String)
+    is_future = Column(Boolean)
+    leverage = Column(Float)
+    entry_size = Column(Float)
+    is_percentage = Column(Boolean)
+    capital = Column(Float)
+
+    # Define a unique constraint for webhook_id
+    __table_args__ = (UniqueConstraint('webhook_id'),)
+
+
+    def __init__(self, id=None, account_id=None, name=None, webhook_id=None, webhook_key=None, symbol_base=None, symbol_quote=None,
+                 is_future=None, leverage=None, entry_size=None, is_percentage=None, capital=None):
+        self.id = id
+        self.account_id = account_id
+        self.name = name
+        self.webhook_id = webhook_id
+        self.webhook_key = webhook_key
+        self.symbol_base = symbol_base
+        self.symbol_quote = symbol_quote
+        self.is_future = is_future
+        self.leverage = leverage
+        self.entry_size = entry_size
+        self.is_percentage = is_percentage
+        self.capital = capital
+
+    def __repr__(self):
+        return "<StrategyEntity(id='%s', name='%s')>" % (
+            self.id,
+            self.name
+        ) 
+    
+    def from_domain(self, model: Strategy):
+        self.id = model.id
+        self.account_id = model.account_id
+        self.name = model.name
+        self.webhook_id = model.webhook_id
+        self.webhook_key = model.webhook_key
+        self.symbol_base = model.symbol_base
+        self.symbol_quote = model.symbol_quote
+        self.is_future = model.is_future
+        self.leverage = model.leverage
+        self.entry_size = model.entry_size
+        self.is_percentage = model.is_percentage
+        self.capital = model.capital
+
+
+    def to_domain(self):
+        return Strategy(
+            id= self.id,
+            account_id= self.account_id,
+            name= self.name,
+            webhook_id= self.webhook_id,
+            webhook_key= self.webhook_key,
+            symbol_base= self.symbol_base,
+            symbol_quote= self.symbol_quote,
+            is_future= self.is_future,
+            leverage=self.leverage,
+            entry_size= self.entry_size,
+            is_percentage=self.is_percentage,
+            capital=self.capital
+        )
+        
 class OrderEntity(Base):
     __tablename__ = "orders"
-    id = Column("id", String, primary_key=True)
-    account_id = Column(String, ForeignKey("accounts.id"))
-    is_buy = Column("is_buy", Boolean)
-    is_future = Column("is_future", Boolean)
-    is_limit = Column("is_limit", Boolean)
-    limit_price = Column("limit_price", Float)
-    base = Column("base", String)
-    quote = Column("quote", String)
-    amount = Column("amount", Float)
-    response = Column("response", String)
+    
+    id = Column(String, primary_key=True)
+    strategy_id = Column(String)
+    is_buy = Column(Boolean)
+    is_future = Column(Boolean)
+    is_limit = Column(Boolean)
+    limit_price = Column(Float)
+    symbol_base = Column(String)
+    symbol_quote = Column(String)
+    amount = Column(Float)
+    status = Column(String)
+    reception_date = Column(DateTime)
+    execution_date = Column(DateTime)
+    response = Column(String)
 
-    def __init__(self, id=None, account_id=None, is_buy=None, is_future=None,
-                 is_limit=None, limit_price=None, base=None, quote = None ,amount=None, response = None):
+    def __init__(self, id=None, strategy_id=None, account_id=None, is_buy=None, is_future=None,
+                 is_limit=None, limit_price=None, symbol_base=None, symbol_quote=None,
+                 amount=None, status=None, reception_date=None, execution_date=None,
+                 response=None):
         self.id = id
-        self.account = account_id
+        self.account_id = account_id
+        self.strategy_id = strategy_id
         self.is_buy = is_buy
         self.is_future = is_future
         self.is_limit = is_limit
         self.limit_price = limit_price
-        self.base = base
-        self.quote = quote
+        self.symbol_base = symbol_base
+        self.symbol_quote = symbol_quote
         self.amount = amount
+        self.status = status
+        self.reception_date = reception_date
+        self.execution_date = execution_date
         self.response = response
 
     def __repr__(self):
-        return "<OrderEntity(id='%s', account='%s')>" % (
+        return "<OrderEntity(id='%s', account_id='%s')>" % (
             self.id,
             self.account_id
-        )
+        )   
+
 
     def from_domain(self, model: Order):
         self.id = model.id
         self.account_id = model.account_id
+        self.strategy_id = model.strategy_id
         self.is_buy = model.is_buy
         self.is_future = model.is_future
         self.is_limit = model.is_limit
         self.limit_price = model.limit_price
-        self.base = model.base
-        self.quote = model.quote
+        self.symbol_base = model.symbol_base
+        self.symbol_quote = model.symbol_quote
         self.amount = model.amount
+        self.status = model.status
+        self.reception_date = model.reception_date
+        self.execution_date = model.execution_date
         self.response = model.response
 
     def to_domain(self):
         return Order(
             id=self.id,
             account_id=self.account_id,
+            strategy_id=self.strategy_id,
             is_buy=self.is_buy,
             is_future=self.is_future,
             is_limit=self.is_limit,
             limit_price=self.limit_price,
-            base=self.base,
-            quote=self.quote,
+            base=self.symbol_base,
+            quote=self.symbol_quote,
             amount=self.amount,
+            status=self.status,
+            reception_date=self.reception_date,
+            execution_date=self.execution_date,
             response=self.response
         )
-
 
 class ExchangeEntity(Base):
     __tablename__ = "exchanges"
