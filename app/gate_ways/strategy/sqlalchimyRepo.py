@@ -67,6 +67,10 @@ class SqlAlchimy_repo :
         strategy = session.query(StrategyEntity).filter(StrategyEntity.id == uuid).first()
         return None if strategy == None else strategy.to_domain()
     
+    def getStrategyByWebhookId(self, session , webhookid):
+        strategy = session.query(StrategyEntity).filter(StrategyEntity.webhook_id == webhookid).first()
+        return None if strategy == None else strategy.to_domain()
+    
     def getAllByAccountId(self, session , account_id):
         strategies = session.query(StrategyEntity).filter_by(account_id=account_id).all()
         return [strategy.to_domain() for strategy in strategies]

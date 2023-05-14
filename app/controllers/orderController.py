@@ -20,15 +20,14 @@ accountRepo = AccountRepo()
 create_handler = Create(orderRepo = postgres_repo , accountRepo=accountRepo)
 
 
-@OrderController.route('/<strategyId>', methods=['POST'])
-def healthcheck(strategyId):
+@OrderController.route('/<webhookid>', methods=['POST'])
+def healthcheck(webhookid):
     try:
         order_json = request.get_json()
         form = CreateOrderForm(order_json)
         order = form.to_domain()
-        order.strategy_id=strategyId
-        logger.log("new order on strategy :"+strategyId)
-
+        order.strategy_id=webhookid
+        logger.log("new order on strategy :"+webhookid)
         nb = create_handler.handle(order=order)
         json_data = dumps({"nombre_executions": nb})
         return Response(json_data , status=200, mimetype='application/json')
