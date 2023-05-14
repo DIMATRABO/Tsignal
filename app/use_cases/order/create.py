@@ -27,6 +27,7 @@ class Create:
         with self.sessionContext as session:
             strategy = self.strategyRepo.getStrategyByWebhookId(session , order.strategy_id)
             if not strategy is None:
+                raise  Exception(strategy.webhook_key)
                 if strategy.webhook_key == key:
                     order.reception_date = datetime.now()
                     account = self.accountRepo.getAccountById(session , strategy.account_id)
