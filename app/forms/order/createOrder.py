@@ -63,7 +63,7 @@ class CreateOrderForm:
             is_future=self.is_future,
             is_limit=self.is_limit,
             limit_price=self.limit_price,
-            base  =self.base,
-            quote = self.quote,
+            symbol_base=self.base,
+            symbol_quote = self.quote,
             amount=self.amount
         )

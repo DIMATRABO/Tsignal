@@ -11,7 +11,7 @@ from gate_ways.log import Log
 
 from forms.strategy.createStrategyForm import CreateStrategyForm
 from flask import Response
-from flask_jwt_extended import jwt_required, get_jwt
+from flask_jwt_extended import jwt_required
 from models.model import Strategy
 import json
 
