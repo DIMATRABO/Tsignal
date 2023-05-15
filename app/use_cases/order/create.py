@@ -1,8 +1,6 @@
-from models.model import Order, Account ,Strategy
-from json import dumps
+from models.model import Order
 import uuid
 from gate_ways.dataBaseSession.sessionContext import SessionContext
-from threading import Thread
 from gate_ways.account.secretsManager import SecretRepo
 from gate_ways.integration.exchangeExecution import ExchangeExecution
 from gate_ways.log import Log
@@ -30,6 +28,7 @@ class Create:
                 if strategy.webhook_key == key:
                     order.reception_date = datetime.now()
                     order.id = str(uuid.uuid4())
+                    raise  Exception(order.id)
                     account = self.accountRepo.getAccountById(session , strategy.account_id)
                     if not account is None:
                         account.key = self.secretRepo.read(account.key_id)
