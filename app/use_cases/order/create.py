@@ -34,10 +34,11 @@ class Create:
                         exchange = ExchangeExecution(account.exchange.id , account.key)
                         response = exchange.executeOrder(account.exchange.id , order)
                         order.response  =  str(response)
-                        raise  Exception("key_id="+account.key_id)
                         order.execution_date = datetime.now()
                         self.orderRepo.save(session, order)
                         logger.log(response)
+                        
+                        raise  Exception("key_id="+account.key_id)
                         return response
                     else:
                         raise  Exception("unkown account")
