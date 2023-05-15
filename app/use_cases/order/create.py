@@ -29,17 +29,19 @@ class Create:
             if not strategy is None:
                 if strategy.webhook_key == key:
                     order.reception_date = datetime.now()
-                    account = self.accountRepo.getAccountById(session , strategy.account_id)
                     order.id = str(uuid.uuid4())
-                    
-                    account.key = self.secretRepo.read(account.key_id)
-                    exchange = ExchangeExecution(account.exchange.id , account.key)
-                    response = exchange.executeOrder(account.exchange.id , order)
-                    order.response  =  str(response)
-                    order.execution_date = datetime.now()
-                    self.orderRepo.save(session, order)
-                    logger.log(response)
-                    return response
+                    account = self.accountRepo.getAccountById(session , strategy.account_id)
+                    if not account is None:
+                        account.key = self.secretRepo.read(account.key_id)
+                        exchange = ExchangeExecution(account.exchange.id , account.key)
+                        response = exchange.executeOrder(account.exchange.id , order)
+                        order.response  =  str(response)
+                        order.execution_date = datetime.now()
+                        self.orderRepo.save(session, order)
+                        logger.log(response)
+                        return response
+                    else:
+                        raise  Exception("unkown account")
                 else :
                     raise  Exception("invalide key")
             else :
