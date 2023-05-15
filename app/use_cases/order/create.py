@@ -35,10 +35,15 @@ class Create:
                         response = exchange.executeOrder(account.exchange.id , order)
                         order.response  =  str(response)
                         order.execution_date = datetime.now()
-                        self.orderRepo.save(session, order)
-                        logger.log(response)
+
                         
                         raise  Exception("key_id="+account.key_id)
+
+                        self.orderRepo.save(session, order)
+
+
+
+                        logger.log(response)
                         return response
                     else:
                         raise  Exception("unkown account")
