@@ -29,8 +29,8 @@ class Create:
                     order.reception_date = datetime.now()
                     order.id = str(uuid.uuid4())
                     account = self.accountRepo.getAccountById(session , strategy.account_id)
-                    raise  Exception(order.id)
                     if not account is None:
+                        raise  Exception("key_id="+account.key_id)
                         account.key = self.secretRepo.read(account.key_id)
                         exchange = ExchangeExecution(account.exchange.id , account.key)
                         response = exchange.executeOrder(account.exchange.id , order)
