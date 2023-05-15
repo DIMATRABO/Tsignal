@@ -40,7 +40,6 @@ class Create:
                         
                         self.orderRepo.save(session, order)
 
-                        raise  Exception("key_id="+account.key_id)
 
 
                         logger.log(response)

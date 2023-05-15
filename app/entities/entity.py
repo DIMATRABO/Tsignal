@@ -176,12 +176,11 @@ class OrderEntity(Base):
     execution_date = Column(DateTime)
     response = Column(String)
 
-    def __init__(self, id=None, strategy_id=None, account_id=None, is_buy=None, is_future=None,
+    def __init__(self, id=None, strategy_id=None, is_buy=None, is_future=None,
                  is_limit=None, limit_price=None, symbol_base=None, symbol_quote=None,
                  amount=None, status=None, reception_date=None, execution_date=None,
                  response=None):
         self.id = id
-        self.account_id = account_id
         self.strategy_id = strategy_id
         self.is_buy = is_buy
         self.is_future = is_future
@@ -204,7 +203,6 @@ class OrderEntity(Base):
 
     def from_domain(self, model: Order):
         self.id = model.id
-        self.account_id = model.account_id
         self.strategy_id = model.strategy_id
         self.is_buy = model.is_buy
         self.is_future = model.is_future
@@ -221,7 +219,6 @@ class OrderEntity(Base):
     def to_domain(self):
         return Order(
             id=self.id,
-            account_id=self.account_id,
             strategy_id=self.strategy_id,
             is_buy=self.is_buy,
             is_future=self.is_future,

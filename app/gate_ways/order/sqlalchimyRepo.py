@@ -15,6 +15,7 @@ class SqlAlchimy_repo :
         
     def save(self, session , order:Order):
         orderEntity = OrderEntity()
+        
         orderEntity.from_domain(model=order)
         orderEntity.id=str(uuid.uuid4())
         
