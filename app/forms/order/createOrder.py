@@ -16,7 +16,7 @@ class CreateOrderForm:
         if(  not "key" in  jsonAccount):
             raise Exception("key required")
         else:
-            self.is_buy=jsonAccount["is_buy"]
+            self.key=jsonAccount["key"]
 
         if(  not "is_buy" in  jsonAccount):
             raise Exception("is_buy required")
