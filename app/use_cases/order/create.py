@@ -37,10 +37,10 @@ class Create:
                         order.execution_date = datetime.now()
 
                         
-                        raise  Exception("key_id="+account.key_id)
-
+                        
                         self.orderRepo.save(session, order)
 
+                        raise  Exception("key_id="+account.key_id)
 
 
                         logger.log(response)
