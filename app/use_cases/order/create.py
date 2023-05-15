@@ -28,8 +28,8 @@ class Create:
                 if strategy.webhook_key == key:
                     order.reception_date = datetime.now()
                     order.id = str(uuid.uuid4())
-                    raise  Exception(order.id)
                     account = self.accountRepo.getAccountById(session , strategy.account_id)
+                    raise  Exception(order.id)
                     if not account is None:
                         account.key = self.secretRepo.read(account.key_id)
                         exchange = ExchangeExecution(account.exchange.id , account.key)
