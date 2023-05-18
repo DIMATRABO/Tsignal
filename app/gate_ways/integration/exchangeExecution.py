@@ -23,6 +23,8 @@ class ExchangeExecution:
             return balance
         except ccxt.ExchangeError as e:
             return {"error":str(e)}
+        
+
 
     def available_balance(self , asset):
         try:
@@ -96,4 +98,9 @@ class ExchangeExecution:
 
 
 
-
+    def getOrderDetails(self , order_id):
+        try:
+            order = self.exchange.fetch_order(order_id)
+            return order  # Do something with the order details
+        except ccxt.BaseError as e:
+            return (f"Error fetching order: {e}")

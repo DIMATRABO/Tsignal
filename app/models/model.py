@@ -39,6 +39,8 @@ class Order:
         return self(**d)
 
     def to_dict(self):
+        self.reception_date = self.reception_date.isoformat() if self.reception_date else None
+        self.execution_date = self.execution_date.isoformat() if self.execution_date else None
         return asdict(self)
 
 
@@ -98,6 +100,7 @@ class User:
         return self(**d)
 
     def to_dict(self):
-        self.birthday = self.birthday.isoformat()
+        
+        self.birthday = self.birthday.isoformat() if self.birthday else None
         self.password = None
         return asdict(self)

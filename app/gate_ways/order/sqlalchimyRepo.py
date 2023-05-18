@@ -1,7 +1,7 @@
 
 
 from gate_ways.log import Log
-from sqlalchemy import  and_ , exc
+from sqlalchemy import   exc
 from entities.entity import Base , OrderEntity 
 from models.model import Order
 import uuid
@@ -68,5 +68,12 @@ class SqlAlchimy_repo :
     def getOrderById(self, session , uuid):
         order = session.query(OrderEntity).filter(OrderEntity.id == uuid).first()
         return None if order == None else order.to_domain()
+    
+
+    def getAllByStrategyId(self, session , strategy_id):
+        orders = session.query(OrderEntity).filter_by(strategy_id=strategy_id).order_by(OrderEntity.reception_date.desc()).all()
+        return [order.to_domain() for order in orders]
+
+    
     
  

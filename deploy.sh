@@ -1,13 +1,14 @@
 #!/bin/bash
 
 # change working directory to your Git repository directory
-cd /home/Tsignal/gitRepo
+#cd /home/Tsignal/gitRepo
 
 # fetch the latest changes from remote repository
 git fetch
 
 
-if [ $(git status -uno | grep 'Your branch is behind' | wc -l) -eq 0 ]; then
+#if [ $(git status -uno | grep 'Your branch is behind' | wc -l) -eq 0 ]; then
+if false; then
 
   # if there are no changes, do nothing
   echo "No changes in Git repository, skipping build and deploy."
@@ -22,7 +23,7 @@ else
   docker images | grep "tsignal" | awk '{print $3}' | xargs docker rmi
 
   # pull latest code from Git repository
-  git stash
+  #git stash
 
   git pull
 

@@ -1,4 +1,3 @@
-from flask import Blueprint , request
 from gate_ways.user.sqlalchimyRepo import SqlAlchimy_repo
 from use_cases.user.save import Save
 from use_cases.user.delete import Delete
@@ -8,9 +7,9 @@ from use_cases.user.inputs.getOneInput import GetOneInput
 from gate_ways.log import Log
 from forms.user.authUserForm import AuthUserForm
 from forms.user.saveUserForm import SaveUserForm
-from flask import Response
-from flask_jwt_extended import create_access_token
-from flask_jwt_extended import jwt_required
+from flask import Response ,jsonify , Blueprint , request
+from flask_jwt_extended import  create_access_token, create_refresh_token, jwt_required, get_jwt_identity
+
 from models.model import User
 import json
 
@@ -88,21 +87,35 @@ def authUser():
     try:
         form = AuthUserForm(request.get_json())
         user = auth.handle(form)
-    except Exception as e :
-        logger.log("exeption: "+str(e))
-        json_data = json.dumps({"error":str(e)})
-        return Response(json_data , status = 400, mimetype='application/json')
+    except Exception as e:
+        logger.log("exception: " + str(e))
+        json_data = json.dumps({"error": str(e)})
+        return Response(json_data, status=400, mimetype='application/json')
 
     if user is None:
-        status_message = "Bad username or password "
+        status_message = "Bad username or password"
         logger.log(status_message + form.login)
-        json_data = json.dumps({"status_message":status_message})
-        return  Response(json_data , status=400, mimetype='application/json')
+        json_data = json.dumps({"status_message": status_message})
+        return Response(json_data, status=400, mimetype='application/json')
 
     additional_claims = {"userId": user.id}
     access_token = create_access_token(form.login, additional_claims=additional_claims)
-    logger.log("Logged in as: "+form.login)
-    return Response(access_token , status=200, mimetype='application/json')
+    refresh_token = create_refresh_token(form.login)
+    logger.log("Logged in as: " + form.login)
+    json_data = json.dumps({"access_token": access_token, "refresh_token": refresh_token})
+    return Response(json_data, status=200, mimetype='application/json')
+
+
+
+
+@UserController.route('/refresh', methods=['POST'])
+@jwt_required(refresh=True)
+def refresh():
+    current_user = get_jwt_identity()
+    new_access_token = create_access_token(identity=current_user)
+    return jsonify(access_token=new_access_token), 200
+
+
 
 
 @UserController.route('/<id>', methods=['DELETE'])

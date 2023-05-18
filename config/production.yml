@@ -18,5 +18,5 @@ logging:
   filename: myapp.log
 
 jwt:
-  secret: MYSECRET
-  expiration: 12000
+  secret: tsignal_secret_key
+  expiration: 12
