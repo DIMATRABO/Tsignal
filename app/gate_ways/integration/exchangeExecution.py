@@ -30,12 +30,12 @@ class ExchangeExecution:
         try:
             balance = self.exchange.fetch_balance()
             if asset in balance:
-                balance = balance[asset]['free']
+                balance = float(balance[asset]['free'])
             else:
                 balance = 0
             return balance
         except ccxt.ExchangeError as e:
-            return {"error":str(e)}
+            return None
         
 
 
@@ -91,9 +91,9 @@ class ExchangeExecution:
         order_type = "limit" if order.is_limit else "market"
         symbol = self.get_symbol(exchange_id=exchange_id , base=order.symbol_base , quote=order.symbol_quote)
         if order.is_buy:
-            return self.buy(symbol , order.amount , order.limit_price , order_type)
+            return self.buy(symbol , order.amount , order.limit_price , order_type) # ordered amount of base currency
         else:
-            return self.sell(symbol , order.amount , order.limit_price , order_type)
+            return self.sell(symbol , order.amount , order.limit_price , order_type) # ordered amount of base currency
 
 
 

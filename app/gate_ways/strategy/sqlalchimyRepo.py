@@ -2,8 +2,8 @@
 
 from gate_ways.log import Log
 from sqlalchemy import   exc
-from entities.entity import Base , StrategyEntity 
-from models.model import Strategy
+from entities.entity import Base , StrategyEntity , AccountEntity
+from models.model import Strategy 
 import uuid
 
 
@@ -67,6 +67,15 @@ class SqlAlchimy_repo :
         strategy = session.query(StrategyEntity).filter(StrategyEntity.id == uuid).first()
         return None if strategy == None else strategy.to_domain()
     
+    def getStrategyByIdAndUserId(self, session, uuid, user_id):
+        strategy = session.query(StrategyEntity).filter(
+        StrategyEntity.id == uuid,
+        StrategyEntity.account_id.in_(
+            session.query(AccountEntity.id).filter(AccountEntity.user_id == user_id)
+            )
+        ).first()
+        return None if strategy is None else strategy.to_domain()
+
     def getStrategyByWebhookId(self, session , webhookid):
         strategy = session.query(StrategyEntity).filter(StrategyEntity.webhook_id == webhookid).first()
         return None if strategy == None else strategy.to_domain()
@@ -75,4 +84,10 @@ class SqlAlchimy_repo :
         strategies = session.query(StrategyEntity).filter_by(account_id=account_id).all()
         return [strategy.to_domain() for strategy in strategies]
 
- 
+    def getAllByUserId(self , session, user_id):
+        strategies = session.query(StrategyEntity).filter(
+        StrategyEntity.account_id.in_(
+            session.query(AccountEntity.id).filter(AccountEntity.user_id == user_id)
+            )
+        ).all()
+        return [strategy.to_domain() for strategy in strategies]

@@ -7,8 +7,8 @@ class GetOne:
 
     def handle(self, getUserInput):
         with self.sessionContext as session : 
-            if not getUserInput.uuid is None :
-                user = self.repo.getUserById(session , getUserInput.uuid)
+            if not getUserInput.id is None :
+                user = self.repo.getUserById(session , getUserInput.id)
             if not getUserInput.login is None and not getUserInput.passwd is None :
-                user = self.repo.getUserByLoginPasswd(session , getUserInput.login , getUserInput.passwd)    
+                user = self.repo.getUserByEmailPasswd(session , getUserInput.login , getUserInput.passwd)    
             return user

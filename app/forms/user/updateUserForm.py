@@ -1,10 +1,10 @@
 from datetime import date , datetime
 from models.model import User
 from forms.validator import Validator
-class SaveUserForm:
+
+class UpdateUserForm:
+    id:str
     email:str
-    password:str
-    password_confirm:str
     first_name: str 
     last_name: str 
     birthday: date
@@ -13,27 +13,16 @@ class SaveUserForm:
 
         validator = Validator()
 
+        if(  not "id" in  jsonUser):
+            raise Exception("id required")
+        else:
+            self.id=jsonUser["id"]
+
         if(  not "email" in  jsonUser):
             raise Exception("email required")
         else:
             self.email=jsonUser["email"]
-            validator.validate_email_format(self.email)
-        
-        if(  not "password" in  jsonUser):
-            raise Exception("password required")
-        else:
-            self.password=jsonUser["password"]
-            validator.validate_password(self.password)
-
-
-        if(  not "password_confirm" in  jsonUser):
-            raise Exception("password_confirm required")
-        else:
-            self.password_confirm=jsonUser["password_confirm"]
-
-        if( self.password != self.password_confirm):
-            raise Exception("password and password_confirm does not  match")
-
+    
     
         if(  not "first_name" in  jsonUser):
             raise Exception("first_name required")
@@ -50,16 +39,13 @@ class SaveUserForm:
         except ValueError:
             raise Exception("The birthday is not a date")
         
-
         
-
 
     def to_domain(self):
         return User(
-            id=None,
+            id=self.id,
             email=self.email,
-            password=self.password,
             first_name=self.first_name,
             last_name=self.last_name,
-            birthday=self.birthday            
+            birthday=self.birthday
         )

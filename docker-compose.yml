@@ -24,12 +24,55 @@ services:
   tsignal:
     image: tsignal:latest
     ports:
-      - "80:5656"
+      - "5656:5656"
     command: bash run.sh
+    labels:
+      - "traefik.http.routers.tsignal.rule=Host(`tsignal.store`) && PathPrefix(`/api`)"
     depends_on:
       - vault
       - db
+      - traefik
 
-      
+  front:
+    image: tsignal-front:latest
+    ports:
+      - "5173:5173"
+    depends_on:
+      - tsignal
+      - traefik
+
+  traefik:
+    image: "traefik:v2.8"
+    container_name: traefik
+    hostname: traefik
+    command:
+      - --entrypoints.web.address=:80
+      - --entrypoints.websecure.address=:443
+      - --providers.docker
+      - --providers.docker.exposedByDefault=false
+      - --api    
+      - --certificatesresolvers.le.acme.email=anass@aitbenha.com
+      - --certificatesresolvers.le.acme.storage=/letsencrypt/acme.json
+      - --certificatesresolvers.le.acme.tlschallenge=true
+      - --log.level=ERROR
+      - --accesslog=true
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "./letsencrypt:/letsencrypt"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik.rule=Host(`tsignal.store`)"
+      - "traefik.http.routers.traefik.service=api@internal"
+      - "traefik.http.routers.traefik.tls=true"
+      - "traefik.http.routers.traefik.tls.certresolver=le"
+      - "traefik.http.routers.traefik.entrypoints=websecure"
+      - "traefik.http.routers.traefik.middlewares=authtraefik"
+      - "traefik.http.middlewares.authtraefik.basicauth.users=your-user:$$2y$$05$$XVK7UuO2DCVwk0moDe8rSeLU9mdr1r5VoMCKGqe8JQ.ZD/FVH4Gjy"
+  
+    restart: unless-stopped
+
 volumes:
   mydata:

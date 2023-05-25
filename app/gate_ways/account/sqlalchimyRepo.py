@@ -26,7 +26,7 @@ class SqlAlchimy_repo :
         except exc.SQLAlchemyError as e:
             logger.log(e)
             session.rollback()
-            raise Exception("account not saved")
+            raise Exception(e)
          
         return accountEntity.to_domain()
         

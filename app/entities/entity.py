@@ -8,15 +8,24 @@ Base = declarative_base()
 class AccountEntity(Base):
     __tablename__ = "accounts"
     id = Column("id",String , primary_key=True)
+    name = Column("name", String)
     exchange_id = Column(String)
     key_id = Column("key_id",String)
+    balance = Column("balance", Float)
+    currency = Column("currency",String)
     user_id = Column("user_id", String)
+    created_at =Column("created_at", DateTime)
 
-    def __init__(self, id=None, exchange_id=None, key_id=None, user_id=None):
+
+    def __init__(self, id=None, name=None, exchange_id=None, key_id=None, balance=None, currency=None, user_id=None , created_at=None):
         self.id = id
+        self.name = name
         self.exchange_id = exchange_id
         self.key_id = key_id
+        self.balance = balance
+        self.currency = currency
         self.user_id = user_id
+        self.created_at = created_at
 
     def __repr__(self):
         return "<AccountEntity(id='%s', exchange='%s', user='%s')>" % (
@@ -27,36 +36,51 @@ class AccountEntity(Base):
 
     def from_domain(self, model: Account):
         self.id = model.id
+        self.name = model.name
         self.exchange_id = None if model.exchange is None else model.exchange.id
         self.key_id = model.key_id
+        self.balance = model.balance
+        self.currency = model.currency
         self.user_id = model.user_id
+        self.created_at = model.created_at
 
     def to_domain(self):
         return Account(
             id=self.id,
+            name=self.name,
             exchange=Exchange(self.exchange_id),
             key_id=self.key_id,
-            user_id=self.user_id
+            balance=self.balance,
+            currency=self.currency,
+            user_id=self.user_id,
+            created_at=self.created_at,
         )
 
 class UserEntity(Base):
     __tablename__ = "users"
     id = Column("id", String, primary_key=True)
-    login = Column("login", String, unique=True)
+    email = Column("email", String, unique=True)
     password = Column("password", String)
     first_name = Column("first_name", String)
     last_name = Column("last_name", String)
     birthday = Column("birthday", DateTime)
+    created_at =Column("created_at", DateTime)
+    expiration_date =Column("expiration_date", DateTime)
+    subscription_plan = Column("subscription_plan", String)
+    is_actif = Column("is_actif",Boolean)
 
-    
-
-    def __init__(self, id=None, login=None, password=None, first_name=None, last_name=None, birthday=None):
+    def __init__(self, id=None, email=None, password=None, first_name=None, last_name=None, birthday=None,  created_at=None, expiration_date=None,subscription_plan=None, is_actif=None):
         self.id = id
-        self.login = login
+        self.email = email
         self.password = password
         self.first_name = first_name
         self.last_name = last_name
         self.birthday = birthday
+        self.created_at = created_at
+        self.expiration_date = expiration_date
+        self.subscription_plan=subscription_plan
+        self.is_actif = is_actif
+
         
     def __repr__(self):
         return "<UserEntity(id='%s', first_name='%s', last_name='%s')>" % (
@@ -67,21 +91,29 @@ class UserEntity(Base):
         
     def from_domain(self, model: User):
         self.id = model.id
-        self.login = model.login
+        self.email = model.email
         self.password = model.password
         self.first_name = model.first_name
         self.last_name = model.last_name
         self.birthday = model.birthday
+        self.created_at = model.created_at
+        self.expiration_date = model.expiration_date
+        self.subscription_plan = model.subscription_plan
+        self.is_actif = model.is_actif
         
 
     def to_domain(self):
         return User(
             id=self.id,
-            login=self.login,
+            email=self.email,
             password=self.password,
             first_name=self.first_name,
             last_name=self.last_name,
-            birthday=self.birthday
+            birthday=self.birthday,
+            created_at=self.created_at,
+            expiration_date = self.expiration_date,
+            subscription_plan = self.subscription_plan,
+            is_actif=self.is_actif
         )
 
 
@@ -257,3 +289,53 @@ class ExchangeEntity(Base):
             id=self.id,
             name=self.name
         )
+
+
+
+
+class AdminEntity(Base):
+    __tablename__ = "admins"
+    id = Column("id", String, primary_key=True)
+    login = Column("login", String, unique=True)
+    password = Column("password", String)
+    first_name = Column("first_name", String)
+    last_name = Column("last_name", String)
+    privilege = Column("privilege", String)  # genin - chunin - jonin - anbu - kage
+    
+
+    def __init__(self, id=None, login=None, password=None, first_name=None, last_name=None, privilege=None):
+        self.id = id
+        self.login = login
+        self.password = password
+        self.first_name = first_name
+        self.last_name = last_name
+        self.privilege = privilege
+        
+    def __repr__(self):
+        return "<AdminEntity(id='%s', first_name='%s', last_name='%s')>" % (
+            self.id,
+            self.first_name,
+            self.last_name
+        )
+        
+    def from_domain(self, model: Admin):
+        self.id = model.id
+        self.login = model.login
+        self.password = model.password
+        self.first_name = model.first_name
+        self.last_name = model.last_name
+        self.privilege = model.privilege
+        
+
+    def to_domain(self):
+        return Admin(
+            id=self.id,
+            login=self.login,
+            password=self.password,
+            first_name=self.first_name,
+            last_name=self.last_name,
+            privilege=self.privilege
+        )
+
+
+   

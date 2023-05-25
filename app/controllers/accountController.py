@@ -7,14 +7,16 @@ from use_cases.account.getAll import GetAll
 
 from use_cases.account.inputs.getOneInput import GetOneInput
 from use_cases.account.inputs.getAllInput import GetAllInput
-from gate_ways.log import Log
+from use_cases.account.getBalance import GetBalance
 
+from gate_ways.log import Log
 from forms.account.saveAccountForm import SaveAccountForm
 from flask import Response
 from flask_jwt_extended import jwt_required, get_jwt
 from models.model import Account
 import json
 
+from controllers.decorations.checkAdminPermissions import check_admin_permission
 
 
 AccountController = Blueprint("AccountController", __name__)
@@ -25,11 +27,12 @@ saving_handler = Save(postgres_repo)
 delete_handler = Delete(postgres_repo)
 getOne = GetOne(postgres_repo)
 getAll = GetAll(postgres_repo)
-
+getBalance_handler = GetBalance(postgres_repo)
 
 
 @AccountController.route('/<accountId>', methods=['GET'])
 @jwt_required()
+@check_admin_permission("genin")
 def getAccountById(accountId):
     try:
         account = Account()
@@ -58,6 +61,24 @@ def getAccountsByUserId():
         json_data = json.dumps({"status_message":str(e)})
         return Response(json_data , status=400, mimetype='application/json')
 
+
+
+@AccountController.route('/balance/<accountId>/<currency>', methods=['GET'])
+@jwt_required()
+def getBalance(accountId, currency):
+    try:
+        userId = get_jwt()["userId"]
+        balance = getBalance_handler.handle(user_id=userId , account_id=accountId , currency=currency)
+        json_data = json.dumps({
+            "account_id":accountId,
+            "balance":balance,
+            "currency":currency
+        })
+        return Response(json_data, status = 200, mimetype='application/json')
+      
+    except Exception as e :
+        json_data = json.dumps({"status_message":str(e)})
+        return Response(json_data , status=400, mimetype='application/json')
 
 
 

@@ -19,4 +19,4 @@ logging:
 
 jwt:
   secret: tsignal_secret_key
-  expiration: 12
+  expiration: 1

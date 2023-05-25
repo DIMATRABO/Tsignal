@@ -1,4 +1,4 @@
-from forms.user.authUserForm import AuthUserForm
+from forms.admin.authAdminForm import AuthAdminForm
 import bcrypt
 from gate_ways.dataBaseSession.sessionContext import SessionContext
 
@@ -7,14 +7,14 @@ class Auth:
         self.repo=repo
         self.sessionContext = SessionContext()
 
-    def handle(self, authForm:AuthUserForm):
+    def handle(self, authForm:AuthAdminForm):
         with self.sessionContext as session:
-            user = self.repo.getUserByEmail(session , authForm.email)
-            if not user is None:
+            admin = self.repo.getAdminByLogin(session , authForm.login)
+            if not admin is None:
                 if bcrypt.checkpw(
                     authForm.password.encode('utf-8'),
-                    user.password.encode('utf-8')
+                    admin.password.encode('utf-8')
                     ):
-                    return user
+                    return admin
             return None
 

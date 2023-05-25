@@ -72,27 +72,39 @@ class Strategy:
 @dataclass
 class Account:
     id: str = None
+    name: str = None
     exchange: Exchange = None
     key_id: str = None
     key: object = None
+    balance :float = None
+    currency: float = None
     user_id: str = None
     strategies: List[Strategy] = field(default_factory=list)
+    created_at: datetime = None
 
     @classmethod
     def from_dict(self, d):
         return self(**d)
 
     def to_dict(self):
+        self.key = None
+        self.key_id = None
+        self.created_at = self.created_at.isoformat() if self.created_at else None
         return asdict(self)
 
 @dataclass
 class User:
     id: str = None
-    login: str = None
+    client_id: str = None
+    email: str = None
     password: str = None
     first_name: str = None
     last_name: str = None
     birthday: datetime = None
+    created_at: datetime = None
+    expiration_date: datetime = None
+    subscription_plan : str = None
+    is_actif: bool = None
     accounts: List[Account] = field(default_factory=list)
 
     @classmethod
@@ -100,7 +112,26 @@ class User:
         return self(**d)
 
     def to_dict(self):
-        
         self.birthday = self.birthday.isoformat() if self.birthday else None
+        self.created_at = self.created_at.isoformat() if self.created_at else None
+        self.expiration_date = self.expiration_date.isoformat() if self.expiration_date else None
+        self.password = None
+        return asdict(self)
+
+
+@dataclass
+class Admin:
+    id: str = None
+    login: str = None
+    password: str = None
+    first_name: str = None
+    last_name: str = None
+    privilege: str = None 
+  
+    @classmethod
+    def from_dict(self, d):
+        return self(**d)
+
+    def to_dict(self):
         self.password = None
         return asdict(self)

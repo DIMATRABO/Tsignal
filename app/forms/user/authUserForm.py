@@ -1,24 +1,22 @@
-
+from forms.validator import Validator
 class AuthUserForm:
-    login: str 
+    email: str 
     password:str
     
 
     def __init__(self , jsonCredentials):
+        validator = Validator()
     
-        if(  not "login" in  jsonCredentials):
-            raise Exception("login required")
+        if(  not "email" in  jsonCredentials):
+            raise Exception("email required")
         else:
-            self.login=jsonCredentials["login"]
+            self.email=jsonCredentials["email"]
+            validator.validate_email_format(self.email)
 
         if(  not "password" in  jsonCredentials):
             raise Exception("password required")
         else:
-            #if(  len(jsonCredentials["password"]) <8):
-            #    raise Exception("password must be have more then 8 characters")
-            #else:
-                self.password=jsonCredentials["password"]
-
-
-
+            self.password=jsonCredentials["password"]
+            validator.validate_password(self.password)
+            
   

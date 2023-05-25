@@ -12,6 +12,8 @@ class GetAll:
                 to_return = self.repo.getAllStrategies(session )
             if not getStrategiesInput.account_id is  None : 
                 to_return = self.repo.getAllByAccountId(session, getStrategiesInput.account_id)
+            if not getStrategiesInput.user_id is  None : 
+                to_return = self.repo.getAllByUserId(session, getStrategiesInput.user_id)
             
             return to_return
 

@@ -11,10 +11,11 @@ from gate_ways.log import Log
 
 from forms.strategy.createStrategyForm import CreateStrategyForm
 from flask import Response
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, get_jwt
 from models.model import Strategy
 import json
 
+from controllers.decorations.checkAdminPermissions import check_admin_permission
 
 
 StrategyController = Blueprint("StrategyController", __name__)
@@ -30,6 +31,7 @@ getAll = GetAll(postgres_repo)
 
 @StrategyController.route('/<strategyId>', methods=['GET'])
 @jwt_required()
+@check_admin_permission('genin')
 def getStrategyById(strategyId):
     try:
         strategy = Strategy()
@@ -43,6 +45,37 @@ def getStrategyById(strategyId):
         json_data = json.dumps({"status_message":str(e)})
         return Response(json_data , status=400, mimetype='application/json')
 
+
+
+@StrategyController.route('/me/<strategyId>', methods=['GET'])
+@jwt_required()
+def getMyStrategyById(strategyId):
+    try:
+        userId = get_jwt()["userId"]
+        strategy = getOne.handle(getStrategyInput=GetOneInput(id=strategyId , user_id=userId))
+        if(strategy is None):
+            json_data = json.dumps({"status_message":"no strategy found"})
+            return Response(json_data ,  status=400, mimetype='application/json')
+        return Response( json.dumps(strategy.to_dict()) , status = 200, mimetype='application/json')
+      
+    except Exception as e :
+        json_data = json.dumps({"status_message":str(e)})
+        return Response(json_data , status=400, mimetype='application/json')
+
+
+
+@StrategyController.route('/me', methods=['GET'])
+@jwt_required()
+def getAccountsByUserId():
+    try:
+        userId = get_jwt()["userId"]
+        strategies = getAll.handle(getStrategiesInput=GetAllInput(user_id=userId))
+        json_data = json.dumps([strategy.to_dict() for strategy in strategies] )
+        return Response(json_data, status = 200, mimetype='application/json')
+      
+    except Exception as e :
+        json_data = json.dumps({"status_message":str(e)})
+        return Response(json_data , status=400, mimetype='application/json')
 
 
 @StrategyController.route('/account/<accountId>', methods=['GET'])

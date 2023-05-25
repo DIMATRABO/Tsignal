@@ -14,7 +14,9 @@ from gate_ways.account.sqlalchimyRepo import SqlAlchimy_repo as AccountRepo
 from gate_ways.strategy.sqlalchimyRepo import SqlAlchimy_repo as StrategyRepo
 from gate_ways.order.sqlalchimyRepo import SqlAlchimy_repo as OrderRepo
 from gate_ways.log import Log
+from flask_jwt_extended import jwt_required, get_jwt
 
+from controllers.decorations.checkAdminPermissions import check_admin_permission
 
 
 OrderController = Blueprint('OrderController', __name__)
@@ -27,7 +29,7 @@ getOrders_handler = GetAll(repo=OrderRepo())
 getOderDetails_handler = GetDetails()
 
 @OrderController.route('/<webhookid>', methods=['POST'])
-def healthcheck(webhookid):
+def create(webhookid):
     try:
         order_json = request.get_json()
         form = CreateOrderForm(order_json)
@@ -45,6 +47,8 @@ def healthcheck(webhookid):
 
 
 @OrderController.route('/strategy/<webhookid>', methods=['GET'])
+@jwt_required()
+@check_admin_permission('genin')
 def strategyOrders(webhookid):
     try:
         orders = getOrders_handler.handle(getOrdersInput=GetAllInput(webhook_id=webhookid))
@@ -54,6 +58,21 @@ def strategyOrders(webhookid):
     except Exception as e :
         json_data = dumps({"status_message":str(e)})
         return Response(json_data , status=400, mimetype='application/json')
+
+
+@OrderController.route('/me/strategy/<webhookid>', methods=['GET'])
+@jwt_required()
+def myStrategyOrders(webhookid):
+    try:
+        userId = get_jwt()["userId"]
+        orders = getOrders_handler.handle(getOrdersInput=GetAllInput(webhook_id=webhookid , user_id=userId))
+        json_data = dumps([order.to_dict() for order in orders] )
+        return Response(json_data, status = 200, mimetype='application/json')
+      
+    except Exception as e :
+        json_data = dumps({"status_message":str(e)})
+        return Response(json_data , status=400, mimetype='application/json')
+
 
 
 @OrderController.route('/detail/<orderId>', methods=['GET'])

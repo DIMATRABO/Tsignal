@@ -40,6 +40,7 @@ class SqlAlchimy_repo :
             logger.log(e)
             session.rollback()
             raise Exception("user not updated")
+        return userEntity.to_domain()
          
       
     
@@ -64,8 +65,8 @@ class SqlAlchimy_repo :
         
         return users
 
-    def getUserByLogin(self, session , login):
-        user = session.query(UserEntity).filter(UserEntity.login == login).first()
+    def getUserByEmail(self, session , email):
+        user = session.query(UserEntity).filter(UserEntity.email == email).first()
         return None if user == None else user.to_domain()
     
     def getUserById(self, session , uuid):
