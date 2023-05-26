@@ -1,4 +1,4 @@
-version: '3.3'
+version: '3.9'
 services:
   db:
     image: postgres:14.1-alpine
@@ -12,37 +12,43 @@ services:
     volumes:
       - mydata:/var/lib/postgresql/data
 
-
   vault:
     image: vault:1.5.2
     environment:
       - VAULT_DEV_ROOT_TOKEN_ID=myroot
       - VAULT_DEV_LISTEN_ADDRESS=0.0.0.0:8200
-    ports:
-      - "8200:8200"
 
   tsignal:
     image: truesignal:latest
-    ports:
-      - "5656:5656"
     command: bash run.sh
     labels:
-      - "traefik.http.routers.tsignal.rule=Host(`tsignal.store`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.tsignal.rule=Host(`api.tsignal.store`)"
+      - "traefik.enable=true"
+      - "traefik.http.routers.tsignal.entrypoints=websecure"
+      - "traefik.http.routers.tsignal.tls=true"
+      - "traefik.http.routers.tsignal.tls.certresolver=le"
+      - "traefik.http.routers.tsignal.service=tsignal"
+      - "traefik.http.routers.tsignal.priority=100"
+      - "traefik.http.services.tsignal.loadbalancer.server.port=5656"
+
     depends_on:
       - vault
       - db
-      - traefik
 
   front:
     image: front:latest
-    ports:
-      - "5173:5173"
     depends_on:
       - tsignal
-      - traefik
+    labels:
+      - "traefik.http.routers.front.rule=Host(`tsignal.store`)"
+      - "traefik.enable=true"
+      - "traefik.http.routers.front.entrypoints=websecure"
+      - "traefik.http.routers.front.tls=true"
+      - "traefik.http.routers.front.tls.certresolver=le"
+      - "traefik.http.routers.front.service=front"
 
   traefik:
-    image: "traefik:v2.8"
+    image: "traefik:v2.8.4"
     container_name: traefik
     hostname: traefik
     command:
@@ -50,12 +56,13 @@ services:
       - --entrypoints.websecure.address=:443
       - --providers.docker
       - --providers.docker.exposedByDefault=false
-      - --api    
-      - --certificatesresolvers.le.acme.email=anass@aitbenha.com
+      - --api
+      - --entrypoints.web.http.redirections.entryPoint.to=websecure
+      - --entrypoints.web.http.redirections.entryPoint.scheme=https
+      - --entrypoints.web.http.redirections.entrypoint.permanent=true
+      - --certificatesresolvers.le.acme.email=
       - --certificatesresolvers.le.acme.storage=/letsencrypt/acme.json
       - --certificatesresolvers.le.acme.tlschallenge=true
-      - --log.level=ERROR
-      - --accesslog=true
     ports:
       - "80:80"
       - "443:443"
@@ -63,16 +70,21 @@ services:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "./letsencrypt:/letsencrypt"
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.traefik.rule=Host(`tsignal.store`)"
+      - "traefik.enable=false"
+      # Dashboard
+      # - "traefik.http.routers.traefik.rule=Host(`dashboard.oaniba.com`)"
       - "traefik.http.routers.traefik.service=api@internal"
       - "traefik.http.routers.traefik.tls=true"
       - "traefik.http.routers.traefik.tls.certresolver=le"
       - "traefik.http.routers.traefik.entrypoints=websecure"
       - "traefik.http.routers.traefik.middlewares=authtraefik"
-      - "traefik.http.middlewares.authtraefik.basicauth.users=your-user:$$2y$$05$$XVK7UuO2DCVwk0moDe8rSeLU9mdr1r5VoMCKGqe8JQ.ZD/FVH4Gjy"
-  
+      - "traefik.http.middlewares.authtraefik.basicauth.users="
     restart: unless-stopped
 
 volumes:
   mydata:
+
+networks:
+  default:
+    external: true
+    name: proxy

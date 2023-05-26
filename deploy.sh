@@ -20,7 +20,7 @@ else
   docker-compose down
 
   # remove existing images
-  docker images | grep "tsignal" | awk '{print $3}' | xargs docker rmi
+  docker images | grep "truesignal" | awk '{print $3}' | xargs docker rmi
 
   # pull latest code from Git repository
   #git stash
@@ -28,7 +28,7 @@ else
   git pull
 
   # build new image
-  docker build -t tsignal .
+  docker build -t truesignal .
 
   # start containers
   docker-compose up -d
