@@ -22,12 +22,12 @@ jwt = JWTManager(app)
 def not_found(error):
     return jsonify(error='URL Not found'), 404
 
-app.register_blueprint(healthcheck_bp,url_prefix = "/api/healthcheck")
-app.register_blueprint(UserController,url_prefix = "/api/users")
-app.register_blueprint(AdminController,url_prefix = "/api/super")
-app.register_blueprint(AccountController,url_prefix = "/api/accounts")
-app.register_blueprint(StrategyController,url_prefix = "/api/strategies")
-app.register_blueprint(OrderController,url_prefix = "/api/orders")
+app.register_blueprint(healthcheck_bp,url_prefix = "/healthcheck")
+app.register_blueprint(UserController,url_prefix = "/users")
+app.register_blueprint(AdminController,url_prefix = "/super")
+app.register_blueprint(AccountController,url_prefix = "/accounts")
+app.register_blueprint(StrategyController,url_prefix = "/strategies")
+app.register_blueprint(OrderController,url_prefix = "/orders")
 app.register_error_handler(404, not_found)
 
 CORS(app)
