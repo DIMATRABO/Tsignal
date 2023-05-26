@@ -20,4 +20,4 @@ class GetBalance:
                 return execution.available_balance(currency)
             else:
                 raise Exception("unauthorized")
-                 
+    
