@@ -23,7 +23,7 @@ else
   docker images | grep "truesignal" | awk '{print $3}' | xargs docker rmi
 
   # pull latest code from Git repository
-  #git stash
+  git stash
 
   git pull
 
