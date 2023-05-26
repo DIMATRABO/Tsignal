@@ -66,7 +66,7 @@ def getAccountsByUserId():
 
 @AccountController.route('/balance/<accountId>', methods=['GET'])
 @jwt_required()
-def getBalance(accountId, currency):
+def getBalance(accountId):
     try:
         userId = get_jwt()["userId"]
         raise Exception(userId)
