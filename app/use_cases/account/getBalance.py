@@ -1,9 +1,7 @@
 
 from gate_ways.integration.exchangeExecution import ExchangeExecution
-from gate_ways.account.secretsManager import SecretRepo
 from gate_ways.dataBaseSession.sessionContext import SessionContext
 
-secret_repo = SecretRepo() 
 
 class GetBalance:
     def __init__(self ,  repo):
@@ -15,7 +13,8 @@ class GetBalance:
             
             account = self.repo.getAccountById(session , account_id)
             if( account.user_id == user_id):
-                execution = ExchangeExecution(exchange_id=account.exchange.id ,key = secret_repo.read(account_id))
+                self.repo.loadKey(account=account)
+                execution = ExchangeExecution(exchange_id=account.exchange.id ,key = account.key)
                 return execution.available_balance(currency)
             else:
                 raise Exception("unauthorized")

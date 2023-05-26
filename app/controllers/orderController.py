@@ -36,8 +36,7 @@ def create(webhookid):
         order = form.to_domain()
         order.strategy_id=webhookid
         logger.log("new order on strategy :"+webhookid)
-        nb = create_handler.handle(order=order , key=form.key)
-        json_data = dumps({"nombre_executions": nb})
+        json_data = dumps(create_handler.handle(order=order , key=form.key))
         return Response(json_data , status=200, mimetype='application/json')
     
     except Exception as e :
