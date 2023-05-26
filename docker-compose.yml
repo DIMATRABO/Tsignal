@@ -47,7 +47,7 @@ services:
       - "traefik.http.routers.front.tls=true"
       - "traefik.http.routers.front.tls.certresolver=le"
       - "traefik.http.routers.front.service=front"
-      - "traefik.http.services.tsignal.loadbalancer.server.port=5173"
+      - "traefik.http.services.front.loadbalancer.server.port=5173"
 
   traefik:
     image: "traefik:v2.8.4"
