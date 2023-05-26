@@ -68,6 +68,7 @@ def getAccountsByUserId():
 def getBalance(accountId, currency):
     try:
         userId = get_jwt()["userId"]
+        raise Exception(userId)
         balance = getBalance_handler.handle(user_id=userId , account_id=accountId , currency=currency)
         json_data = json.dumps({
             "account_id":accountId,
