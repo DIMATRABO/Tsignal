@@ -1,4 +1,4 @@
-version: '3.3'
+version: '3.5'
 services:
   db:
     image: postgres:14.1-alpine
@@ -21,6 +21,7 @@ services:
   tsignal:
     image: truesignal:latest
     command: bash run.sh
+    build: .
     labels:
       - "traefik.http.routers.tsignal.rule=Host(`api.tsignal.store`)"
       - "traefik.enable=true"
