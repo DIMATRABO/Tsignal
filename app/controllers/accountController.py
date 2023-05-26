@@ -53,6 +53,7 @@ def getAccountById(accountId):
 def getAccountsByUserId():
     try:
         userId = get_jwt()["userId"]
+        raise Exception(userId)
         accounts = getAll.handle(getAccountsInput=GetAllInput(user_id=userId))
         json_data = json.dumps([account.to_dict() for account in accounts] )
         return Response(json_data, status = 200, mimetype='application/json')
