@@ -14,10 +14,9 @@ class GetBalance:
         with self.sessionContext as session : 
             
             account = self.repo.getAccountById(session , account_id)
-            raise Exception(account.user_id + "unauthorized" + user_id)
             if( account.user_id == user_id):
                 execution = ExchangeExecution(exchange_id=account.exchange.id ,key = secret_repo.read(account_id))
                 return execution.available_balance(currency)
             else:
                 raise Exception("unauthorized")
-    
+                 

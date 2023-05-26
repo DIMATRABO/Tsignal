@@ -53,7 +53,6 @@ def getAccountById(accountId):
 def getAccountsByUserId():
     try:
         userId = get_jwt()["userId"]
-        raise Exception(userId)
         accounts = getAll.handle(getAccountsInput=GetAllInput(user_id=userId))
         json_data = json.dumps([account.to_dict() for account in accounts] )
         return Response(json_data, status = 200, mimetype='application/json')
@@ -64,12 +63,11 @@ def getAccountsByUserId():
 
 
 
-@AccountController.route('/balance/<accountId>', methods=['GET'])
+@AccountController.route('/balance/<accountId>/<currency>', methods=['GET'])
 @jwt_required()
-def getBalance(accountId):
+def getBalance(accountId, currency):
     try:
         userId = get_jwt()["userId"]
-        raise Exception(userId)
         balance = getBalance_handler.handle(user_id=userId , account_id=accountId , currency=currency)
         json_data = json.dumps({
             "account_id":accountId,
