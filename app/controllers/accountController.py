@@ -64,7 +64,7 @@ def getAccountsByUserId():
 
 
 
-@AccountController.route('/balance/<accountId>/<currency>', methods=['GET'])
+@AccountController.route('/balance/<accountId>', methods=['GET'])
 @jwt_required()
 def getBalance(accountId, currency):
     try:
