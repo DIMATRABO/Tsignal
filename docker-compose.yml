@@ -1,53 +1,5 @@
 version: '3.5'
 services:
-  db:
-    image: postgres:14.1-alpine
-    restart: always
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=tsignal
-    ports:
-      - '5432:5432'
-    volumes:
-      - mydata:/var/lib/postgresql/data
-
-  vault:
-    image: vault:1.5.2
-    environment:
-      - VAULT_DEV_ROOT_TOKEN_ID=myroot
-      - VAULT_DEV_LISTEN_ADDRESS=0.0.0.0:8200
-
-  tsignal:
-    image: truesignal:latest
-    command: bash run.sh
-    build: .
-    labels:
-      - "traefik.http.routers.tsignal.rule=Host(`api.tsignal.store`)"
-      - "traefik.enable=true"
-      - "traefik.http.routers.tsignal.entrypoints=websecure"
-      - "traefik.http.routers.tsignal.tls=true"
-      - "traefik.http.routers.tsignal.tls.certresolver=le"
-      - "traefik.http.routers.tsignal.service=tsignal"
-      - "traefik.http.routers.tsignal.priority=100"
-      - "traefik.http.services.tsignal.loadbalancer.server.port=5656"
-
-    depends_on:
-      - vault
-      - db
-
-  front:
-    image: front:latest
-    depends_on:
-      - tsignal
-    labels:
-      - "traefik.http.routers.front.rule=Host(`tsignal.store`)"
-      - "traefik.enable=true"
-      - "traefik.http.routers.front.entrypoints=websecure"
-      - "traefik.http.routers.front.tls=true"
-      - "traefik.http.routers.front.tls.certresolver=le"
-      - "traefik.http.routers.front.service=front"
-      - "traefik.http.services.front.loadbalancer.server.port=5173"
 
   traefik:
     image: "traefik:v2.8.4"
@@ -73,8 +25,6 @@ services:
       - "./letsencrypt:/letsencrypt"
     labels:
       - "traefik.enable=false"
-      # Dashboard
-      # - "traefik.http.routers.traefik.rule=Host(`dashboard.oaniba.com`)"
       - "traefik.http.routers.traefik.service=api@internal"
       - "traefik.http.routers.traefik.tls=true"
       - "traefik.http.routers.traefik.tls.certresolver=le"
@@ -82,6 +32,57 @@ services:
       - "traefik.http.routers.traefik.middlewares=authtraefik"
       - "traefik.http.middlewares.authtraefik.basicauth.users="
     restart: unless-stopped
+
+  front:
+    image: front:latest
+    depends_on:
+      - tsignal
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.routers.front.rule=Host(`tsignal.store`)"
+      - "traefik.http.routers.front.entrypoints=websecure"
+      - "traefik.http.routers.front.tls=true"
+      - "traefik.http.routers.front.tls.certresolver=le"
+      - "traefik.http.routers.front.service=front"
+      - "traefik.http.services.front.loadbalancer.server.port=5173"
+
+  tsignal:
+    image: truesignal:latest
+    command: bash run.sh
+    build: .
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.routers.tsignal.rule=Host(`api.tsignal.store`)"
+      - "traefik.http.routers.tsignal.entrypoints=websecure"
+      - "traefik.http.routers.tsignal.tls=true"
+      - "traefik.http.routers.tsignal.tls.certresolver=le"
+      - "traefik.http.routers.tsignal.service=tsignal"
+      - "traefik.http.services.tsignal.loadbalancer.server.port=5656"
+    depends_on:
+      - vault
+      - db
+
+
+  db:
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=tsignal
+    ports:
+      - '5432:5432'
+    volumes:
+      - mydata:/var/lib/postgresql/data
+
+  vault:
+    image: vault:1.5.2
+    environment:
+      - VAULT_DEV_ROOT_TOKEN_ID=myroot
+      - VAULT_DEV_LISTEN_ADDRESS=0.0.0.0:8200
+
 
 volumes:
   mydata:
