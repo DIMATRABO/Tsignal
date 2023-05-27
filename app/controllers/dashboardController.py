@@ -13,7 +13,7 @@ userDashboard_handler = GetUserHomeData(order_repo)
 
 @DashboardController.route('/home', methods=['GET'])
 @jwt_required()
-def getUserById(userId):
+def getUserHomeData():
     try:
         userId = get_jwt()["userId"]
         data = userDashboard_handler.handle(user_id=userId)
