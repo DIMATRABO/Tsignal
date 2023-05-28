@@ -1,7 +1,7 @@
 
 
 from gate_ways.log import Log
-from sqlalchemy import   exc
+from sqlalchemy import   exc ,func
 from entities.entity import Base , OrderEntity , StrategyEntity , AccountEntity
 from models.model import Order
 import uuid
@@ -108,3 +108,119 @@ class SqlAlchimy_repo :
         )
         ).count()
         return total
+
+
+
+    def getTotalBuyOrdersByUserId(self, session, user_id):
+        total = session.query(OrderEntity).filter(
+            OrderEntity.is_buy == True,
+            OrderEntity.strategy_id.in_(
+                session.query(StrategyEntity.webhook_id).filter(
+                    StrategyEntity.account_id.in_(
+                        session.query(StrategyEntity.account_id).filter(
+                            StrategyEntity.account_id.in_(
+                                session.query(AccountEntity.id).filter(
+                                    AccountEntity.user_id == user_id
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        ).count()
+        return total
+
+    def getTotalSellOrdersByUserId(self, session, user_id):
+        total = session.query(OrderEntity).filter(
+            OrderEntity.is_buy == False,
+            OrderEntity.strategy_id.in_(
+                session.query(StrategyEntity.webhook_id).filter(
+                    StrategyEntity.account_id.in_(
+                        session.query(StrategyEntity.account_id).filter(
+                            StrategyEntity.account_id.in_(
+                                session.query(AccountEntity.id).filter(
+                                    AccountEntity.user_id == user_id
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        ).count()
+        return total
+
+    def getAverageSellpriceByUserId(self, session, user_id):
+        average_sell_price = session.query(func.avg(OrderEntity.execution_price)).filter(
+            OrderEntity.is_buy == False,
+            OrderEntity.strategy_id.in_(
+                session.query(StrategyEntity.webhook_id).filter(
+                    StrategyEntity.account_id.in_(
+                        session.query(StrategyEntity.account_id).filter(
+                            StrategyEntity.account_id.in_(
+                                session.query(AccountEntity.id).filter(
+                                    AccountEntity.user_id == user_id
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        ).scalar()
+        return average_sell_price
+
+    def getAverageBuyPriceByUserId(self, session, user_id):
+        average_buy_price = session.query(func.avg(OrderEntity.execution_price)).filter(
+            OrderEntity.is_buy == True,
+            OrderEntity.strategy_id.in_(
+                session.query(StrategyEntity.webhook_id).filter(
+                    StrategyEntity.account_id.in_(
+                        session.query(StrategyEntity.account_id).filter(
+                            StrategyEntity.account_id.in_(
+                                session.query(AccountEntity.id).filter(
+                                    AccountEntity.user_id == user_id
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        ).scalar()
+        return average_buy_price
+
+    def getTotalSellQuantityByUserId(self, session, user_id):
+        total_sell_quantity = session.query(func.sum(OrderEntity.amount)).filter(
+            OrderEntity.is_buy == False,
+            OrderEntity.strategy_id.in_(
+                session.query(StrategyEntity.webhook_id).filter(
+                    StrategyEntity.account_id.in_(
+                        session.query(StrategyEntity.account_id).filter(
+                            StrategyEntity.account_id.in_(
+                                session.query(AccountEntity.id).filter(
+                                    AccountEntity.user_id == user_id
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        ).scalar()
+        return total_sell_quantity
+
+    def getTotalBuyQuantityByUserId(self, session, user_id):
+        total_buy_quantity = session.query(func.sum(OrderEntity.amount)).filter(
+            OrderEntity.is_buy == True,
+            OrderEntity.strategy_id.in_(
+                session.query(StrategyEntity.webhook_id).filter(
+                    StrategyEntity.account_id.in_(
+                        session.query(StrategyEntity.account_id).filter(
+                            StrategyEntity.account_id.in_(
+                                session.query(AccountEntity.id).filter(
+                                    AccountEntity.user_id == user_id
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        ).scalar()
+        return total_buy_quantity
