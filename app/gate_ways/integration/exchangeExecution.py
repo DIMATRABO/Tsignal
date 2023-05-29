@@ -4,7 +4,7 @@ from models.model import Order
 
 class ExchangeExecution:
 
-    def __init__(self, exchange_id , key):
+    def __init__(self, exchange_id , key=None):
         self.exchange = getattr(ccxt, exchange_id)(key)
 
     def get_symbol(self ,exchange_id, base , quote):
