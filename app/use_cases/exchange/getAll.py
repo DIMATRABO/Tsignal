@@ -6,7 +6,7 @@ class GetAll:
         self.repo=repo
         self.sessionContext = SessionContext() 
 
-    def handler(self  ,getAllInput):
+    def handle(self  ,getAllInput):
         with self.sessionContext as session:
             if ( not getAllInput.all !=None ): 
                 return  self.repo.getAll(session)

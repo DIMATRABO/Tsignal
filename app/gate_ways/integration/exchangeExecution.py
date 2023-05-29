@@ -104,3 +104,11 @@ class ExchangeExecution:
             return order  # Do something with the order details
         except ccxt.BaseError as e:
             return (f"Error fetching order: {e}")
+        
+    def symbols(self):
+        try:
+            return  self.exchange.load_markets()
+        
+        except ccxt.BaseError as e:
+            return (f"Error fetching symbols: {e}")
+        
