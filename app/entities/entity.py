@@ -269,10 +269,12 @@ class ExchangeEntity(Base):
     __tablename__ = "exchanges"
     id = Column("id", String, primary_key=True)
     name = Column("name", String)
+    image = Column("name", String)
 
-    def __init__(self, id=None, name=None):
+    def __init__(self, id=None, name=None , image=None):
         self.id = id
         self.name = name
+        self.image = image
 
     def __repr__(self):
         return "<ExchangeEntity(id='%s', name='%s')>" % (
@@ -283,11 +285,13 @@ class ExchangeEntity(Base):
     def from_domain(self, model: Exchange):
         self.id = model.id
         self.name = model.name
+        self.image = model.image
 
     def to_domain(self):
         return Exchange(
             id=self.id,
-            name=self.name
+            name=self.name,
+            image= self.image
         )
 
 

@@ -8,6 +8,7 @@ from datetime import datetime
 class Exchange:
     id: str = None
     name: str = None
+    image:str = None
 
     @classmethod
     def from_dict(self, d):
