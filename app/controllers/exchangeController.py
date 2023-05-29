@@ -19,7 +19,7 @@ get_symbols_handler = GetSymbols()
 @ExchangeController.route('', methods=['GET'])
 def getAll():
     try:
-        data = get_all_handler.handler(GetAllInput(all="all"))
+        data = get_all_handler.handle(GetAllInput(all="all"))
         json_data = json.dumps([ exchange.to_dict() for exchange in data])
         return Response(json_data ,  status=200, mimetype='application/json')
     except Exception as e :
@@ -27,10 +27,10 @@ def getAll():
         return Response(json_data , status=400, mimetype='application/json')
 
 
-@ExchangeController.route('', methods=['GET'])
-def getSymbols():
+@ExchangeController.route('/symbols/<exchangeId>', methods=['GET'])
+def getSymbols(exchangeId):
     try:
-        data = get_symbols_handler.handler()
+        data = get_symbols_handler.handle(exchangeId)
         json_data = json.dumps(data)
         return Response(json_data ,  status=200, mimetype='application/json')
     except Exception as e :
