@@ -111,7 +111,9 @@ class ExchangeExecution:
         
     def symbols(self):
         try:
-            raise Exception(self.exchange.load_markets())
+            markets = self.exchange.load_markets()
+            symbols_dict = {symbol: market['id'] for symbol, market in markets.items()}
+            return symbols_dict
 
         except ccxt.BaseError as e:
             return (f"Error fetching symbols: {e}")
