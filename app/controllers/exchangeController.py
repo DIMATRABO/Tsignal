@@ -1,4 +1,4 @@
-from gate_ways.order.sqlalchimyRepo import SqlAlchimy_repo as Exchange_repo
+from gate_ways.exchange.sqlalchimyRepo import SqlAlchimy_repo as Exchange_repo
 
 from use_cases.exchange.getAll import GetAll
 from use_cases.exchange.inputs.getAllInput import GetAllInput
