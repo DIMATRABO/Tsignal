@@ -9,6 +9,7 @@ from controllers.strategyController import StrategyController
 from controllers.orderController import OrderController
 from controllers.healthCheckController import healthcheck_bp
 from controllers.dashboardController import DashboardController
+from controllers.exchangeController import ExchangeController
 from flask_cors import CORS
 
 config = Config_handler()
@@ -30,6 +31,7 @@ app.register_blueprint(AccountController,url_prefix = "/accounts")
 app.register_blueprint(StrategyController,url_prefix = "/strategies")
 app.register_blueprint(OrderController,url_prefix = "/orders")
 app.register_blueprint(DashboardController,url_prefix = "/dashboards")
+app.register_blueprint(ExchangeController,url_prefix = "/exchanges")
 app.register_error_handler(404, not_found)
 
 CORS(app)
