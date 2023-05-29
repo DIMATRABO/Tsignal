@@ -5,7 +5,11 @@ from models.model import Order
 class ExchangeExecution:
 
     def __init__(self, exchange_id , key=None):
-        self.exchange = getattr(ccxt, exchange_id)(key)
+        if key is None:
+            exchange_class = getattr(ccxt, exchange_id)
+            self.exchange = exchange_class()
+        else:
+            self.exchange = getattr(ccxt, exchange_id)(key)
 
     def get_symbol(self ,exchange_id, base , quote):
         if exchange_id == "binance":
