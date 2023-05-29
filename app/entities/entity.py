@@ -269,7 +269,7 @@ class ExchangeEntity(Base):
     __tablename__ = "exchanges"
     id = Column("id", String, primary_key=True)
     name = Column("name", String)
-    image = Column("name", String)
+    image = Column("image", String)
 
     def __init__(self, id=None, name=None , image=None):
         self.id = id
