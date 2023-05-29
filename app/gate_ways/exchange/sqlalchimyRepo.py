@@ -8,7 +8,7 @@ class SqlAlchimy_repo :
 
 
     def getAll(self, session ):
-        exchanges = session.query(ExchangeEntity).allf()
+        exchanges = session.query(ExchangeEntity).all()
         return [exchange.to_domain() for exchange in exchanges]
       
  
