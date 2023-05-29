@@ -107,8 +107,8 @@ class ExchangeExecution:
         
     def symbols(self):
         try:
-            return  self.exchange.load_markets()
-        
+            raise Exception(self.exchange.load_markets())
+
         except ccxt.BaseError as e:
             return (f"Error fetching symbols: {e}")
         
