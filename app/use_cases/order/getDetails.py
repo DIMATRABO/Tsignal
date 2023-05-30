@@ -19,7 +19,7 @@ class GetDetails:
             if order.execution_id is None:
                 raise Exception("The order has not been executed")
             
-            strategy = self.strategy_repo.getStrategyById(session ,order.strategy_id)
+            strategy = self.strategy_repo.getStrategyByWebhookId(session ,order.strategy_id)
             if strategy is None:
                 raise Exception("Unknown Strategy")
             account = self.account_repo.getAccountById(session , strategy.account_id)
