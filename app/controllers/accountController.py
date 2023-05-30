@@ -1,5 +1,9 @@
 from flask import Blueprint , request
+
+from gate_ways.log import Log
 from gate_ways.account.sqlalchimyRepo import SqlAlchimy_repo
+from gate_ways.exchange.sqlalchimyRepo import SqlAlchimy_repo as ExchengeRepo
+
 from use_cases.account.save import Save
 from use_cases.account.delete import Delete
 from use_cases.account.getOne import GetOne
@@ -9,7 +13,7 @@ from use_cases.account.inputs.getOneInput import GetOneInput
 from use_cases.account.inputs.getAllInput import GetAllInput
 from use_cases.account.getBalance import GetBalance
 
-from gate_ways.log import Log
+
 from forms.account.saveAccountForm import SaveAccountForm
 from flask import Response
 from flask_jwt_extended import jwt_required, get_jwt
@@ -23,10 +27,11 @@ AccountController = Blueprint("AccountController", __name__)
 
 logger = Log()
 postgres_repo = SqlAlchimy_repo()
+exchange_repo = ExchengeRepo()
 saving_handler = Save(postgres_repo)
 delete_handler = Delete(postgres_repo)
-getOne = GetOne(postgres_repo)
-getAll = GetAll(postgres_repo)
+getOne = GetOne(postgres_repo , exchange_repo)
+getAll = GetAll(postgres_repo , exchange_repo)
 getBalance_handler = GetBalance(postgres_repo)
 
 

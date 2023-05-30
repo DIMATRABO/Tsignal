@@ -11,4 +11,7 @@ class SqlAlchimy_repo :
         exchanges = session.query(ExchangeEntity).all()
         return [exchange.to_domain() for exchange in exchanges]
       
- 
+    def getById(self, session , id):
+        exchange = session.query(ExchangeEntity).filter(ExchangeEntity.id == id).first()
+        return None if exchange == None else exchange.to_domain()
+    
