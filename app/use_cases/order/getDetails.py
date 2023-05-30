@@ -29,7 +29,7 @@ class GetDetails:
                 raise Exception("Unknown wallet")
             account.key = self.secretRepo.read(account.key_id)
             exchange = ExchangeExecution(account.exchange.id, account.key)
-            response = exchange.getOrderDetails(order_id)
+            response = exchange.getOrderDetails(order.execution_id)
             return response
 
 
