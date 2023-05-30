@@ -16,7 +16,7 @@ class ExchangeExecution:
             return base+quote
         
         elif exchange_id == "kucoin":
-            return base+'/'+quote
+            return base+'-'+quote
         
         elif exchange_id == "bybit":
             return base+'_'+quote
