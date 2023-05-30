@@ -1,5 +1,6 @@
 from gate_ways.integration.exchangeExecution import ExchangeExecution
 from gate_ways.dataBaseSession.sessionContext import SessionContext
+from gate_ways.account.secretsManager import SecretRepo
 
 
 class GetDetails:
@@ -8,6 +9,7 @@ class GetDetails:
         self.strategy_repo = strategy_repo
         self.account_repo = account_repo
         self.sessionContext = SessionContext()
+        self.secretRepo = SecretRepo()
 
     def handle(self, order_id:str):
         with self.sessionContext as session : 
