@@ -26,7 +26,7 @@ orderRepo = OrderRepo()
 accountRepo = AccountRepo()
 strategyRepo = StrategyRepo()
 create_handler = Create(orderRepo = orderRepo , accountRepo=accountRepo , strategyRepo=strategyRepo)
-getOderDetails_handler = GetDetails(order_repo=orderRepo , accountRepo=accountRepo , strategyRepo=strategyRepo)
+getOderDetails_handler = GetDetails(order_repo=orderRepo , strategy_repo= strategyRepo , account_repo= accountRepo)
 getOrders_handler = GetAll(repo=orderRepo)
 
 @OrderController.route('/<webhookid>', methods=['POST'])
