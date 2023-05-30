@@ -42,7 +42,7 @@ def getSymbols(exchangeId):
 @ExchangeController.route('/quotes/<exchangeId>', methods=['GET'])
 def getQuotes(exchangeId):
     try:
-        data = get_quotes_handler(exchangeId)
+        data = get_quotes_handler.handle(exchangeId)
         json_data = json.dumps(data)
         return Response(json_data ,  status=200, mimetype='application/json')
     except Exception as e :
