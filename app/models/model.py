@@ -31,6 +31,8 @@ class Order:
     amount: float = None
     status: str = None
     reception_date: datetime = None 
+    execution_id: str = None
+    execution_price: float = None
     execution_date: datetime = None
     response: str = None    
     

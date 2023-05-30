@@ -1,24 +1,22 @@
 from gate_ways.integration.exchangeExecution import ExchangeExecution
-from gate_ways.log import Log
-
-
-logger = Log()
+from gate_ways.dataBaseSession.sessionContext import SessionContext
 
 
 class GetDetails:
-    def __init__(self):
-        pass
-
+    def __init__(self , order_repo , strategy_repo , account_repo ):
+        self.order_repo = order_repo
+        self.strategy_repo = strategy_repo
+        self.account_repo = account_repo
+        self.sessionContext = SessionContext()
 
     def handle(self, order_id:str):
-        key = {
-                "apiKey": "646391e8ce9a090001908eda",
-                "password": "tsignal",
-                "secret": "9b8eab36-18b9-4dca-b24b-ecd3f1e37777"
-                }
-        exchange = ExchangeExecution("kucoin", key)
-        response = exchange.getOrderDetails(order_id)
-        return response
+        with self.sessionContext as session : 
+            order = self.order_repo.getOrderById(session , order_id)
+            strategy = self.strategy_repo.getStrategyById(session ,order.strategy_id)
+            account = self.account_repo.getAccountById(session , strategy.account_id)
+            exchange = ExchangeExecution(account.exchange.id, account.key)
+            response = exchange.getOrderDetails(order_id)
+            return response
 
 
 

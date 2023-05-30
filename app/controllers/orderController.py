@@ -9,7 +9,7 @@ from use_cases.order.getDetails import GetDetails
 from use_cases.order.create import Create
 from use_cases.order.getAll import GetAll
 
-from gate_ways.order.sqlalchimyRepo import SqlAlchimy_repo
+
 from gate_ways.account.sqlalchimyRepo import SqlAlchimy_repo as AccountRepo
 from gate_ways.strategy.sqlalchimyRepo import SqlAlchimy_repo as StrategyRepo
 from gate_ways.order.sqlalchimyRepo import SqlAlchimy_repo as OrderRepo
@@ -22,11 +22,12 @@ from controllers.decorations.checkAdminPermissions import check_admin_permission
 OrderController = Blueprint('OrderController', __name__)
 
 logger = Log()
-postgres_repo = SqlAlchimy_repo()
+orderRepo = OrderRepo()
 accountRepo = AccountRepo()
-create_handler = Create(orderRepo = postgres_repo , accountRepo=accountRepo , strategyRepo=StrategyRepo())
-getOrders_handler = GetAll(repo=OrderRepo())
-getOderDetails_handler = GetDetails()
+strategyRepo = StrategyRepo()
+create_handler = Create(orderRepo = orderRepo , accountRepo=accountRepo , strategyRepo=strategyRepo)
+getOderDetails_handler = GetDetails(order_repo=orderRepo , accountRepo=accountRepo , strategyRepo=strategyRepo)
+getOrders_handler = GetAll(repo=orderRepo)
 
 @OrderController.route('/<webhookid>', methods=['POST'])
 def create(webhookid):

@@ -205,13 +205,15 @@ class OrderEntity(Base):
     amount = Column(Float)
     status = Column(String)
     reception_date = Column(DateTime)
-    execution_date = Column(DateTime)
+    execution_id = Column(String)
+    execution_price = Column(Float)
+    execution_date= Column(DateTime)
     response = Column(String)
 
     def __init__(self, id=None, strategy_id=None, is_buy=None, is_future=None,
                  is_limit=None, limit_price=None, symbol_base=None, symbol_quote=None,
-                 amount=None, status=None, reception_date=None, execution_date=None,
-                 response=None):
+                 amount=None, status=None, reception_date=None, execution_id=None,
+                 execution_price=None, execution_date=None, response=None):
         self.id = id
         self.strategy_id = strategy_id
         self.is_buy = is_buy
@@ -223,13 +225,17 @@ class OrderEntity(Base):
         self.amount = amount
         self.status = status
         self.reception_date = reception_date
+        self.execution_id = execution_id
+        self.execution_price = execution_price
         self.execution_date = execution_date
         self.response = response
 
     def __repr__(self):
-        return "<OrderEntity(id='%s', account_id='%s')>" % (
+        return "<OrderEntity(id='%s', is_buy='%s' , symbol_base='%s' , symbol_quote='%s')>" % (
             self.id,
-            self.account_id
+            self.is_buy,
+            self.symbol_base,
+            self.symbol_quote
         )   
 
 
@@ -245,6 +251,8 @@ class OrderEntity(Base):
         self.amount = model.amount
         self.status = model.status
         self.reception_date = model.reception_date
+        self.execution_id = model.execution_id
+        self.execution_price = model.execution_price
         self.execution_date = model.execution_date
         self.response = model.response
 
@@ -261,6 +269,8 @@ class OrderEntity(Base):
             amount=self.amount,
             status=self.status,
             reception_date=self.reception_date,
+            execution_id = self.execution_id,
+            execution_price = self.execution_price,
             execution_date=self.execution_date,
             response=self.response
         )
