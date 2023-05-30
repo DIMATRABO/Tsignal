@@ -30,9 +30,7 @@ class Create:
                     order.id = str(uuid.uuid4())
                     account = self.accountRepo.getAccountById(session , strategy.account_id)
                     if not account is None:
-                        
                         account.key = self.secretRepo.read(account.key_id)
-                        raise Exception(account.key)
                         exchange = ExchangeExecution(account.exchange.id , account.key)
                         response = exchange.executeOrder(account.exchange.id , order)
                         order.response  =  str(response)
