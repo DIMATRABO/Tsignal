@@ -17,7 +17,7 @@ class GetAll:
                 accounts = self.repo.getAllByExchangeId(session , getAccountsInput.exchange_id)  
 
             for account  in  accounts:
-                account.exchange = self.exchange_repo.getById(session , account.exchange_id)
+                account.exchange = self.exchange_repo.getById(session , account.exchange.id)
 
             return accounts
 

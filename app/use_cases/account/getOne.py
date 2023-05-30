@@ -10,5 +10,5 @@ class GetOne:
         with self.sessionContext as session : 
             if not getAccountInput.id is None :
                 account = self.repo.getAccountById(session , getAccountInput.id)
-                account.exchange = self.exchange_repo.getById(session , account.exchange_id)
+                account.exchange = self.exchange_repo.getById(session , account.exchange.id)
             return account
