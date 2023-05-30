@@ -25,6 +25,7 @@ class GetDetails:
             account = self.account_repo.getAccountById(session , strategy.account_id)
             if account is None:
                 raise Exception("Unknown wallet")
+            account.key = self.secretRepo.read(account.key_id)
             exchange = ExchangeExecution(account.exchange.id, account.key)
             response = exchange.getOrderDetails(order_id)
             return response
