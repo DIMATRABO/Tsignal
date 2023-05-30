@@ -33,8 +33,9 @@ class Create:
                         account.key = self.secretRepo.read(account.key_id)
                         exchange = ExchangeExecution(account.exchange.id , account.key)
                         response = exchange.executeOrder(account.exchange.id , order)
-                        order.response  =  str(response)
-                        order.execution_date = datetime.now()
+                        
+                        order = self.map_data(order=order , response=response)
+
                         self.orderRepo.save(session, order)
                         logger.log(response)
                         return response
@@ -48,5 +49,12 @@ class Create:
 
 
 
-
+    def map_data(self , order , response ):
+        if not response is None:
+            order.response  =  str(response)
+            order.execution_date = datetime.now()
+            order.execution_id = response['id']
+            order.status = response["status"]
+            order.execution_price = response['average']
+        return order
  
