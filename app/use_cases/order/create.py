@@ -60,7 +60,7 @@ class Create:
             order.execution_price = response['average']
 
             if "datetime" in response:
-                order.execution_date = datetime.now() if response['datetime'] == None else datetime.strptime(response["datetime"] , "%Y-%m-%d")
+                order.execution_date = datetime.now() if response['datetime'] == None else datetime.strptime(response["datetime"], "%Y-%m-%dT%H:%M:%S.%fZ")
             else:
                  order.execution_date = datetime.now()
 
