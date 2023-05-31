@@ -128,7 +128,8 @@ class ExchangeExecution:
             quotes = list(set(quotes))
             return quotes
             '''
-            return self.exchange.currencies 
+
+            Exception(self.exchange.currencies)
 
         except ccxt.BaseError as e:
             return (f"Error fetching symbols: {e}")
