@@ -34,6 +34,9 @@ class Create:
                         exchange = ExchangeExecution(account.exchange.id , account.key)
                         response = exchange.executeOrder(account.exchange.id , order)
                         
+                        if "id" in response:
+                            response = exchange.getOrderDetails(response['id'])
+
                         order = self.map_data(order=order , response=response)
 
                         self.orderRepo.save(session, order)
