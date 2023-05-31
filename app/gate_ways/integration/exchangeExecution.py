@@ -119,12 +119,16 @@ class ExchangeExecution:
             return (f"Error fetching symbols: {e}")
         
     def quotes(self):
+          
         try:
+            '''
             markets = self.exchange.load_markets()
             symbols_dict = {symbol: market['id'] for symbol, market in markets.items()}
             quotes = [symbol.split('/')[1] for symbol in symbols_dict.keys()]
             quotes = list(set(quotes))
             return quotes
+            '''
+            return self.exchange.currencies 
 
         except ccxt.BaseError as e:
             return (f"Error fetching symbols: {e}")
