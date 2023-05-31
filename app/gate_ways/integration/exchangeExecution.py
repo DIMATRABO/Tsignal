@@ -11,15 +11,9 @@ class ExchangeExecution:
         else:
             self.exchange = getattr(ccxt, exchange_id)(key)
 
-    def get_symbol(self ,exchange_id, base , quote):
-        if exchange_id == "binance":
-            return base+quote
-        
-        elif exchange_id == "kucoin":
-            return base+'-'+quote
-        
-        elif exchange_id == "bybit":
-            return base+'_'+quote
+    def get_symbol(self, base, quote):
+        market = self.exchange.market(base + '/' + quote)
+        return market['symbol']
         
     def get_balance(self):
         try:
