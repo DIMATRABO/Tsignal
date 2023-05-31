@@ -124,7 +124,12 @@ class ExchangeExecution:
             symbols_dict = {symbol: market['id'] for symbol, market in markets.items()}
             quotes = [symbol.split('/')[1] for symbol in symbols_dict.keys()]
             quotes = list(set(quotes))
-            return quotes
+            quotes_=[]
+            for quote in quotes :
+                if not ':' in quote:
+                    quotes_.append(quote)
+
+            return quotes_
 
         except ccxt.BaseError as e:
             return (f"Error fetching symbols: {e}")
