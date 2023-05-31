@@ -6,8 +6,8 @@ class CreateOrderForm:
     is_future: bool = None
     is_limit: bool = None
     limit_price: float = None
-    base: str = None
-    quote:str = None
+    symbol: str = None
+    symbol_id:str = None
     amount: float = None
 
 
@@ -38,15 +38,15 @@ class CreateOrderForm:
         else:
             self.limit_price=jsonAccount["limit_price"]
     
-        if(  not "base" in  jsonAccount):
-            raise Exception("base required")
+        if(  not "symbol" in  jsonAccount):
+            raise Exception("symbol required")
         else:
-            self.base=jsonAccount["base"]
+            self.symbol=jsonAccount["symbol"]
 
-        if(  not "quote" in  jsonAccount):
-            raise Exception("quote required")
+        if(  not "symbol_id" in  jsonAccount):
+            raise Exception("symbol_id required")
         else:
-            self.quote=jsonAccount["quote"]
+            self.symbol_id=jsonAccount["symbol_id"]
 
         if(  not "amount" in  jsonAccount):
             raise Exception("amount required")
@@ -63,7 +63,7 @@ class CreateOrderForm:
             is_future=self.is_future,
             is_limit=self.is_limit,
             limit_price=self.limit_price,
-            symbol_base=self.base,
-            symbol_quote = self.quote,
+            symbol=self.symbol,
+            symbol_id = self.symbol_id,
             amount=self.amount
         )

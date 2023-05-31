@@ -11,9 +11,7 @@ class ExchangeExecution:
         else:
             self.exchange = getattr(ccxt, exchange_id)(key)
 
-    def get_symbol(self, base, quote):
-        market = self.exchange.market(base + '/' + quote)
-        return market['symbol']
+  
         
     def get_balance(self):
         try:
@@ -85,13 +83,13 @@ class ExchangeExecution:
       
 
 
-    def executeOrder(self ,exchange_id ,  order: Order):
+    def executeOrder(self ,  order: Order):
         order_type = "limit" if order.is_limit else "market"
-        symbol = self.get_symbol(exchange_id=exchange_id , base=order.symbol_base , quote=order.symbol_quote)
         if order.is_buy:
-            return self.buy(symbol , order.amount , order.limit_price , order_type) # ordered amount of base currency
+            return self.buy(order.symbol_id , order.amount , order.limit_price , order_type) # ordered amount of base currency
         else:
-            return self.sell(symbol , order.amount , order.limit_price , order_type) # ordered amount of base currency
+            return self.sell(order.symbol_id , order.amount , order.limit_price , order_type) # ordered amount of base currency
+
 
 
 

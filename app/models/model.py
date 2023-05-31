@@ -26,8 +26,8 @@ class Order:
     is_future: bool = None
     is_limit: bool = None
     limit_price: float = None
-    symbol_base: str = None
-    symbol_quote: str = None
+    symbol: str = None
+    symbol_id: str = None
     amount: float = None
     status: str = None
     reception_date: datetime = None 
@@ -55,8 +55,8 @@ class Strategy:
     name: str = None
     webhook_id: str = None
     webhook_key: str = None
-    symbol_base: str = None
-    symbol_quote: str = None
+    symbol: str = None
+    symbol_id: str = None
     is_future: bool = None
     leverage: float = None
     entry_size: float = None

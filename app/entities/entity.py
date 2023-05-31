@@ -127,8 +127,8 @@ class StrategyEntity(Base):
     name = Column(String)
     webhook_id = Column(String, unique=True)  # Make webhook_id unique
     webhook_key = Column(String)
-    symbol_base = Column(String)
-    symbol_quote = Column(String)
+    symbol = Column(String)
+    symbol_id = Column(String)
     is_future = Column(Boolean)
     leverage = Column(Float)
     entry_size = Column(Float)
@@ -139,15 +139,15 @@ class StrategyEntity(Base):
     __table_args__ = (UniqueConstraint('webhook_id'),)
 
 
-    def __init__(self, id=None, account_id=None, name=None, webhook_id=None, webhook_key=None, symbol_base=None, symbol_quote=None,
+    def __init__(self, id=None, account_id=None, name=None, webhook_id=None, webhook_key=None, symbol=None, symbol_id=None,
                  is_future=None, leverage=None, entry_size=None, is_percentage=None, capital=None):
         self.id = id
         self.account_id = account_id
         self.name = name
         self.webhook_id = webhook_id
         self.webhook_key = webhook_key
-        self.symbol_base = symbol_base
-        self.symbol_quote = symbol_quote
+        self.symbol = symbol
+        self.symbol_id = symbol_id
         self.is_future = is_future
         self.leverage = leverage
         self.entry_size = entry_size
@@ -166,8 +166,8 @@ class StrategyEntity(Base):
         self.name = model.name
         self.webhook_id = model.webhook_id
         self.webhook_key = model.webhook_key
-        self.symbol_base = model.symbol_base
-        self.symbol_quote = model.symbol_quote
+        self.symbol = model.symbol
+        self.symbol_id = model.symbol_id
         self.is_future = model.is_future
         self.leverage = model.leverage
         self.entry_size = model.entry_size
@@ -182,8 +182,8 @@ class StrategyEntity(Base):
             name= self.name,
             webhook_id= self.webhook_id,
             webhook_key= self.webhook_key,
-            symbol_base= self.symbol_base,
-            symbol_quote= self.symbol_quote,
+            symbol= self.symbol,
+            symbol_id= self.symbol_id,
             is_future= self.is_future,
             leverage=self.leverage,
             entry_size= self.entry_size,
@@ -200,8 +200,8 @@ class OrderEntity(Base):
     is_future = Column(Boolean)
     is_limit = Column(Boolean)
     limit_price = Column(Float)
-    symbol_base = Column(String)
-    symbol_quote = Column(String)
+    symbol = Column(String)
+    symbol_id = Column(String)
     amount = Column(Float)
     status = Column(String)
     reception_date = Column(DateTime)
@@ -211,7 +211,7 @@ class OrderEntity(Base):
     response = Column(String)
 
     def __init__(self, id=None, strategy_id=None, is_buy=None, is_future=None,
-                 is_limit=None, limit_price=None, symbol_base=None, symbol_quote=None,
+                 is_limit=None, limit_price=None, symbol=None, symbol_id=None,
                  amount=None, status=None, reception_date=None, execution_id=None,
                  execution_price=None, execution_date=None, response=None):
         self.id = id
@@ -220,8 +220,8 @@ class OrderEntity(Base):
         self.is_future = is_future
         self.is_limit = is_limit
         self.limit_price = limit_price
-        self.symbol_base = symbol_base
-        self.symbol_quote = symbol_quote
+        self.symbol = symbol
+        self.symbol_id = symbol_id
         self.amount = amount
         self.status = status
         self.reception_date = reception_date
@@ -231,11 +231,11 @@ class OrderEntity(Base):
         self.response = response
 
     def __repr__(self):
-        return "<OrderEntity(id='%s', is_buy='%s' , symbol_base='%s' , symbol_quote='%s')>" % (
+        return "<OrderEntity(id='%s', is_buy='%s' , symbol='%s' , symbol_id='%s')>" % (
             self.id,
             self.is_buy,
-            self.symbol_base,
-            self.symbol_quote
+            self.symbol,
+            self.symbol_id
         )   
 
 
@@ -246,8 +246,8 @@ class OrderEntity(Base):
         self.is_future = model.is_future
         self.is_limit = model.is_limit
         self.limit_price = model.limit_price
-        self.symbol_base = model.symbol_base
-        self.symbol_quote = model.symbol_quote
+        self.symbol = model.symbol
+        self.symbol_id = model.symbol_id
         self.amount = model.amount
         self.status = model.status
         self.reception_date = model.reception_date
@@ -264,8 +264,8 @@ class OrderEntity(Base):
             is_future=self.is_future,
             is_limit=self.is_limit,
             limit_price=self.limit_price,
-            symbol_base=self.symbol_base,
-            symbol_quote=self.symbol_quote,
+            symbol=self.symbol,
+            symbol_id=self.symbol_id,
             amount=self.amount,
             status=self.status,
             reception_date=self.reception_date,

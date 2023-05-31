@@ -32,7 +32,7 @@ class Create:
                     if not account is None:
                         account.key = self.secretRepo.read(account.key_id)
                         exchange = ExchangeExecution(account.exchange.id , account.key)
-                        response = exchange.executeOrder(account.exchange.id , order)
+                        response = exchange.executeOrder(order)
                         
                         if "id" in response:
                             response = exchange.getOrderDetails(response['id'])
