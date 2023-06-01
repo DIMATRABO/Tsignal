@@ -14,7 +14,7 @@ class GetUserHomeData:
             data.total_orders = self.order_repo.getTotalOrdersByUserId(session, user_id)
             data.total_buy_orders = self.order_repo.getTotalBuyOrdersByUserId(session, user_id)
             data.total_sell_orders= self.order_repo.getTotalSellOrdersByUserId(session, user_id)
-            data.average_sell_price= self.order_repo.getAverageSellpriceByUserId(session, user_id)
+            data.average_sell_price= self.order_repo.getAverageSellPriceByUserId(session, user_id)
             data.average_buy_price= self.order_repo.getAverageBuyPriceByUserId(session, user_id)
             data.total_sell_quantitiy= self.order_repo.getTotalSellQuantityByUserId(session, user_id)
             data.total_buy_quantity= self.order_repo.getTotalBuyQuantityByUserId(session, user_id)
