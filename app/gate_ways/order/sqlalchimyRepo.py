@@ -354,12 +354,12 @@ class SqlAlchimy_repo :
 
         # Initialize list with 12 elements representing each month of the year
         monthly_income = [0] * 12
-        raise Exception(monthly_profits)
+        
         for month_decimal, profit in monthly_profits:
             # Convert Decimal month to integer for indexing
             month_index = int(month_decimal)
 
             # Assign the profit to the corresponding month index
             monthly_income[month_index - 1] = profit
-
+        raise Exception(monthly_income)
         return monthly_income
