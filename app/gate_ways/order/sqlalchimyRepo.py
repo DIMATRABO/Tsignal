@@ -339,7 +339,7 @@ class SqlAlchimy_repo :
 
             monthly_profits = (
                 session.query(
-                    func.date_trunc('month', OrderEntity.execution_date).label('month'),
+                    extract('month', OrderEntity.execution_date),
                     func.sum(OrderEntity.execution_price * OrderEntity.amount)
                 )
                 .filter(
@@ -348,7 +348,7 @@ class SqlAlchimy_repo :
                     OrderEntity.strategy_id.in_(subquery_2),
                     extract('year', OrderEntity.execution_date) == current_year
                 )
-                .group_by('month')
+                .group_by(extract('month', OrderEntity.execution_date))
                 .all()
             )
 
