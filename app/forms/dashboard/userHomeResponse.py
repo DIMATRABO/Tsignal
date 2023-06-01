@@ -26,6 +26,6 @@ class UserHomeResponse:
 
     def to_dict(self):
         
-        self.monthly_profit = [(float(month), float(profit)) for month, profit in self.monthly_profit]
+        self.monthly_profit = [(int(month), float(profit)) for month, profit in self.monthly_profit]
         
         return asdict(self)
