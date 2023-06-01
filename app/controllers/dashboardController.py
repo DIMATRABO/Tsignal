@@ -25,7 +25,7 @@ def getUserHomeData():
 
 
 
-@DashboardController.route('/strategy/<strategyId>', methods=['GET'])
+"""@DashboardController.route('/strategy/<strategyId>', methods=['GET'])
 @jwt_required()
 def getUserHomeData():
     try:
@@ -38,3 +38,4 @@ def getUserHomeData():
         return Response(json_data , status=400, mimetype='application/json')
 
 
+"""
