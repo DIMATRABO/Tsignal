@@ -1,10 +1,11 @@
 
 
 from gate_ways.log import Log
-from sqlalchemy import   exc ,func
+from sqlalchemy import   exc ,func ,extract
 from entities.entity import Base , OrderEntity , StrategyEntity , AccountEntity
 from models.model import Order
 import uuid
+from datetime import datetime
 
 
 logger = Log()
@@ -269,4 +270,83 @@ class SqlAlchimy_repo :
 
     
 
+    def getTotalInvistedByUser(self, session , user_id):
+        subquery_1 = (
+            session.query(AccountEntity.id)
+            .filter(AccountEntity.user_id == user_id)
+            .subquery()
+        )
+
+        subquery_2 = (
+            session.query(StrategyEntity.webhook_id)
+            .filter(StrategyEntity.account_id.in_(subquery_1))
+            .subquery()
+        )
+
+        average_buy_price = (
+            session.query(func.sum(OrderEntity.execution_price * OrderEntity.amount))
+            .filter(
+                OrderEntity.is_buy == True,
+                OrderEntity.status == 'closed',
+                OrderEntity.strategy_id.in_(subquery_2)
+            )
+            .scalar()
+        )
+
+        return average_buy_price
     
+
+    def getTotalIncomeByUser(self, session , user_id):
+        subquery_1 = (
+            session.query(AccountEntity.id)
+            .filter(AccountEntity.user_id == user_id)
+            .subquery()
+        )
+
+        subquery_2 = (
+            session.query(StrategyEntity.webhook_id)
+            .filter(StrategyEntity.account_id.in_(subquery_1))
+            .subquery()
+        )
+
+        average_buy_price = (
+            session.query(func.sum(OrderEntity.execution_price * OrderEntity.amount))
+            .filter(
+                OrderEntity.is_buy == False,
+                OrderEntity.status == 'closed',
+                OrderEntity.strategy_id.in_(subquery_2)
+            )
+            .scalar()
+        )
+
+        return average_buy_price
+
+
+    def getTotalIncomeByMonthByUser(self, session , user_id):
+            subquery_1 = (
+                session.query(AccountEntity.id)
+                .filter(AccountEntity.user_id == user_id)
+                .subquery()
+            )
+
+            subquery_2 = (
+                session.query(StrategyEntity.webhook_id)
+                .filter(StrategyEntity.account_id.in_(subquery_1))
+                .subquery()
+            )
+
+            current_year = datetime.now().year
+
+            total_income = (
+                session.query(func.sum(OrderEntity.execution_price * OrderEntity.amount))
+                .filter(
+                    OrderEntity.is_buy == False,
+                    OrderEntity.status == 'closed',
+                    OrderEntity.strategy_id.in_(subquery_2),
+                    extract('year', OrderEntity.execution_date) == current_year
+                )
+                .group_by(extract('month', OrderEntity.execution_date))
+                .all()
+            )
+
+            return total_income
