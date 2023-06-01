@@ -1,7 +1,6 @@
 
 from dataclasses import dataclass, asdict, field
 from typing import List, Tuple
-from datetime import datetime
 
 
 @dataclass
@@ -27,6 +26,6 @@ class UserHomeResponse:
 
     def to_dict(self):
         
-        self.monthly_profit = [(month.strftime('%B'), float(profit)) for month, profit in self.monthly_profit]
+        self.monthly_profit = [(float(month), float(profit)) for month, profit in self.monthly_profit]
         
         return asdict(self)

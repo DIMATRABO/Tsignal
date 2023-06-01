@@ -352,4 +352,4 @@ class SqlAlchimy_repo :
                 .all()
             )
 
-            return monthly_profits
+            return monthly_profit
