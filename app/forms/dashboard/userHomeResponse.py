@@ -25,5 +25,4 @@ class UserHomeResponse:
         return self(**d)
 
     def to_dict(self):
-        self.monthly_profit = list(self.monthly_profit) or None
         return asdict(self)
