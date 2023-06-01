@@ -25,6 +25,7 @@ class UserHomeResponse:
         return self(**d)
 
     def to_dict(self):
+        
+        self['monthly_profit'] = [(month, float(profit)) for month, profit in self['monthly_profit']]
         data = asdict(self)
-        data['monthly_profit'] = [(month, float(profit)) for month, profit in data['monthly_profit']]
         return data
