@@ -19,6 +19,7 @@ class UserHomeResponse:
     total_failed_orders : int = None
 
     monthly_profit: List[float] = field(default_factory=list)
+    monthly_invested: List[float] = field(default_factory=list)
 
     @classmethod
     def from_dict(self, d):

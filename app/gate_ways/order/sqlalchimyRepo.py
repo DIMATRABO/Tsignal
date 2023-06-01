@@ -362,3 +362,43 @@ class SqlAlchimy_repo :
             # Assign the profit to the corresponding month index
             monthly_income[month_index - 1] = float(profit)
         return monthly_income
+    
+
+
+    def getTotalInvestedByMonthByUser(self, session, user_id):
+        subquery_1 = (
+            session.query(AccountEntity.id)
+            .filter(AccountEntity.user_id == user_id)
+            .subquery()
+        )
+
+        subquery_2 = (
+            session.query(StrategyEntity.webhook_id)
+            .filter(StrategyEntity.account_id.in_(subquery_1))
+            .subquery()
+        )
+
+        current_year = datetime.now().year
+
+        monthly_invested = (
+            session.query(
+                extract('month', OrderEntity.execution_date),
+                func.sum(OrderEntity.execution_price * OrderEntity.amount)
+            )
+            .filter(
+                OrderEntity.is_buy == True,
+                OrderEntity.status == 'closed',
+                OrderEntity.strategy_id.in_(subquery_2),
+                extract('year', OrderEntity.execution_date) == current_year
+            )
+            .group_by(extract('month', OrderEntity.execution_date))
+            .all()
+        )
+
+        monthly_income = [0] * 12
+        
+        for month_decimal, invested in monthly_invested:
+            month_index = int(month_decimal)
+
+            monthly_income[month_index - 1] = float(invested)
+        return monthly_invested

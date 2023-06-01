@@ -22,6 +22,7 @@ class GetUserHomeData:
             data.total_failed_orders = self.order_repo.getTotalFailedOrdersByUserId(session, user_id)
             
             data.monthly_profit = self.order_repo.getTotalIncomeByMonthByUser(session, user_id)
+            data.monthly_invested = self.order_repo.getTotalInvestedByMonthByUser(session, user_id)
 
             return data
              
