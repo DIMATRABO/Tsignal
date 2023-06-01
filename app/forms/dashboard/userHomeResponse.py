@@ -1,5 +1,6 @@
 
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass, asdict, field
+from typing import List
 
 @dataclass
 class UserHomeResponse:
@@ -16,9 +17,7 @@ class UserHomeResponse:
 
     total_failed_orders : int = None
 
-    monthly_profit = [0 for _ in range(12)]
-
-
+    monthly_profit: List[float] = field(default_factory=list)
 
     @classmethod
     def from_dict(self, d):
