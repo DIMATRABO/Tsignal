@@ -18,14 +18,12 @@ class UserHomeResponse:
 
     total_failed_orders : int = None
 
-    monthly_profit: List[Tuple[int, float]] = field(default_factory=list)
+    monthly_profit: List[float] = field(default_factory=list)
 
     @classmethod
     def from_dict(self, d):
         return self(**d)
 
     def to_dict(self):
-        
-        self.monthly_profit = [(int(month), float(profit)) for month, profit in self.monthly_profit]
         
         return asdict(self)

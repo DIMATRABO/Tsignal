@@ -322,34 +322,44 @@ class SqlAlchimy_repo :
         return average_buy_price
 
 
-    def getTotalIncomeByMonthByUser(self, session , user_id):
-            subquery_1 = (
-                session.query(AccountEntity.id)
-                .filter(AccountEntity.user_id == user_id)
-                .subquery()
+    def getTotalIncomeByMonthByUser(self, session, user_id):
+        subquery_1 = (
+            session.query(AccountEntity.id)
+            .filter(AccountEntity.user_id == user_id)
+            .subquery()
+        )
+
+        subquery_2 = (
+            session.query(StrategyEntity.webhook_id)
+            .filter(StrategyEntity.account_id.in_(subquery_1))
+            .subquery()
+        )
+
+        current_year = datetime.now().year
+
+        monthly_profits = (
+            session.query(
+                extract('month', OrderEntity.execution_date),
+                func.sum(OrderEntity.execution_price * OrderEntity.amount)
             )
-
-            subquery_2 = (
-                session.query(StrategyEntity.webhook_id)
-                .filter(StrategyEntity.account_id.in_(subquery_1))
-                .subquery()
+            .filter(
+                OrderEntity.is_buy == False,
+                OrderEntity.status == 'closed',
+                OrderEntity.strategy_id.in_(subquery_2),
+                extract('year', OrderEntity.execution_date) == current_year
             )
+            .group_by(extract('month', OrderEntity.execution_date))
+            .all()
+        )
 
-            current_year = datetime.now().year
+        # Initialize list with 12 elements representing each month of the year
+        monthly_income = [0] * 12
 
-            monthly_profits = (
-                session.query(
-                    extract('month', OrderEntity.execution_date),
-                    func.sum(OrderEntity.execution_price * OrderEntity.amount)
-                )
-                .filter(
-                    OrderEntity.is_buy == False,
-                    OrderEntity.status == 'closed',
-                    OrderEntity.strategy_id.in_(subquery_2),
-                    extract('year', OrderEntity.execution_date) == current_year
-                )
-                .group_by(extract('month', OrderEntity.execution_date))
-                .all()
-            )
+        for month_decimal, profit in monthly_profits:
+            # Convert Decimal month to integer for indexing
+            month_index = int(month_decimal)
 
-            return monthly_profits
+            # Assign the profit to the corresponding month index
+            monthly_income[month_index - 1] = profit
+
+        return monthly_income
