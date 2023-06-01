@@ -2,6 +2,7 @@
 from dataclasses import dataclass, asdict, field
 from typing import List, Tuple
 
+
 @dataclass
 class UserHomeResponse:
     total_orders: int = None
@@ -24,4 +25,6 @@ class UserHomeResponse:
         return self(**d)
 
     def to_dict(self):
-        return asdict(self)
+        data = asdict(self)
+        data['monthly_profit'] = [(month, float(profit)) for month, profit in data['monthly_profit']]
+        return data
