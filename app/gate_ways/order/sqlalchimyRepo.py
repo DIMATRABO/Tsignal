@@ -152,6 +152,7 @@ class SqlAlchimy_repo :
     def getAverageSellpriceByUserId(self, session, user_id):
         average_sell_price = session.query(func.avg(OrderEntity.execution_price)).filter(
             OrderEntity.is_buy == False,
+            OrderEntity.status == "closed",
             OrderEntity.strategy_id.in_(
                 session.query(StrategyEntity.webhook_id).filter(
                     StrategyEntity.account_id.in_(
@@ -171,6 +172,7 @@ class SqlAlchimy_repo :
     def getAverageBuyPriceByUserId(self, session, user_id):
         average_buy_price = session.query(func.avg(OrderEntity.execution_price)).filter(
             OrderEntity.is_buy == True,
+            OrderEntity.status == "closed",
             OrderEntity.strategy_id.in_(
                 session.query(StrategyEntity.webhook_id).filter(
                     StrategyEntity.account_id.in_(
@@ -190,6 +192,7 @@ class SqlAlchimy_repo :
     def getTotalSellQuantityByUserId(self, session, user_id):
         total_sell_quantity = session.query(func.sum(OrderEntity.amount)).filter(
             OrderEntity.is_buy == False,
+            OrderEntity.status == "closed",
             OrderEntity.strategy_id.in_(
                 session.query(StrategyEntity.webhook_id).filter(
                     StrategyEntity.account_id.in_(
@@ -209,6 +212,7 @@ class SqlAlchimy_repo :
     def getTotalBuyQuantityByUserId(self, session, user_id):
         total_buy_quantity = session.query(func.sum(OrderEntity.amount)).filter(
             OrderEntity.is_buy == True,
+            OrderEntity.status == "closed",
             OrderEntity.strategy_id.in_(
                 session.query(StrategyEntity.webhook_id).filter(
                     StrategyEntity.account_id.in_(
