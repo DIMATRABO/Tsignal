@@ -24,6 +24,7 @@ class UserHomeResponse:
         return self(**d)
 
     def to_dict(self):
-        data = asdict(self)
         data['monthly_profit'] = list(data['monthly_profit'])  # Convert range object to list
+        data = asdict(self)
+        
         return data
