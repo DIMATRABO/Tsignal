@@ -25,5 +25,5 @@ class UserHomeResponse:
         return self(**d)
 
     def to_dict(self):
-        
+        raise Exception(self)
         return asdict(self)
