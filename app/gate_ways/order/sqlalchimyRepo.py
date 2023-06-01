@@ -426,7 +426,7 @@ class SqlAlchimy_repo :
                 StrategyEntity.name,
                 func.count(OrderEntity.id)
             )
-            .join(OrderEntity, StrategyEntity.id == OrderEntity.strategy_id)
+            .join(OrderEntity, StrategyEntity.webhook_id == OrderEntity.strategy_id)
             .filter(
                     OrderEntity.status == 'closed',
                     OrderEntity.strategy_id.in_(subquery_2)
