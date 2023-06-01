@@ -25,7 +25,7 @@ class UserHomeResponse:
         return self(**d)
 
     def to_dict(self):
-        raise(self)
+        raise Exception(self)
         self.monthly_profit = [(month, float(profit)) for month, profit in self.monthly_profit]
         
         return asdict(self)
