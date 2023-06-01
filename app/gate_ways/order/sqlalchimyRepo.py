@@ -349,4 +349,5 @@ class SqlAlchimy_repo :
                 .all()
             )
 
-            return total_income
+            monthly_profit = [float(income[0]) for income in total_income]  # Extract the income values
+            return monthly_profit
