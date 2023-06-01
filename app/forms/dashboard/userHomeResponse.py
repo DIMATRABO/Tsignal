@@ -14,6 +14,8 @@ class UserHomeResponse:
     total_sell_quantitiy: float = None
     total_buy_quantity: float = None
 
+    total_failed_orders : int = None
+
     monthly_profit = [0 for _ in range(12)]
 
 

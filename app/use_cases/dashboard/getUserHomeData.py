@@ -18,6 +18,9 @@ class GetUserHomeData:
             data.average_buy_price= self.order_repo.getAverageBuyPriceByUserId(session, user_id)
             data.total_sell_quantitiy= self.order_repo.getTotalSellQuantityByUserId(session, user_id)
             data.total_buy_quantity= self.order_repo.getTotalBuyQuantityByUserId(session, user_id)
+           
+            data.total_failed_orders = self.order_repo.getTotalFailedOrdersByUserId(session, user_id)
+           
             data.monthly_profit = [range(12)]
 
             return data

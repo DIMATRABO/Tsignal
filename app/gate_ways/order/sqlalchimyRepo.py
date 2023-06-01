@@ -95,7 +95,7 @@ class SqlAlchimy_repo :
 
     def getTotalOrdersByUserId(self, session, user_id):
         total = session.query(OrderEntity).filter(
-        OrderEntity.strategy_id.in_(
+            OrderEntity.strategy_id.in_(
             session.query(StrategyEntity.webhook_id).filter(
                 StrategyEntity.account_id.in_(
                     session.query(StrategyEntity.account_id).filter(
@@ -149,45 +149,63 @@ class SqlAlchimy_repo :
         ).count()
         return total
 
-    def getAverageSellpriceByUserId(self, session, user_id):
-        average_sell_price = session.query(func.avg(OrderEntity.execution_price)).filter(
-            OrderEntity.is_buy == False,
-            OrderEntity.status == "closed",
-            OrderEntity.strategy_id.in_(
-                session.query(StrategyEntity.webhook_id).filter(
-                    StrategyEntity.account_id.in_(
-                        session.query(StrategyEntity.account_id).filter(
-                            StrategyEntity.account_id.in_(
-                                session.query(AccountEntity.id).filter(
-                                    AccountEntity.user_id == user_id
-                                )
-                            )
-                        )
-                    )
-                )
-            )
-        ).scalar()
-        return average_sell_price
+  
+
 
     def getAverageBuyPriceByUserId(self, session, user_id):
-        average_buy_price = session.query(func.avg(OrderEntity.execution_price)).filter(
-            OrderEntity.is_buy == True,
-            OrderEntity.status == "closed",
-            OrderEntity.strategy_id.in_(
-                session.query(StrategyEntity.webhook_id).filter(
-                    StrategyEntity.account_id.in_(
-                        session.query(StrategyEntity.account_id).filter(
-                            StrategyEntity.account_id.in_(
-                                session.query(AccountEntity.id).filter(
-                                    AccountEntity.user_id == user_id
-                                )
-                            )
-                        )
-                    )
-                )
+        subquery_1 = (
+            session.query(AccountEntity.id)
+            .filter(AccountEntity.user_id == user_id)
+            .subquery()
+        )
+
+        subquery_2 = (
+            session.query(StrategyEntity.webhook_id)
+            .filter(StrategyEntity.account_id.in_(subquery_1))
+            .subquery()
+        )
+
+        average_buy_price = (
+            session.query(func.sum(OrderEntity.execution_price * OrderEntity.amount) / func.sum(OrderEntity.amount))
+            .filter(
+                OrderEntity.is_buy == True,
+                OrderEntity.status == 'closed',
+                OrderEntity.strategy_id.in_(subquery_2)
             )
-        ).scalar()
+            .scalar()
+        )
+
         return average_buy_price
+
+
+
+
+    def getAverageSellPriceByUserId(self, session, user_id):
+        subquery_1 = (
+            session.query(AccountEntity.id)
+            .filter(AccountEntity.user_id == user_id)
+            .subquery()
+        )
+
+        subquery_2 = (
+            session.query(StrategyEntity.webhook_id)
+            .filter(StrategyEntity.account_id.in_(subquery_1))
+            .subquery()
+        )
+
+        average_buy_price = (
+            session.query(func.sum(OrderEntity.execution_price * OrderEntity.amount) / func.sum(OrderEntity.amount))
+            .filter(
+                OrderEntity.is_buy == False,
+                OrderEntity.status == 'closed',
+                OrderEntity.strategy_id.in_(subquery_2)
+            )
+            .scalar()
+        )
+
+        return average_buy_price
+
+
 
     def getTotalSellQuantityByUserId(self, session, user_id):
         total_sell_quantity = session.query(func.sum(OrderEntity.amount)).filter(
@@ -228,3 +246,27 @@ class SqlAlchimy_repo :
             )
         ).scalar()
         return total_buy_quantity
+    
+
+    def getTotalFailedOrdersByUserId(self, session, user_id):
+        total_failed = session.query(OrderEntity).filter(
+            OrderEntity.status == "failed",
+            OrderEntity.strategy_id.in_(
+                session.query(StrategyEntity.webhook_id).filter(
+                    StrategyEntity.account_id.in_(
+                        session.query(StrategyEntity.account_id).filter(
+                            StrategyEntity.account_id.in_(
+                                session.query(AccountEntity.id).filter(
+                                    AccountEntity.user_id == user_id
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        ).count()
+        return total_failed
+
+    
+
+    
