@@ -395,10 +395,10 @@ class SqlAlchimy_repo :
             .all()
         )
 
-        monthly_income = [0] * 12
+        monthly_invested = [0] * 12
         
         for month_decimal, invested in monthly_invested:
             month_index = int(month_decimal)
 
-            monthly_income[month_index - 1] = float(invested)
+            monthly_invested[month_index - 1] = float(invested)
         return monthly_invested
