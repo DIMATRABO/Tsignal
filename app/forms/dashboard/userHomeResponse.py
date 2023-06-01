@@ -25,5 +25,4 @@ class UserHomeResponse:
         return self(**d)
 
     def to_dict(self):
-        
         return asdict(self)

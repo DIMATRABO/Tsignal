@@ -361,5 +361,4 @@ class SqlAlchimy_repo :
 
             # Assign the profit to the corresponding month index
             monthly_income[month_index - 1] = profit
-        raise Exception(monthly_income)
         return monthly_income
