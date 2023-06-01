@@ -6,6 +6,8 @@ from entities.entity import Base , OrderEntity , StrategyEntity , AccountEntity
 from models.model import Order
 import uuid
 from datetime import datetime
+from typing import List, Tuple
+
 
 
 logger = Log()
@@ -402,3 +404,37 @@ class SqlAlchimy_repo :
 
             monthly_investeds[month_index - 1] = float(invested)
         return monthly_investeds
+    
+
+
+    def get_total_trades_by_strategy(self, session, user_id) -> List[Tuple[str, int]]:
+        subquery_1 = (
+            session.query(AccountEntity.id)
+            .filter(AccountEntity.user_id == user_id)
+            .subquery()
+        )
+
+        subquery_2 = (
+            session.query(StrategyEntity.webhook_id)
+            .filter(StrategyEntity.account_id.in_(subquery_1))
+            .subquery()
+        )
+       
+
+        trades_by_strategy = (
+            session.query(
+                StrategyEntity.name,
+                func.count(OrderEntity.id)
+            )
+            .join(OrderEntity, StrategyEntity.id == OrderEntity.strategy_id)
+            .filter(
+                    OrderEntity.status == 'closed',
+                    OrderEntity.strategy_id.in_(subquery_2)
+                    )
+            .group_by(StrategyEntity.name)
+            .all()
+        )        
+        # Convert the result to a list of tuples
+        total_trades_by_strategy = [(name, count) for name, count in trades_by_strategy]
+        
+        return total_trades_by_strategy

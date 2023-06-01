@@ -24,5 +24,7 @@ class GetUserHomeData:
             data.monthly_profit = self.order_repo.getTotalIncomeByMonthByUser(session, user_id)
             data.monthly_invested = self.order_repo.getTotalInvestedByMonthByUser(session, user_id)
 
+            data.orders_by_strategy = self.order_repo.get_total_trades_by_strategy(session, user_id)
+
             return data
              

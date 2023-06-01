@@ -21,6 +21,9 @@ class UserHomeResponse:
     monthly_profit: List[float] = field(default_factory=list)
     monthly_invested: List[float] = field(default_factory=list)
 
+    orders_by_strategy: List[Tuple[str, int]] = field(default_factory=list)
+
+
     @classmethod
     def from_dict(self, d):
         return self(**d)
