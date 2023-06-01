@@ -1,6 +1,6 @@
 
 from dataclasses import dataclass, asdict, field
-from typing import List
+from typing import List, Tuple
 
 @dataclass
 class UserHomeResponse:
@@ -17,7 +17,7 @@ class UserHomeResponse:
 
     total_failed_orders : int = None
 
-    monthly_profit: List[float] = field(default_factory=list)
+    monthly_profit: List[Tuple[int, float]] = field(default_factory=list)
 
     @classmethod
     def from_dict(self, d):

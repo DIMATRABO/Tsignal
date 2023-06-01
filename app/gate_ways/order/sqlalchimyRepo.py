@@ -337,8 +337,11 @@ class SqlAlchimy_repo :
 
             current_year = datetime.now().year
 
-            total_income = (
-                session.query(func.sum(OrderEntity.execution_price * OrderEntity.amount))
+            monthly_profits = (
+                session.query(
+                    extract('month', OrderEntity.execution_date),
+                    func.sum(OrderEntity.execution_price * OrderEntity.amount)
+                )
                 .filter(
                     OrderEntity.is_buy == False,
                     OrderEntity.status == 'closed',
@@ -349,5 +352,4 @@ class SqlAlchimy_repo :
                 .all()
             )
 
-            monthly_profit = [float(income[0]) for income in total_income]  # Extract the income values
-            return monthly_profit
+            return monthly_profits
