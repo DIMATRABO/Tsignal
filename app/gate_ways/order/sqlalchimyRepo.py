@@ -94,6 +94,24 @@ class SqlAlchimy_repo :
         )
         ).all()
         return [order.to_domain() for order in orders]
+    
+
+    def getAllByUserId(self, session, user_id):
+        orders = session.query(OrderEntity).filter(
+        OrderEntity.strategy_id.in_(
+            session.query(StrategyEntity.webhook_id).filter(
+                StrategyEntity.account_id.in_(
+                    session.query(StrategyEntity.account_id).filter(
+                        StrategyEntity.account_id.in_(
+                            session.query(AccountEntity.id).filter(AccountEntity.user_id == user_id)
+                        )
+                    )
+                )
+            )
+        )
+        ).all()
+        return [order.to_domain() for order in orders]
+
 
 
     def getTotalOrdersByUserId(self, session, user_id):

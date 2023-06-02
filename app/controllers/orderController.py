@@ -60,6 +60,21 @@ def strategyOrders(webhookid):
         return Response(json_data , status=400, mimetype='application/json')
 
 
+@OrderController.route('/me', methods=['GET'])
+@jwt_required()
+def myStrategyOrders():
+    try:
+        userId = get_jwt()["userId"]
+        orders = getOrders_handler.handle(getOrdersInput=GetAllInput(webhook_id=None , user_id=userId))
+        json_data = dumps([order.to_dict() for order in orders] )
+        return Response(json_data, status = 200, mimetype='application/json')
+      
+    except Exception as e :
+        json_data = dumps({"status_message":str(e)})
+        return Response(json_data , status=400, mimetype='application/json')
+
+
+
 @OrderController.route('/me/strategy/<webhookid>', methods=['GET'])
 @jwt_required()
 def myStrategyOrders(webhookid):

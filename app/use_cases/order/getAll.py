@@ -13,7 +13,9 @@ class GetAll:
             if ( not getOrdersInput.webhook_id is None ) and (not getOrdersInput.user_id is None): 
                 to_return = self.repo.getAllByStrategyIdAndUserId(session, getOrdersInput.webhook_id, getOrdersInput.user_id)
 
-            
+            if ( getOrdersInput.webhook_id is None ) and (not getOrdersInput.user_id is None): 
+                to_return = self.repo.getAllByUserId(session, getOrdersInput.user_id)
+
             return to_return
 
 
