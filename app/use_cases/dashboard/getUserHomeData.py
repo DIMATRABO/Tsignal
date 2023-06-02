@@ -1,6 +1,6 @@
 
 from gate_ways.dataBaseSession.sessionContext import SessionContext
-from forms.dashboard.userStrategyResponse import UserStrategyResponse
+from forms.dashboard.userHomeResponse import UserHomeResponse
 
 class GetUserHomeData:
     def __init__(self ,  order_repo ):
@@ -9,7 +9,7 @@ class GetUserHomeData:
 
     def handle(self , user_id):
         with self.sessionContext as session : 
-            data = UserStrategyResponse()
+            data = UserHomeResponse()
 
             
             data.total_orders = self.order_repo.getTotalOrdersByUserId(session, user_id)
@@ -22,10 +22,10 @@ class GetUserHomeData:
            
             data.total_failed_orders = self.order_repo.getTotalFailedOrdersByUserId(session, user_id)
            
-            data.total_invisted = self.order_repo.getTotalInvistedByUser(session, user_id)
-            data.total_income = self.order_repo.getTotalIncomeByUser(session, user_id)
-
             data.monthly_profit = self.order_repo.getTotalIncomeByMonthByUser(session, user_id)
+            data.monthly_invested = self.order_repo.getTotalInvestedByMonthByUser(session, user_id)
+
+            data.orders_by_strategy = self.order_repo.get_total_trades_by_strategy(session, user_id)
 
             return data
              

@@ -769,7 +769,7 @@ class SqlAlchimy_repo :
     
 
 
-    def get_total_trades_by_pair(self, session, user_id , strategy_id) -> List[Tuple[str, int]]:
+    def get_total_trades_by_pair(self, session, user_id, strategy_id) -> List[Tuple[str, int]]:
         subquery_1 = (
             session.query(AccountEntity.id)
             .filter(AccountEntity.user_id == user_id)
@@ -781,23 +781,22 @@ class SqlAlchimy_repo :
             .filter(StrategyEntity.account_id.in_(subquery_1))
             .subquery()
         )
-       
 
         trades_by_pair = (
             session.query(
                 OrderEntity.symbol,
                 func.count(OrderEntity.id)
             )
-            .join(OrderEntity, StrategyEntity.webhook_id == OrderEntity.strategy_id)
             .filter(
-                    OrderEntity.strategy_id == strategy_id,
-                    OrderEntity.status == 'closed',
-                    OrderEntity.strategy_id.in_(subquery_2)
-                    )
+                OrderEntity.strategy_id == strategy_id,
+                OrderEntity.status == 'closed',
+                OrderEntity.strategy_id.in_(subquery_2)
+            )
             .group_by(OrderEntity.symbol)
             .all()
-        )        
+        )
+
         # Convert the result to a list of tuples
         total_trades_by_pair = [(name, count) for name, count in trades_by_pair]
-        
+
         return total_trades_by_pair
