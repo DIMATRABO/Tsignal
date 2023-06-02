@@ -62,7 +62,7 @@ def strategyOrders(webhookid):
 
 @OrderController.route('/me', methods=['GET'])
 @jwt_required()
-def myStrategyOrders():
+def myOrders():
     try:
         userId = get_jwt()["userId"]
         orders = getOrders_handler.handle(getOrdersInput=GetAllInput(webhook_id=None , user_id=userId))
