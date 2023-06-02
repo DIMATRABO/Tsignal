@@ -10,7 +10,7 @@ from controllers.decorations.checkAdminPermissions import check_admin_permission
 DashboardController = Blueprint("DashboardController", __name__)
 order_repo = Order_repo()
 userDashboard_handler = GetUserHomeData(order_repo)
-strategyDashboard_handler = GetUserHomeData(order_repo)
+strategyDashboard_handler = GetUserStrategyData(order_repo)
 
 
 

@@ -7,24 +7,25 @@ class GetUserHomeData:
         self.order_repo=order_repo
         self.sessionContext = SessionContext()
 
-    def handle(self , user_id, strategy_id):
+    def handle(self , user_id):
         with self.sessionContext as session : 
             data = UserStrategyResponse()
 
-            data.total_orders = self.order_repo.getTotalOrdersByStrategyAndUserId(session, user_id, strategy_id)
-            data.total_buy_orders = self.order_repo.getTotalBuyOrdersByStrategyAndUserId(session, user_id, strategy_id)
-            data.total_sell_orders= self.order_repo.getTotalSellOrdersByStrategyAndUserId(session, user_id, strategy_id)
-            data.average_sell_price= self.order_repo.getAverageSellPriceByStrategyAndUserId(session, user_id, strategy_id)
-            data.average_buy_price= self.order_repo.getAverageBuyPriceByStrategyAndUserId(session, user_id, strategy_id)
-            data.total_sell_quantitiy= self.order_repo.getTotalSellQuantityByStrategyAndUserId(session, user_id, strategy_id)
-            data.total_buy_quantity= self.order_repo.getTotalBuyQuantityByStrategyAndUserId(session, user_id, strategy_id)
-           
-            data.total_failed_orders = self.order_repo.getTotalFailedOrdersByStrategyAndUserId(session, user_id, strategy_id)
             
-            data.monthly_profit = self.order_repo.getTotalIncomeByMonthByStrategyAndUser(session, user_id, strategy_id)
-            data.monthly_invested = self.order_repo.getTotalInvestedByMonthByStrategyAndUser(session, user_id, strategy_id)
+            data.total_orders = self.order_repo.getTotalOrdersByUserId(session, user_id)
+            data.total_buy_orders = self.order_repo.getTotalBuyOrdersByUserId(session, user_id)
+            data.total_sell_orders= self.order_repo.getTotalSellOrdersByUserId(session, user_id)
+            data.average_sell_price= self.order_repo.getAverageSellPriceByUserId(session, user_id)
+            data.average_buy_price= self.order_repo.getAverageBuyPriceByUserId(session, user_id)
+            data.total_sell_quantitiy= self.order_repo.getTotalSellQuantityByUserId(session, user_id)
+            data.total_buy_quantity= self.order_repo.getTotalBuyQuantityByUserId(session, user_id)
+           
+            data.total_failed_orders = self.order_repo.getTotalFailedOrdersByUserId(session, user_id)
+           
+            data.total_invisted = self.order_repo.getTotalInvistedByUser(session, user_id)
+            data.total_income = self.order_repo.getTotalIncomeByUser(session, user_id)
 
-            data.orders_by_trading_pair = self.order_repo.get_total_trades_by_pair(session, user_id, strategy_id)
+            data.monthly_profit = self.order_repo.getTotalIncomeByMonthByUser(session, user_id)
 
             return data
              
