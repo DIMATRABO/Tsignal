@@ -28,7 +28,7 @@ def getUserHomeData():
 
 
 
-@DashboardController.route('/strategy/<strategyId>', methods=['GET'])
+@DashboardController.route('/strategy/<strategy_id>', methods=['GET'])
 @jwt_required()
 def getStrategyData(strategy_id):
     try:
