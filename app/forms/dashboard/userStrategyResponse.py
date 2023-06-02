@@ -1,8 +1,10 @@
+from dataclasses import dataclass, asdict, field
+from typing import List, Tuple
 
-from dataclasses import dataclass, asdict
 
 @dataclass
 class UserStrategyResponse:
+   
     total_orders: int = None
 
     total_sell_orders : int = None
@@ -15,18 +17,16 @@ class UserStrategyResponse:
     total_buy_quantity: float = None
 
     total_failed_orders : int = None
-    
-    total_invisted: float = None
-    total_income: float = None
 
+    monthly_profit: List[float] = field(default_factory=list)
+    monthly_invested: List[float] = field(default_factory=list)
 
-    monthly_profit : dict = None
-
+    orders_by_trading_pair: List[Tuple[str, int]] = field(default_factory=list)
 
 
     @classmethod
     def from_dict(self, d):
         return self(**d)
-
+    
     def to_dict(self):
         return asdict(self)

@@ -438,3 +438,366 @@ class SqlAlchimy_repo :
         total_trades_by_strategy = [(name, count) for name, count in trades_by_strategy]
         
         return total_trades_by_strategy
+
+
+
+##############################################################
+
+
+
+
+    def getTotalOrdersByStrategyAndUserId(self, session, user_id , strategy_id):
+        total = session.query(OrderEntity).filter(
+            OrderEntity.strategy_id == strategy_id,
+            OrderEntity.strategy_id.in_(
+            session.query(StrategyEntity.webhook_id).filter(
+                StrategyEntity.account_id.in_(
+                    session.query(StrategyEntity.account_id).filter(
+                        StrategyEntity.account_id.in_(
+                            session.query(AccountEntity.id).filter(AccountEntity.user_id == user_id)
+                        )
+                    )
+                )
+            )
+        )
+        ).count()
+        return total
+
+
+
+    def getTotalBuyOrdersByStrategyAndUserId(self, session, user_id , strategy_id):
+        total = session.query(OrderEntity).filter(
+            OrderEntity.strategy_id == strategy_id,
+            OrderEntity.is_buy == True,
+            OrderEntity.strategy_id.in_(
+                session.query(StrategyEntity.webhook_id).filter(
+                    StrategyEntity.account_id.in_(
+                        session.query(StrategyEntity.account_id).filter(
+                            StrategyEntity.account_id.in_(
+                                session.query(AccountEntity.id).filter(
+                                    AccountEntity.user_id == user_id
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        ).count()
+        return total
+
+    def getTotalSellOrdersByStrategyAndUserId(self, session, user_id , strategy_id):
+        total = session.query(OrderEntity).filter(
+            OrderEntity.strategy_id == strategy_id,
+            OrderEntity.is_buy == False,
+            OrderEntity.strategy_id.in_(
+                session.query(StrategyEntity.webhook_id).filter(
+                    StrategyEntity.account_id.in_(
+                        session.query(StrategyEntity.account_id).filter(
+                            StrategyEntity.account_id.in_(
+                                session.query(AccountEntity.id).filter(
+                                    AccountEntity.user_id == user_id
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        ).count()
+        return total
+
+  
+
+
+    def getAverageBuyPriceByStrategyAndUserId(self, session, user_id , strategy_id):
+        subquery_1 = (
+            session.query(AccountEntity.id)
+            .filter(AccountEntity.user_id == user_id)
+            .subquery()
+        )
+
+        subquery_2 = (
+            session.query(StrategyEntity.webhook_id)
+            .filter(StrategyEntity.account_id.in_(subquery_1))
+            .subquery()
+        )
+
+        average_buy_price = (
+            session.query(func.sum(OrderEntity.execution_price * OrderEntity.amount) / func.sum(OrderEntity.amount))
+            .filter(
+                OrderEntity.strategy_id == strategy_id,
+                OrderEntity.is_buy == True,
+                OrderEntity.status == 'closed',
+                OrderEntity.strategy_id.in_(subquery_2)
+            )
+            .scalar()
+        )
+
+        return average_buy_price
+
+
+
+
+    def getAverageSellPriceByStrategyAndUserId(self, session, user_id , strategy_id):
+        subquery_1 = (
+            session.query(AccountEntity.id)
+            .filter(AccountEntity.user_id == user_id)
+            .subquery()
+        )
+
+        subquery_2 = (
+            session.query(StrategyEntity.webhook_id)
+            .filter(StrategyEntity.account_id.in_(subquery_1))
+            .subquery()
+        )
+
+        average_buy_price = (
+            session.query(func.sum(OrderEntity.execution_price * OrderEntity.amount) / func.sum(OrderEntity.amount))
+            .filter(
+                OrderEntity.strategy_id == strategy_id,
+                OrderEntity.is_buy == False,
+                OrderEntity.status == 'closed',
+                OrderEntity.strategy_id.in_(subquery_2)
+            )
+            .scalar()
+        )
+
+        return average_buy_price
+
+
+
+    def getTotalSellQuantityByStrategyAndUserId(self, session, user_id , strategy_id):
+        total_sell_quantity = session.query(func.sum(OrderEntity.amount)).filter(
+            OrderEntity.strategy_id == strategy_id,
+            OrderEntity.is_buy == False,
+            OrderEntity.status == "closed",
+            OrderEntity.strategy_id.in_(
+                session.query(StrategyEntity.webhook_id).filter(
+                    StrategyEntity.account_id.in_(
+                        session.query(StrategyEntity.account_id).filter(
+                            StrategyEntity.account_id.in_(
+                                session.query(AccountEntity.id).filter(
+                                    AccountEntity.user_id == user_id
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        ).scalar()
+        return total_sell_quantity
+
+    def getTotalBuyQuantityByStrategyAndUserId(self, session, user_id , strategy_id):
+        total_buy_quantity = session.query(func.sum(OrderEntity.amount)).filter(
+            OrderEntity.strategy_id == strategy_id,
+            OrderEntity.is_buy == True,
+            OrderEntity.status == "closed",
+            OrderEntity.strategy_id.in_(
+                session.query(StrategyEntity.webhook_id).filter(
+                    StrategyEntity.account_id.in_(
+                        session.query(StrategyEntity.account_id).filter(
+                            StrategyEntity.account_id.in_(
+                                session.query(AccountEntity.id).filter(
+                                    AccountEntity.user_id == user_id
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        ).scalar()
+        return total_buy_quantity
+    
+
+    def getTotalFailedOrdersByStrategyAndUserId(self, session, user_id , strategy_id):
+        total_failed = session.query(OrderEntity).filter(
+            OrderEntity.strategy_id == strategy_id,
+            OrderEntity.status == "failed",
+            OrderEntity.strategy_id.in_(
+                session.query(StrategyEntity.webhook_id).filter(
+                    StrategyEntity.account_id.in_(
+                        session.query(StrategyEntity.account_id).filter(
+                            StrategyEntity.account_id.in_(
+                                session.query(AccountEntity.id).filter(
+                                    AccountEntity.user_id == user_id
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        ).count()
+        return total_failed
+
+    
+
+    def getTotalInvistedByStrategyAndUser(self, session , user_id , strategy_id):
+        subquery_1 = (
+            session.query(AccountEntity.id)
+            .filter(AccountEntity.user_id == user_id)
+            .subquery()
+        )
+
+        subquery_2 = (
+            session.query(StrategyEntity.webhook_id)
+            .filter(StrategyEntity.account_id.in_(subquery_1))
+            .subquery()
+        )
+
+        average_buy_price = (
+            session.query(func.sum(OrderEntity.execution_price * OrderEntity.amount))
+            .filter(
+                OrderEntity.strategy_id == strategy_id,
+                OrderEntity.is_buy == True,
+                OrderEntity.status == 'closed',
+                OrderEntity.strategy_id.in_(subquery_2)
+            )
+            .scalar()
+        )
+
+        return average_buy_price
+    
+
+    def getTotalIncomeByStrategyAndUser(self, session , user_id , strategy_id):
+        subquery_1 = (
+            session.query(AccountEntity.id)
+            .filter(AccountEntity.user_id == user_id)
+            .subquery()
+        )
+
+        subquery_2 = (
+            session.query(StrategyEntity.webhook_id)
+            .filter(StrategyEntity.account_id.in_(subquery_1))
+            .subquery()
+        )
+
+        average_buy_price = (
+            session.query(func.sum(OrderEntity.execution_price * OrderEntity.amount))
+            .filter(
+                OrderEntity.strategy_id == strategy_id,
+                OrderEntity.is_buy == False,
+                OrderEntity.status == 'closed',
+                OrderEntity.strategy_id.in_(subquery_2)
+            )
+            .scalar()
+        )
+
+        return average_buy_price
+
+
+    def getTotalIncomeByMonthByStrategyAndUser(self, session, user_id , strategy_id):
+        subquery_1 = (
+            session.query(AccountEntity.id)
+            .filter(AccountEntity.user_id == user_id)
+            .subquery()
+        )
+
+        subquery_2 = (
+            session.query(StrategyEntity.webhook_id)
+            .filter(StrategyEntity.account_id.in_(subquery_1))
+            .subquery()
+        )
+
+        current_year = datetime.now().year
+
+        monthly_profits = (
+            session.query(
+                extract('month', OrderEntity.execution_date),
+                func.sum(OrderEntity.execution_price * OrderEntity.amount)
+            )
+            .filter(
+                OrderEntity.strategy_id == strategy_id,
+                OrderEntity.is_buy == False,
+                OrderEntity.status == 'closed',
+                OrderEntity.strategy_id.in_(subquery_2),
+                extract('year', OrderEntity.execution_date) == current_year
+            )
+            .group_by(extract('month', OrderEntity.execution_date))
+            .all()
+        )
+
+        # Initialize list with 12 elements representing each month of the year
+        monthly_income = [0] * 12
+        
+        for month_decimal, profit in monthly_profits:
+            # Convert Decimal month to integer for indexing
+            month_index = int(month_decimal)
+
+            # Assign the profit to the corresponding month index
+            monthly_income[month_index - 1] = float(profit)
+        return monthly_income
+    
+
+
+    def getTotalInvestedByMonthByStrategyAndUser(self, session, user_id , strategy_id):
+        subquery_1 = (
+            session.query(AccountEntity.id)
+            .filter(AccountEntity.user_id == user_id)
+            .subquery()
+        )
+
+        subquery_2 = (
+            session.query(StrategyEntity.webhook_id)
+            .filter(StrategyEntity.account_id.in_(subquery_1))
+            .subquery()
+        )
+
+        current_year = datetime.now().year
+
+        monthly_invested = (
+            session.query(
+                extract('month', OrderEntity.execution_date),
+                func.sum(OrderEntity.execution_price * OrderEntity.amount)
+            )
+            .filter(
+                OrderEntity.strategy_id == strategy_id,
+                OrderEntity.is_buy == True,
+                OrderEntity.status == 'closed',
+                OrderEntity.strategy_id.in_(subquery_2),
+                extract('year', OrderEntity.execution_date) == current_year
+            )
+            .group_by(extract('month', OrderEntity.execution_date))
+            .all()
+        )
+
+        monthly_investeds = [0] * 12
+        
+        for month_decimal, invested in monthly_invested:
+            month_index = int(month_decimal)
+
+            monthly_investeds[month_index - 1] = float(invested)
+        return monthly_investeds
+    
+
+
+    def get_total_trades_by_pair(self, session, user_id , strategy_id) -> List[Tuple[str, int]]:
+        subquery_1 = (
+            session.query(AccountEntity.id)
+            .filter(AccountEntity.user_id == user_id)
+            .subquery()
+        )
+
+        subquery_2 = (
+            session.query(StrategyEntity.webhook_id)
+            .filter(StrategyEntity.account_id.in_(subquery_1))
+            .subquery()
+        )
+       
+
+        trades_by_pair = (
+            session.query(
+                OrderEntity.symbol,
+                func.count(OrderEntity.id)
+            )
+            .join(OrderEntity, StrategyEntity.webhook_id == OrderEntity.strategy_id)
+            .filter(
+                    OrderEntity.strategy_id == strategy_id,
+                    OrderEntity.status == 'closed',
+                    OrderEntity.strategy_id.in_(subquery_2)
+                    )
+            .group_by(OrderEntity.symbol)
+            .all()
+        )        
+        # Convert the result to a list of tuples
+        total_trades_by_pair = [(name, count) for name, count in trades_by_pair]
+        
+        return total_trades_by_pair
