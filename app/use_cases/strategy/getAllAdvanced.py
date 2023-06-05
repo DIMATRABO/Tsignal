@@ -15,7 +15,7 @@ class GetAllAdvanced:
             advanced = []
             for strategy in strategies:
                 responseForm = StrategyResponseForm.from_strategy(strategy)
-                responseForm.account_name = self.account_repo.getAccountById(strategy.id).name
+                responseForm.account_name = self.account_repo.getAccountById(session , strategy.id).name
                 responseForm.nb_orders_7days = self.order_repo.getTotalOrdersByStrategyAndUserIdLast7Days(session, user_id , strategy.id)
                 advanced.append(responseForm)
             return advanced
