@@ -89,7 +89,7 @@ def getAccountsByUserId():
 
 @StrategyController.route('/advanced/me', methods=['GET'])
 @jwt_required()
-def getAccountsByUserId():
+def getStrategiesByUserId():
     try:
         userId = get_jwt()["userId"]
         strategies = getAllAdvanced.handle(user_id=userId)
