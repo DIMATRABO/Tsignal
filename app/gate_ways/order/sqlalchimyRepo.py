@@ -5,7 +5,7 @@ from sqlalchemy import   exc ,func ,extract
 from entities.entity import Base , OrderEntity , StrategyEntity , AccountEntity
 from models.model import Order
 import uuid
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import List, Tuple
 
 
@@ -818,3 +818,27 @@ class SqlAlchimy_repo :
         total_trades_by_pair = [(name, count) for name, count in trades_by_pair]
 
         return total_trades_by_pair
+
+
+
+    
+    def getTotalOrdersByStrategyAndUserIdLast7Days(self, session, user_id , strategy_id):
+        seven_days_ago = datetime.now() - timedelta(days=7)
+
+        total = session.query(OrderEntity).filter(
+            OrderEntity.strategy_id == strategy_id,
+            OrderEntity.execution_date >= seven_days_ago,  # Filter orders within the last 7 days
+            OrderEntity.strategy_id.in_(
+                session.query(StrategyEntity.webhook_id).filter(
+                    StrategyEntity.account_id.in_(
+                        session.query(StrategyEntity.account_id).filter(
+                            StrategyEntity.account_id.in_(
+                                session.query(AccountEntity.id).filter(AccountEntity.user_id == user_id)
+                            )
+                        )
+                    )
+                )
+            )
+        ).count()
+        
+        return total
