@@ -41,7 +41,6 @@ class StrategyResponseForm:
         self.is_percentage=strategy.is_percentage
         self.capital=strategy.capital          
         return self
-
-
+    @classmethod
     def to_dict(self):
         return asdict(self)
