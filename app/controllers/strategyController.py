@@ -93,7 +93,7 @@ def getStrategiesByUserId():
     try:
         userId = get_jwt()["userId"]
         strategies = getAllAdvanced.handle(user_id=userId)
-        raise Exception([strategy.to_dict(strategy) for strategy in strategies])
+        raise Exception(strategies)
         json_data = json.dumps([strategy.to_dict() for strategy in strategies] )
         return Response(json_data, status = 200, mimetype='application/json')
       
