@@ -40,7 +40,7 @@ class StrategyResponseForm:
         self.entry_size=strategy.entry_size                  
         self.is_percentage=strategy.is_percentage
         self.capital=strategy.capital          
-        return self
+        
  
  
     def to_dict(self):
