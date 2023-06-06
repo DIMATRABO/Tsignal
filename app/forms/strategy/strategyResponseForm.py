@@ -33,7 +33,8 @@ class StrategyResponseForm:
         self.leverage=strategy.leverage             
         self.entry_size=strategy.entry_size                  
         self.is_percentage=strategy.is_percentage
-        self.capital=strategy.capital          
+        self.capital=strategy.capital     
+        self.creation_date = strategy.created_at     
        
 
     @classmethod
