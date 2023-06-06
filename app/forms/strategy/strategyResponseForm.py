@@ -20,6 +20,9 @@ class StrategyResponseForm:
 
     invested_7_days : float = None
     income_7_days: float = None
+    invested_7_days_percent : float = None
+    income_7_days_percent: float = None
+
     nb_orders_7days: int = None
 
     def __init__(self, strategy: Strategy):
@@ -34,7 +37,8 @@ class StrategyResponseForm:
         self.entry_size=strategy.entry_size                  
         self.is_percentage=strategy.is_percentage
         self.capital=strategy.capital     
-        self.creation_date = strategy.created_at     
+        self.creation_date = strategy.created_at 
+
        
 
     @classmethod
