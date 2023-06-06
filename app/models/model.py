@@ -63,6 +63,7 @@ class Strategy:
     is_percentage: bool = None
     capital: float = None
     orders: List[Order] = field(default_factory=list)
+    created_at : datetime = None
 
     @classmethod
     def from_dict(self, d):

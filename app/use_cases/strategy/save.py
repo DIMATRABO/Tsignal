@@ -3,6 +3,7 @@ import uuid
 import secrets
 import string
 from gate_ways.dataBaseSession.sessionContext import SessionContext
+from datetime import datetime
 
 class Save:
     def __init__(self ,  repo):
@@ -17,6 +18,7 @@ class Save:
 
             strategy.webhook_id = str(uuid.uuid4())
 
+            strategy.created_at = datetime.now()
             # Define the character set for the API key
             charset = string.ascii_letters + string.digits
             strategy.webhook_key = ''.join(secrets.choice(charset) for _ in range(self.key_lenght))

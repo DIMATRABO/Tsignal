@@ -134,13 +134,14 @@ class StrategyEntity(Base):
     entry_size = Column(Float)
     is_percentage = Column(Boolean)
     capital = Column(Float)
+    created_at = Column(DateTime)
 
     # Define a unique constraint for webhook_id
     __table_args__ = (UniqueConstraint('webhook_id'),)
 
 
     def __init__(self, id=None, account_id=None, name=None, webhook_id=None, webhook_key=None, symbol=None, symbol_id=None,
-                 is_future=None, leverage=None, entry_size=None, is_percentage=None, capital=None):
+                 is_future=None, leverage=None, entry_size=None, is_percentage=None, capital=None , created_at=None):
         self.id = id
         self.account_id = account_id
         self.name = name
@@ -153,6 +154,7 @@ class StrategyEntity(Base):
         self.entry_size = entry_size
         self.is_percentage = is_percentage
         self.capital = capital
+        self.created_at = created_at
 
     def __repr__(self):
         return "<StrategyEntity(id='%s', name='%s')>" % (
@@ -173,6 +175,7 @@ class StrategyEntity(Base):
         self.entry_size = model.entry_size
         self.is_percentage = model.is_percentage
         self.capital = model.capital
+        self.created_at = model.created_at
 
 
     def to_domain(self):
@@ -188,7 +191,8 @@ class StrategyEntity(Base):
             leverage=self.leverage,
             entry_size= self.entry_size,
             is_percentage=self.is_percentage,
-            capital=self.capital
+            capital=self.capital,
+            created_at=self.created_at
         )
         
 class OrderEntity(Base):
