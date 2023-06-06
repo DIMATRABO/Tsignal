@@ -825,20 +825,22 @@ class SqlAlchimy_repo :
     def getTotalOrdersByStrategyAndUserIdLast7Days(self, session, user_id , strategy_id):
         seven_days_ago = datetime.now() - timedelta(days=7)
 
+        subquery_1 = (
+            session.query(AccountEntity.id)
+            .filter(AccountEntity.user_id == user_id)
+            .subquery()
+        )
+
+        subquery_2 = (
+            session.query(StrategyEntity.webhook_id)
+            .filter(StrategyEntity.account_id.in_(subquery_1))
+            .subquery()
+        )
+
         total = session.query(OrderEntity).filter(
             OrderEntity.strategy_id == strategy_id,
             OrderEntity.execution_date >= seven_days_ago,  # Filter orders within the last 7 days
-            OrderEntity.strategy_id.in_(
-                session.query(StrategyEntity.webhook_id).filter(
-                    StrategyEntity.account_id.in_(
-                        session.query(StrategyEntity.account_id).filter(
-                            StrategyEntity.account_id.in_(
-                                session.query(AccountEntity.id).filter(AccountEntity.user_id == user_id)
-                            )
-                        )
-                    )
-                )
-            )
-        ).count()
+            OrderEntity.strategy_id.in_(subquery_2)
+            ).count()
         
         return total
