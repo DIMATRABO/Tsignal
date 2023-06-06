@@ -27,8 +27,7 @@ class StrategyResponseForm:
         return self(**d)
     
 
-    @classmethod
-    def from_strategy(self, strategy:Strategy):
+    def __init__(self, strategy: Strategy):
         self.id=strategy.id                                     
         self.name=strategy.name                                     
         self.webhook_id=strategy.webhook_id                               
@@ -40,7 +39,7 @@ class StrategyResponseForm:
         self.entry_size=strategy.entry_size                  
         self.is_percentage=strategy.is_percentage
         self.capital=strategy.capital          
-        
+       
  
  
     def to_dict(self):
