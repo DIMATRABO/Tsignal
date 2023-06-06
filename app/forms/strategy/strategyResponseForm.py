@@ -18,8 +18,8 @@ class StrategyResponseForm:
     capital: float = None
     creation_date: datetime = None
 
-    roi_7_days : float = None
-    pnl_7_days: float = None
+    invested_7_days : float = None
+    income_7_days: float = None
     nb_orders_7days: int = None
 
     def __init__(self, strategy: Strategy):

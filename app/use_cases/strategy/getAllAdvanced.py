@@ -18,6 +18,8 @@ class GetAllAdvanced:
                 account = self.account_repo.getAccountById(session , strategy.id)
                 responseForm.account_name = None if account is None else account.name
                 responseForm.nb_orders_7days = self.order_repo.getTotalOrdersByStrategyAndUserIdLast7Days(session, user_id , strategy.webhook_id)
+                responseForm.income_7_days = self.order_repo.getTotalIncomeLast7DaysByStrategyAndUser(session, user_id , strategy.webhook_id)
+                responseForm.invested_7_days = self.order_repo.getTotalInvestedLast7DaysByStrategyAndUser(session, user_id , strategy.webhook_id)
                 advanced.append(responseForm)
             return advanced
         

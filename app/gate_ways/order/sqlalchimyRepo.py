@@ -844,3 +844,64 @@ class SqlAlchimy_repo :
             ).count()
         
         return total
+        
+
+        
+    def getTotalIncomeLast7DaysByStrategyAndUser(self, session, user_id, strategy_id):
+        subquery_1 = (
+            session.query(AccountEntity.id)
+            .filter(AccountEntity.user_id == user_id)
+            .subquery()
+        )
+
+        subquery_2 = (
+            session.query(StrategyEntity.webhook_id)
+            .filter(StrategyEntity.account_id.in_(subquery_1))
+            .subquery()
+        )
+
+        seven_days_ago = datetime.now() - timedelta(days=7)
+
+        total_income = (
+            session.query(func.sum(OrderEntity.execution_price * OrderEntity.amount))
+            .filter(
+                OrderEntity.strategy_id == strategy_id,
+                OrderEntity.is_buy == False,
+                OrderEntity.status == 'closed',
+                OrderEntity.strategy_id.in_(subquery_2),
+                OrderEntity.execution_date >= seven_days_ago
+            )
+            .scalar()
+        )
+
+        return total_income
+
+
+    def getTotalInvestedLast7DaysByStrategyAndUser(self, session, user_id, strategy_id):
+        subquery_1 = (
+            session.query(AccountEntity.id)
+            .filter(AccountEntity.user_id == user_id)
+            .subquery()
+        )
+
+        subquery_2 = (
+            session.query(StrategyEntity.webhook_id)
+            .filter(StrategyEntity.account_id.in_(subquery_1))
+            .subquery()
+        )
+
+        seven_days_ago = datetime.now() - timedelta(days=7)
+
+        total_invested = (
+            session.query(func.sum(OrderEntity.execution_price * OrderEntity.amount))
+            .filter(
+                OrderEntity.strategy_id == strategy_id,
+                OrderEntity.is_buy == True,
+                OrderEntity.status == 'closed',
+                OrderEntity.strategy_id.in_(subquery_2),
+                OrderEntity.execution_date >= seven_days_ago
+            )
+            .scalar()
+        )
+
+        return total_invested
