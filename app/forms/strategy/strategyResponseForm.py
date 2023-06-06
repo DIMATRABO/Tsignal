@@ -22,11 +22,6 @@ class StrategyResponseForm:
     pnl_7_days: float = None
     nb_orders_7days: int = None
 
-    @classmethod
-    def from_dict(self, d):
-        return self(**d)
-    
-
     def __init__(self, strategy: Strategy):
         self.id=strategy.id                                     
         self.name=strategy.name                                     
@@ -40,7 +35,11 @@ class StrategyResponseForm:
         self.is_percentage=strategy.is_percentage
         self.capital=strategy.capital          
        
- 
+
+    @classmethod
+    def from_dict(self, d):
+        return self(**d)
+     
  
     def to_dict(self):
         return asdict(self)
