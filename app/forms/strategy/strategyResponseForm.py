@@ -43,4 +43,5 @@ class StrategyResponseForm:
      
  
     def to_dict(self):
+        self.created_at = self.created_at.isoformat() if self.created_at else None
         return asdict(self)
