@@ -21,8 +21,12 @@ class GetUserStrategyData:
            
             data.total_failed_orders = self.order_repo.getTotalFailedOrdersByStrategyAndUserId(session, user_id, strategy_id)
             
-            data.monthly_profit = self.order_repo.getTotalIncomeByMonthByStrategyAndUser(session, user_id, strategy_id)
-            data.monthly_invested = self.order_repo.getTotalInvestedByMonthByStrategyAndUser(session, user_id, strategy_id)
+            income  = self.order_repo.getTotalIncomeByMonthByStrategyAndUser(session, user_id, strategy_id)
+            invested = self.order_repo.getTotalInvestedByMonthByStrategyAndUser(session, user_id, strategy_id)
+
+            for i in range(len(income)):
+                data.monthly_profit.append(income[i] - invested[i])  # Subtract B(i) from A(i) and add the result to the list
+
 
             data.orders_by_trading_pair = self.order_repo.get_total_trades_by_pair(session, user_id, strategy_id)
 

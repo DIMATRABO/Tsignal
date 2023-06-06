@@ -19,8 +19,7 @@ class UserStrategyResponse:
     total_failed_orders : int = None
 
     monthly_profit: List[float] = field(default_factory=list)
-    monthly_invested: List[float] = field(default_factory=list)
-
+ 
     orders_by_trading_pair: List[Tuple[str, int]] = field(default_factory=list)
 
 
