@@ -270,22 +270,23 @@ class SqlAlchimy_repo :
     
 
     def getTotalFailedOrdersByUserId(self, session, user_id):
+        subquery_1 = (
+            session.query(AccountEntity.id)
+            .filter(AccountEntity.user_id == user_id)
+            .subquery()
+        )
+
+        subquery_2 = (
+            session.query(StrategyEntity.webhook_id)
+            .filter(StrategyEntity.account_id.in_(subquery_1))
+            .subquery()
+        )
+
         total_failed = session.query(OrderEntity).filter(
-            OrderEntity.status == "failed",
-            OrderEntity.strategy_id.in_(
-                session.query(StrategyEntity.webhook_id).filter(
-                    StrategyEntity.account_id.in_(
-                        session.query(StrategyEntity.account_id).filter(
-                            StrategyEntity.account_id.in_(
-                                session.query(AccountEntity.id).filter(
-                                    AccountEntity.user_id == user_id
-                                )
-                            )
-                        )
-                    )
-                )
-            )
-        ).count()
+                OrderEntity.is_buy == True,
+                OrderEntity.status == 'closed',
+                OrderEntity.strategy_id.in_(subquery_2)
+            ).count()
         return total_failed
 
     
