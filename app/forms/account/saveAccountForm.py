@@ -7,7 +7,7 @@ class SaveAccountForm:
     currency: str
     api_key: str
     secret: str
-    password: str
+    passphrase: str
 
     def __init__(self , jsonAccount):
         if(  not "exchange_id" in  jsonAccount):
@@ -38,16 +38,16 @@ class SaveAccountForm:
             self.secret=jsonAccount["secret"]
     
 
-        if(  not "password" in  jsonAccount):
-            self.password=None
+        if(  not "passphrase" in  jsonAccount):
+            self.passphrase=None
         else:
-            self.password=jsonAccount["password"]
+            self.passphrase=jsonAccount["passphrase"]
     
      
   
     def to_domain(self):
 
-        if self.password == None:
+        if self.passphrase == None:
             return Account(
             id=None,
             name=self.name,
@@ -70,7 +70,7 @@ class SaveAccountForm:
             currency=self.currency,
             key={
                 "apiKey": self.api_key,
-                "password": self.password,
+                "password": self.passphrase,
                 "secret": self.secret
                 }
         )
