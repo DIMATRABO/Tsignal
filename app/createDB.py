@@ -43,4 +43,4 @@ bybit = Exchange(id="bybit",
 exchanges.append(bybit)
 
 for exchange in exchanges:
-    saving_handler.handel(exchange=exchange)
+    saving_handler.handle(exchange=exchange)
