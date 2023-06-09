@@ -17,12 +17,18 @@ class GetAllAdvanced:
                 responseForm = StrategyResponseForm(strategy)
                 account = self.account_repo.getAccountById(session , strategy.account_id)
                 responseForm.account_name = None if account is None else account.name
+
+
                 responseForm.nb_orders_7days = self.order_repo.getTotalOrdersByStrategyAndUserIdLast7Days(session, user_id , strategy.webhook_id)
                 if responseForm.nb_orders_7days is None:
                     responseForm.nb_orders_7days = 0 
+
+
                 responseForm.income_7_days = self.order_repo.getTotalIncomeLast7DaysByStrategyAndUser(session, user_id , strategy.webhook_id)
                 if responseForm.income_7_days is None:
                     responseForm.income_7_days = 0 
+
+
                 responseForm.invested_7_days = self.order_repo.getTotalInvestedLast7DaysByStrategyAndUser(session, user_id , strategy.webhook_id)
                 if responseForm.invested_7_days is None:
                     responseForm.invested_7_days = 0 
@@ -34,6 +40,12 @@ class GetAllAdvanced:
                 else:
                     responseForm.invested_7_days_percent = 0
                     responseForm.income_7_days_percent = 0
+
+                responseForm.income_7_days = round(responseForm.income_7_days, 4)
+                responseForm.invested_7_days = round(responseForm.invested_7_days, 4)
+                responseForm.income_7_days_percent = round(responseForm.income_7_days_percent, 4)
+                responseForm.invested_7_days_percent =round(responseForm.invested_7_days_percent, 4)
+
 
                 advanced.append(responseForm)
 
