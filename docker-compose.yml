@@ -102,6 +102,5 @@ volumes:
   vault-data:
 
 networks:
-  default:
-    external: true
-    name: proxy
+  proxy:
+    driver: bridge
