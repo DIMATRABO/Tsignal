@@ -283,8 +283,7 @@ class SqlAlchimy_repo :
         )
 
         total_failed = session.query(OrderEntity).filter(
-                OrderEntity.is_buy == True,
-                OrderEntity.status == 'closed',
+                OrderEntity.status == 'failed',
                 OrderEntity.strategy_id.in_(subquery_2)
             ).count()
         return total_failed
