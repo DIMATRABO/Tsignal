@@ -92,7 +92,7 @@ class SqlAlchimy_repo :
                 )
             )
         )
-        ).all()
+        ).order_by(OrderEntity.reception_date.desc()).all()
         return [order.to_domain() for order in orders]
     
 
@@ -109,7 +109,7 @@ class SqlAlchimy_repo :
                 )
             )
         )
-        ).all()
+        ).order_by(OrderEntity.reception_date.desc()).all()
         return [order.to_domain() for order in orders]
 
 
