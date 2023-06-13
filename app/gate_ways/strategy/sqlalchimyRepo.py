@@ -46,10 +46,10 @@ class SqlAlchimy_repo :
     def deleteUsersStrategy(self, session, strategy, user_id):
         try:
             # Delete associated orders first
-            session.query(OrderEntity).filter(OrderEntity.strategy_id == strategy.webhook_id, StrategyEntity.account_id == AccountEntity.id, AccountEntity.user_id == user_id).delete()
+            session.query(OrderEntity).filter(OrderEntity.strategy_id == strategy.webhook_id, StrategyEntity.account_id == AccountEntity.id, AccountEntity.user_id == user_id).delete(synchronize_session='fetch')
 
             # Delete the strategy only if it belongs to the user
-            num_deleted = session.query(StrategyEntity).filter(StrategyEntity.id == strategy.id, StrategyEntity.account_id == AccountEntity.id, AccountEntity.user_id == user_id).delete()
+            num_deleted = session.query(StrategyEntity).filter(StrategyEntity.id == strategy.id, StrategyEntity.account_id == AccountEntity.id, AccountEntity.user_id == user_id).delete(synchronize_session='fetch')
             if num_deleted == 0:
                 # Handle case where no matching records were found
                 raise Exception("No matching records found for strategy ID {} belonging to user ID {}".format(strategy.id, user_id))
