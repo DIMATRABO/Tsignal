@@ -141,7 +141,8 @@ def save():
 @jwt_required()
 def delete(id):
     try:
-        delete_handler.handle(strategy= Strategy(id=id))
+        userId = get_jwt()["userId"]
+        delete_handler.handle(strategy= Strategy(id=id) , user_id=userId)
         status_message = "Strategy deleted successfully"
         logger.log(status_message)
         json_data = json.dumps({"status_message":status_message})

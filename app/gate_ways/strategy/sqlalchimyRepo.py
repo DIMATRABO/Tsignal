@@ -2,7 +2,7 @@
 
 from gate_ways.log import Log
 from sqlalchemy import   exc
-from entities.entity import Base , StrategyEntity , AccountEntity
+from entities.entity import Base , StrategyEntity , AccountEntity , OrderEntity
 from models.model import Strategy 
 import uuid
 
@@ -43,20 +43,22 @@ class SqlAlchimy_repo :
             raise Exception("strategy not updated")
          
       
-    
-    def delete(self, session , strategy):
-        num_deleted = session.query(StrategyEntity).filter_by(id=strategy.id).delete()
-        if num_deleted == 0:
-            # handle case where no matching records were found
-            raise Exception("No matching records found for strategy ID {}".format(strategy.id))
-
+    def deleteUsersStrategy(self, session, strategy, user_id):
         try:
+            # Delete associated orders first
+            session.query(OrderEntity).filter(OrderEntity.strategy_id == strategy.webhook_id, StrategyEntity.account_id == AccountEntity.id, AccountEntity.user_id == user_id).delete()
+
+            # Delete the strategy only if it belongs to the user
+            num_deleted = session.query(StrategyEntity).filter(StrategyEntity.id == strategy.id, StrategyEntity.account_id == AccountEntity.id, AccountEntity.user_id == user_id).delete()
+            if num_deleted == 0:
+                # Handle case where no matching records were found
+                raise Exception("No matching records found for strategy ID {} belonging to user ID {}".format(strategy.id, user_id))
+
             session.commit()
         except exc.SQLAlchemyError as e:
-            logger.log(e)
             session.rollback()
-            raise Exception("Error deleting strategy with ID {}".format(strategy.id))
-            
+            raise Exception("Error deleting strategy with ID {} belonging to user ID {}: {}".format(strategy.id, user_id, str(e)))
+
 
     def getAllStrategies(self, session):
         strategies = session.query(StrategyEntity).all()
