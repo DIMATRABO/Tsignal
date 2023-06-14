@@ -7,6 +7,7 @@ class GetAllPaginated:
         self.sessionContext = SessionContext() 
 
     def handle(self, getOrdersInput, page_number, page_size):
+        raise Exception(getOrdersInput.webhook_id )
         with self.sessionContext as session:
             if ( not getOrdersInput.webhook_id is None ) and (not getOrdersInput.user_id is None): 
                 to_return = self.repo.getAllByStrategyIdAndUserIdPaginated(
