@@ -908,21 +908,20 @@ class SqlAlchimy_repo :
         return total_invested
     
 
-
     def getAllByStrategyIdAndUserIdPaginated(self, session, strategy_id, user_id, page_number, page_size):
-        subquery = session.query(AccountEntity.id).filter(AccountEntity.user_id == user_id)
-
         query = session.query(OrderEntity).filter(
-            OrderEntity.strategy_id == strategy_id,
-            OrderEntity.strategy_id.in_(
-                session.query(StrategyEntity.webhook_id).filter(
-                    StrategyEntity.account_id.in_(
-                        session.query(StrategyEntity.account_id).filter(
-                            StrategyEntity.account_id.in_(subquery)
+        OrderEntity.strategy_id == strategy_id,
+        OrderEntity.strategy_id.in_(
+            session.query(StrategyEntity.webhook_id).filter(
+                StrategyEntity.account_id.in_(
+                    session.query(StrategyEntity.account_id).filter(
+                        StrategyEntity.account_id.in_(
+                            session.query(AccountEntity.id).filter(AccountEntity.user_id == user_id)
                         )
                     )
                 )
             )
+        )
         ).order_by(OrderEntity.reception_date.desc())
 
         total_records = query.count()
@@ -936,6 +935,8 @@ class SqlAlchimy_repo :
             page_size= page_size,
             orders= [order.to_domain() for order in orders]
             )
+    
+
 
     def getAllByUserIdPaginated(self, session, user_id, page_number, page_size):
         subquery = session.query(AccountEntity.id).filter(AccountEntity.user_id == user_id)
