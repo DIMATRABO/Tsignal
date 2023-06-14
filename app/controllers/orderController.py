@@ -8,6 +8,7 @@ from use_cases.order.inputs.getAllInput import GetAllInput
 from use_cases.order.getDetails import GetDetails
 from use_cases.order.create import Create
 from use_cases.order.getAll import GetAll
+from use_cases.order.getAllPaginated import GetAllPaginated
 
 
 from gate_ways.account.sqlalchimyRepo import SqlAlchimy_repo as AccountRepo
@@ -17,6 +18,7 @@ from gate_ways.log import Log
 from flask_jwt_extended import jwt_required, get_jwt
 
 from controllers.decorations.checkAdminPermissions import check_admin_permission
+from controllers.decorations.paginate import paginate
 
 
 OrderController = Blueprint('OrderController', __name__)
@@ -28,6 +30,8 @@ strategyRepo = StrategyRepo()
 create_handler = Create(orderRepo = orderRepo , accountRepo=accountRepo , strategyRepo=strategyRepo)
 getOderDetails_handler = GetDetails(order_repo=orderRepo , strategy_repo= strategyRepo , account_repo= accountRepo)
 getOrders_handler = GetAll(repo=orderRepo)
+getOrdersPaginated_handler = GetAllPaginated(repo=orderRepo)
+
 
 @OrderController.route('/<webhookid>', methods=['POST'])
 def create(webhookid):
@@ -101,3 +105,36 @@ def orderDetails(orderId):
         json_data = dumps({"status_message":str(e)})
         return Response(json_data , status=400, mimetype='application/json')
 
+
+
+
+
+
+@OrderController.route('paginate/me', methods=['GET'])
+@jwt_required()
+@paginate
+def myOrdersPaginated(page_number, page_size):
+    try:
+        userId = get_jwt()["userId"]
+        orders = getOrdersPaginated_handler.handle(getOrdersInput=GetAllInput(webhook_id=None, user_id=userId), page_number=page_number, page_size=page_size)
+        json_data = dumps([order.to_dict() for order in orders])
+        return Response(json_data, status=200, mimetype='application/json')
+
+    except Exception as e:
+        json_data = dumps({"status_message": str(e)})
+        return Response(json_data, status=400, mimetype='application/json')
+
+
+@OrderController.route('paginate/me/strategy/<webhookid>', methods=['GET'])
+@jwt_required()
+@paginate
+def myStrategyOrdersPaginated(webhookid, page_number, page_size):
+    try:
+        userId = get_jwt()["userId"]
+        orders = getOrdersPaginated_handler.handle(getOrdersInput=GetAllInput(webhook_id=webhookid, user_id=userId), page_number=page_number, page_size=page_size)
+        json_data = dumps([order.to_dict() for order in orders])
+        return Response(json_data, status=200, mimetype='application/json')
+
+    except Exception as e:
+        json_data = dumps({"status_message": str(e)})
+        return Response(json_data, status=400, mimetype='application/json')
