@@ -57,9 +57,9 @@ class SqlAlchimy_repo :
             # Delete associated Strategies 
             session.query(StrategyEntity).filter(StrategyEntity.account_id == account.id, StrategyEntity.account_id == AccountEntity.id, AccountEntity.user_id == user_id).delete(synchronize_session='fetch')
             
-          
-
-            num_deleted = session.query(AccountEntity).filter_by(id=account.id).delete()
+        
+            num_deleted = session.query(AccountEntity).filter(AccountEntity.id == account.id, AccountEntity.user_id == user_id).delete(synchronize_session='fetch')
+            
             if num_deleted == 0:
                 # handle case where no matching records were found
                 raise Exception("No matching records found for account ID {}".format(account.id))
