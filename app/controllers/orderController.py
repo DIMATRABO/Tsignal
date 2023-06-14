@@ -116,8 +116,8 @@ def orderDetails(orderId):
 def myOrdersPaginated(page_number, page_size):
     try:
         userId = get_jwt()["userId"]
-        orders = getOrdersPaginated_handler.handle(getOrdersInput=GetAllInput(webhook_id=None, user_id=userId), page_number=page_number, page_size=page_size)
-        json_data = dumps([order.to_dict() for order in orders])
+        data = getOrdersPaginated_handler.handle(getOrdersInput=GetAllInput(webhook_id=None, user_id=userId), page_number=page_number, page_size=page_size)
+        json_data = dumps(data.to_dict())
         return Response(json_data, status=200, mimetype='application/json')
 
     except Exception as e:
@@ -131,8 +131,8 @@ def myOrdersPaginated(page_number, page_size):
 def myStrategyOrdersPaginated(webhookid, page_number, page_size):
     try:
         userId = get_jwt()["userId"]
-        orders = getOrdersPaginated_handler.handle(getOrdersInput=GetAllInput(webhook_id=webhookid, user_id=userId), page_number=page_number, page_size=page_size)
-        json_data = dumps([order.to_dict() for order in orders])
+        data = getOrdersPaginated_handler.handle(getOrdersInput=GetAllInput(webhook_id=webhookid, user_id=userId), page_number=page_number, page_size=page_size)
+        json_data = dumps(data)
         return Response(json_data, status=200, mimetype='application/json')
 
     except Exception as e:
