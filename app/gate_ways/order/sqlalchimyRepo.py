@@ -1,9 +1,10 @@
 
 
 from gate_ways.log import Log
+from forms.order.ordersPaginated import OrdersPage
 from sqlalchemy import   exc ,func ,extract
 from entities.entity import Base , OrderEntity , StrategyEntity , AccountEntity
-from models.model import Order
+from models.model import Order 
 import uuid
 from datetime import datetime, timedelta
 from typing import List, Tuple
@@ -928,12 +929,13 @@ class SqlAlchimy_repo :
         starting_index = (page_number - 1) * page_size
      
         orders = query.offset(starting_index).limit(page_size).all()
-        return {
-            'total_records': total_records,
-            'page_number': page_number,
-            'page_size': page_size,
-            'orders': [order.to_domain() for order in orders]
-        }
+
+        return OrdersPage(
+             total_records =  total_records,
+            page_number= page_number,
+            page_size= page_size,
+            orders= [order.to_domain() for order in orders]
+            )
 
     def getAllByUserIdPaginated(self, session, user_id, page_number, page_size):
         subquery = session.query(AccountEntity.id).filter(AccountEntity.user_id == user_id)
@@ -954,9 +956,10 @@ class SqlAlchimy_repo :
         starting_index = (page_number - 1) * page_size
       
         orders = query.offset(starting_index).limit(page_size).all()
-        return {
-            'total_records': total_records,
-            'page_number': page_number,
-            'page_size': page_size,
-            'orders': [order.to_domain() for order in orders]
-        }
+        
+        return OrdersPage(
+             total_records =  total_records,
+            page_number= page_number,
+            page_size= page_size,
+            orders= [order.to_domain() for order in orders]
+            )
