@@ -2,7 +2,7 @@
 
 from gate_ways.log import Log
 from sqlalchemy import   exc
-from entities.entity import Base , AccountEntity 
+from entities.entity import Base , AccountEntity , StrategyEntity , OrderEntity
 from gate_ways.account.secretsManager import SecretRepo
 from models.model import Account
 import uuid
@@ -46,13 +46,25 @@ class SqlAlchimy_repo :
          
       
     
-    def delete(self, session , account):
-        num_deleted = session.query(AccountEntity).filter_by(id=account.id).delete()
-        if num_deleted == 0:
-            # handle case where no matching records were found
-            raise Exception("No matching records found for account ID {}".format(account.id))
-
+    def delete(self, session , account , user_id):
         try:
+            
+
+            # Delete associated orders first
+            session.query(OrderEntity).filter(OrderEntity.strategy_id == StrategyEntity.webhook_id, StrategyEntity.account_id == account.id, StrategyEntity.account_id == AccountEntity.id, AccountEntity.user_id == user_id).delete(synchronize_session='fetch')
+
+
+            # Delete associated Strategies 
+            session.query(StrategyEntity).filter(StrategyEntity.account_id == account.id, StrategyEntity.account_id == AccountEntity.id, AccountEntity.user_id == user_id).delete(synchronize_session='fetch')
+            
+          
+
+            num_deleted = session.query(AccountEntity).filter_by(id=account.id).delete()
+            if num_deleted == 0:
+                # handle case where no matching records were found
+                raise Exception("No matching records found for account ID {}".format(account.id))
+
+        
             session.commit()
         except exc.SQLAlchemyError as e:
             logger.log(e)
