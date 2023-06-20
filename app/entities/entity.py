@@ -357,3 +357,129 @@ class AdminEntity(Base):
 
 
    
+   
+class PublicStrategyEntity(Base):
+    __tablename__ = "public_strategies"
+
+    id = Column(String, primary_key=True)
+    name = Column(String)
+    webhook_id = Column(String, unique=True)  # Make webhook_id unique
+    webhook_key = Column(String)
+    symbol = Column(String)
+    symbol_id = Column(String)
+    is_future = Column(Boolean)
+    leverage = Column(Float)
+    capital = Column(Float)
+    created_at = Column(DateTime)
+    backtesting_start_date = Column(DateTime)
+    backtesting_end_date = Column(DateTime)
+    backtesting_initial_capital = Column(Float)
+    net_profit = Column(Float)
+    total_closed_trades = Column(Float)
+    percentage_profitable = Column(Float)
+    max_drawdown = Column(Float)
+
+    def __init__(self, id=None, name=None, webhook_id=None, webhook_key=None, symbol=None, symbol_id=None,
+                 is_future=None, leverage=None, capital=None, created_at=None, backtesting_start_date=None,
+                 backtesting_end_date=None, backtesting_initial_capital=None, net_profit=None,
+                 total_closed_trades=None, percentage_profitable=None, max_drawdown=None):
+        self.id = id
+        self.name = name
+        self.webhook_id = webhook_id
+        self.webhook_key = webhook_key
+        self.symbol = symbol
+        self.symbol_id = symbol_id
+        self.is_future = is_future
+        self.leverage = leverage
+        self.capital = capital
+        self.created_at = created_at
+        self.backtesting_start_date = backtesting_start_date
+        self.backtesting_end_date = backtesting_end_date
+        self.backtesting_initial_capital = backtesting_initial_capital
+        self.net_profit = net_profit
+        self.total_closed_trades = total_closed_trades
+        self.percentage_profitable = percentage_profitable
+        self.max_drawdown = max_drawdown
+
+    def __repr__(self):
+        return "<PublicStrategyEntity(id='%s', name='%s')>" % (
+            self.id,
+            self.name
+        )
+
+    def from_domain(self, model: PublicStrategy):
+        self.id = model.id
+        self.name = model.name
+        self.webhook_id = model.webhook_id
+        self.webhook_key = model.webhook_key
+        self.symbol = model.symbol
+        self.symbol_id = model.symbol_id
+        self.is_future = model.is_future
+        self.leverage = model.leverage
+        self.capital = model.capital
+        self.created_at = model.created_at
+        self.backtesting_start_date = model.backtesting_start_date
+        self.backtesting_end_date = model.backtesting_end_date
+        self.backtesting_initial_capital = model.backtesting_initial_capital
+        self.net_profit = model.net_profit
+        self.total_closed_trades = model.total_closed_trades
+        self.percentage_profitable = model.percentage_profitable
+        self.max_drawdown = model.max_drawdown
+
+    def to_domain(self):
+        return PublicStrategy(
+            id=self.id,
+            name=self.name,
+            webhook_id=self.webhook_id,
+            webhook_key=self.webhook_key,
+            symbol=self.symbol,
+            symbol_id=self.symbol_id,
+            is_future=self.is_future,
+            leverage=self.leverage,
+            capital=self.capital,
+            created_at=self.created_at,
+            backtesting_start_date=self.backtesting_start_date,
+            backtesting_end_date=self.backtesting_end_date,
+            backtesting_initial_capital=self.backtesting_initial_capital,
+            net_profit=self.net_profit,
+            total_closed_trades=self.total_closed_trades,
+            percentage_profitable=self.percentage_profitable,
+            max_drawdown=self.max_drawdown
+        )
+
+
+class SubscriptionEntity(Base):
+    __tablename__ = "subscriptions"
+    __table_args__ = (UniqueConstraint('user_id', 'strategy_id'),)
+
+    id = Column(String, primary_key=True)
+    user_id = Column(String)
+    strategy_id = Column(String)
+    created_at = Column(DateTime)
+
+    def __init__(self, id=None, user_id=None, strategy_id=None, created_at=None):
+        self.id = id
+        self.user_id = user_id
+        self.strategy_id = strategy_id
+        self.created_at = created_at
+
+    def __repr__(self):
+        return "<SubscriptionEntity(id='%s', user_id='%s', strategy_id='%s')>" % (
+            self.id,
+            self.user_id,
+            self.strategy_id
+        )
+
+    def from_domain(self, model: Subscription):
+        self.id = model.id
+        self.user_id = model.user_id
+        self.strategy_id = model.strategy_id
+        self.created_at = model.created_at
+
+    def to_domain(self):
+        return Subscription(
+            id=self.id,
+            user_id=self.user_id,
+            strategy_id=self.strategy_id,
+            created_at=self.created_at
+        )
