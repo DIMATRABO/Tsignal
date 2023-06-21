@@ -38,8 +38,8 @@ getAllAdvanced = GetAllAdvanced(publicStrategy_repo, account_repo,order_repo)
 
 
 @PublicStrategyController.route('/', methods=['POST'])
-@check_admin_permission('genin')
 @jwt_required()
+@check_admin_permission('genin')
 def save():
     try:
         publicStrategy_json = request.get_json()
