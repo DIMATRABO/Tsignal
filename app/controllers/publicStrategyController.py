@@ -19,6 +19,7 @@ from flask import Response
 from flask_jwt_extended import jwt_required, get_jwt
 from models.model import PublicStrategy
 import json
+import traceback
 
 from controllers.decorations.checkAdminPermissions import check_admin_permission
 
@@ -53,11 +54,11 @@ def save():
         json_data = json.dumps(publicStrategy_saved.to_dict())
         return Response(json_data , status=200, mimetype='application/json')
     
-    except Exception as e :
-        json_data = json.dumps({"status_message":str(e)})
-        return Response(json_data , status=400, mimetype='application/json')
-
-
+    except Exception as e:
+        traceback_str = traceback.format_exc()
+        error_msg = str(e) + "\n\n" + traceback_str
+        json_data = json.dumps({"status_message": error_msg})
+        
 
 
 """
