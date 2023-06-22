@@ -80,7 +80,7 @@ def subscribe():
         
         logger.log(f'user id = {userId} subscribed to PublicStrategy id = {form.strategy_id}')
         
-        json_data = json.dumps({"status_message":subscribe_handler.handle(form.to_domain())})
+        json_data = json.dumps({"status_message":subscribe_handler.handle(form.to_domain()).to_dict()})
         return Response(json_data , status=200, mimetype='application/json')
     
     except Exception as e :
