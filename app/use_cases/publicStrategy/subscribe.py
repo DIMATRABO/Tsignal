@@ -10,6 +10,7 @@ class Subscribe:
     def __init__(self ,  repo):
         self.repo=repo
         self.sessionContext = SessionContext()
+        self.key_lenght = 32
     
     def handle(self, publicStrategy:PublicStrategy):
         with self.sessionContext as session:
