@@ -76,10 +76,10 @@ def subscribe():
         userId = get_jwt()["userId"]
         publicStrategy_json = request.get_json()
         form = SubscribeToPublicStrategyForm(publicStrategy_json)
-        public_strategy = form.to_domain()
-        public_strategy.user_id = userId
+        subscription = form.to_domain()
+        subscription.user_id = userId
         logger.log(f'user id = {userId} subscribed to PublicStrategy id = {form.strategy_id}')
-        json_data = json.dumps({"status_message":subscribe_handler.handle(public_strategy).to_dict()})
+        json_data = json.dumps({"status_message":subscribe_handler.handle(subscription).to_dict()})
         return Response(json_data , status=200, mimetype='application/json')
     
     except Exception as e :
