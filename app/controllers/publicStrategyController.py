@@ -43,7 +43,7 @@ delete_handler = Delete(publicStrategy_repo)
 getOne = GetOne(publicStrategy_repo)
 getAll = GetAll(publicStrategy_repo)
 getAllAdvanced = GetAllAdvanced(publicStrategy_repo, account_repo,order_repo)
-subscribe_handler = Subscribe(subscription_repo)
+subscribe_handler = Subscribe(subscription_repo, publicStrategy_repo , account_repo)
 
 
 @PublicStrategyController.route('/', methods=['POST'])
@@ -76,11 +76,10 @@ def subscribe():
         userId = get_jwt()["userId"]
         publicStrategy_json = request.get_json()
         form = SubscribeToPublicStrategyForm(publicStrategy_json)
-
-        
+        public_strategy = form.to_domain()
+        public_strategy.user_id = userId
         logger.log(f'user id = {userId} subscribed to PublicStrategy id = {form.strategy_id}')
-        
-        json_data = json.dumps({"status_message":subscribe_handler.handle(form.to_domain()).to_dict()})
+        json_data = json.dumps({"status_message":subscribe_handler.handle(public_strategy).to_dict()})
         return Response(json_data , status=200, mimetype='application/json')
     
     except Exception as e :

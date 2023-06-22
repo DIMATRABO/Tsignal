@@ -93,4 +93,10 @@ class SqlAlchimy_repo :
     def getAllByExchangeId(self, session, exchange_id):
         accounts = session.query(AccountEntity).filter_by(user_id=exchange_id).all()
         return accounts
+    
+    def user_have_account(self,session ,  user_id , account_id):
+        account = session.query(AccountEntity).filter(AccountEntity.id == account_id, AccountEntity.user_id == user_id).first()
+        return False if account == None else True
+
+
 
