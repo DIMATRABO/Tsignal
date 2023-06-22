@@ -179,6 +179,7 @@ class Subscription:
     id: str = None
     user_id: str = None
     strategy_id: str = None
+    account_id: str = None
     created_at: datetime = None
 
     @classmethod

@@ -1,20 +1,24 @@
 from flask import Blueprint , request
 
-from gate_ways.publicStrategy.sqlalchimyRepo import SqlAlchimy_repo
+from gate_ways.publicStrategy.sqlalchimyRepo import SqlAlchimy_repo as PublicStrategy_repo
 from gate_ways.account.sqlalchimyRepo import SqlAlchimy_repo as Account_repo
 from gate_ways.order.sqlalchimyRepo import SqlAlchimy_repo as Order_repo
+
 
 from use_cases.publicStrategy.save import Save
 from use_cases.publicStrategy.delete import Delete
 from use_cases.publicStrategy.getOne import GetOne
 from use_cases.publicStrategy.getAll import GetAll
 from use_cases.publicStrategy.getAllAdvanced import GetAllAdvanced
+from use_cases.publicStrategy.subscribe import Subscribe
 
 from use_cases.publicStrategy.inputs.getOneInput import GetOneInput
 from use_cases.publicStrategy.inputs.getAllInput import GetAllInput
 from gate_ways.log import Log
 
 from forms.publicStrategy.createPublicStrategyForm import CreatePublicStrategyForm
+from forms.publicStrategy.SubscribeToPublicStrategyForm import SubscribeToPublicStrategyForm
+
 from flask import Response
 from flask_jwt_extended import jwt_required, get_jwt
 from models.model import PublicStrategy
@@ -26,7 +30,7 @@ from controllers.decorations.checkAdminPermissions import check_admin_permission
 PublicStrategyController = Blueprint("PublicStrategyController", __name__)
 
 logger = Log()
-publicStrategy_repo = SqlAlchimy_repo()
+publicStrategy_repo = PublicStrategy_repo()
 account_repo = Account_repo()
 order_repo = Order_repo()
 
@@ -35,6 +39,7 @@ delete_handler = Delete(publicStrategy_repo)
 getOne = GetOne(publicStrategy_repo)
 getAll = GetAll(publicStrategy_repo)
 getAllAdvanced = GetAllAdvanced(publicStrategy_repo, account_repo,order_repo)
+subscribe_handler = Subscribe(publicStrategy_repo)
 
 
 @PublicStrategyController.route('/', methods=['POST'])
@@ -58,6 +63,25 @@ def save():
         return Response(json_data , status=400, mimetype='application/json')
 
 
+
+
+@PublicStrategyController.route('/subscribe', methods=['POST'])
+@jwt_required()
+def subscribe():
+    try:
+        userId = get_jwt()["userId"]
+        publicStrategy_json = request.get_json()
+        form = SubscribeToPublicStrategyForm(publicStrategy_json)
+
+        
+        logger.log(f'user id = {userId} subscribed to PublicStrategy id = {form.strategy_id}')
+        
+        json_data = json.dumps({"status_message":subscribe_handler.handle(userId , form.strategy_id , form.account_id)})
+        return Response(json_data , status=200, mimetype='application/json')
+    
+    except Exception as e :
+        json_data = json.dumps({"status_message":str(e)})
+        return Response(json_data , status=400, mimetype='application/json')
 
 
 """
