@@ -3,6 +3,9 @@ from flask import Blueprint , request
 from gate_ways.publicStrategy.sqlalchimyRepo import SqlAlchimy_repo as PublicStrategy_repo
 from gate_ways.account.sqlalchimyRepo import SqlAlchimy_repo as Account_repo
 from gate_ways.order.sqlalchimyRepo import SqlAlchimy_repo as Order_repo
+from gate_ways.subscription.sqlalchimyRepo import SqlAlchimy_repo as Subscription_repo
+
+
 
 
 from use_cases.publicStrategy.save import Save
@@ -33,13 +36,14 @@ logger = Log()
 publicStrategy_repo = PublicStrategy_repo()
 account_repo = Account_repo()
 order_repo = Order_repo()
+subscription_repo = Subscription_repo()
 
 saving_handler = Save(publicStrategy_repo)
 delete_handler = Delete(publicStrategy_repo)
 getOne = GetOne(publicStrategy_repo)
 getAll = GetAll(publicStrategy_repo)
 getAllAdvanced = GetAllAdvanced(publicStrategy_repo, account_repo,order_repo)
-subscribe_handler = Subscribe(publicStrategy_repo)
+subscribe_handler = Subscribe(subscription_repo)
 
 
 @PublicStrategyController.route('/', methods=['POST'])
