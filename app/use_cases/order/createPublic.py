@@ -31,7 +31,7 @@ class CreatePublic:
             order.id = str(uuid.uuid4())
             account.key = self.secretRepo.read(account.key_id)
             exchange = ExchangeExecution(account.exchange.id , account.key)
-            response = exchange.executeOrder(account.exchange.id , order)
+            response = exchange.executeOrder(order)
             if "id" in response:
                 response = exchange.getOrderDetails(response['id'])
             order = map_data(order=order , response=response)
