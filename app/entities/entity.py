@@ -450,8 +450,7 @@ class PublicStrategyEntity(Base):
 
 class SubscriptionEntity(Base):
     __tablename__ = "subscriptions"
-    __table_args__ = (UniqueConstraint('user_id', 'strategy_id'),)
-
+ 
     id = Column(String, primary_key=True)
     user_id = Column(String)
     strategy_id = Column(String)
