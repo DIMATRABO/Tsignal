@@ -112,4 +112,4 @@ class SqlAlchimy_repo :
             subquery, AccountEntity.id == subquery.c.account_id
         ).all()
 
-        return [(account, subscription_id) for account, subscription_id in accounts]
+        return [(account.to_domain() , subscription_id) for account, subscription_id in accounts]
