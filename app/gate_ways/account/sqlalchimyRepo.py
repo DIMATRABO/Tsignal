@@ -100,10 +100,14 @@ class SqlAlchimy_repo :
 
 
 
-    def getAccountsByPublicStrategyId(self, session , public_strategy_id):
-        accounts = session.query(AccountEntity).filter(AccountEntity.id .in_(
-                            session.query(SubscriptionEntity.account_id).filter(SubscriptionEntity.strategy_id == public_strategy_id)
-                        ))
+    def getActifAccountsByPublicStrategyId(self, session, public_strategy_id):
+        subquery = session.query(SubscriptionEntity.account_id).filter(
+            SubscriptionEntity.strategy_id == public_strategy_id,
+            SubscriptionEntity.unsubscription_date == None  # Filter for active subscriptions
+        )
+
+        accounts = session.query(AccountEntity).filter(
+            AccountEntity.id.in_(subquery)
+        )
+
         return [account.to_domain() for account in accounts]
-      
- 

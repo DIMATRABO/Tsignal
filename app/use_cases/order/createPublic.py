@@ -52,7 +52,7 @@ class CreatePublic:
             if not publicStrategy is None:
                 if publicStrategy.webhook_key == key:
                     order.reception_date = datetime.now()
-                    accounts = self.accountRepo.getAccountsByPublicStrategyId(session , publicStrategy.webhook_id)
+                    accounts = self.accountRepo.getActifAccountsByPublicStrategyId(session , publicStrategy.webhook_id)
                     i=0
                     for account in accounts:
                         thread = Thread(target=self.accountTreatment , args=( order , account ))
