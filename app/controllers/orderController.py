@@ -7,6 +7,7 @@ from forms.order.createOrder import CreateOrderForm
 from use_cases.order.inputs.getAllInput import GetAllInput
 from use_cases.order.getDetails import GetDetails
 from use_cases.order.create import Create
+from use_cases.order.createPublic import CreatePublic
 from use_cases.order.getAll import GetAll
 from use_cases.order.getAllPaginated import GetAllPaginated
 
@@ -28,6 +29,7 @@ orderRepo = OrderRepo()
 accountRepo = AccountRepo()
 strategyRepo = StrategyRepo()
 create_handler = Create(orderRepo = orderRepo , accountRepo=accountRepo , strategyRepo=strategyRepo)
+create_public_handler = CreatePublic(orderRepo = orderRepo , accountRepo=accountRepo , strategyRepo=strategyRepo)
 getOderDetails_handler = GetDetails(order_repo=orderRepo , strategy_repo= strategyRepo , account_repo= accountRepo)
 getOrders_handler = GetAll(repo=orderRepo)
 getOrdersPaginated_handler = GetAllPaginated(repo=orderRepo)
@@ -35,6 +37,22 @@ getOrdersPaginated_handler = GetAllPaginated(repo=orderRepo)
 
 @OrderController.route('/<webhookid>', methods=['POST'])
 def create(webhookid):
+    try:
+        order_json = request.get_json()
+        form = CreateOrderForm(order_json)
+        order = form.to_domain()
+        order.strategy_id=webhookid
+        logger.log("new order on strategy :"+webhookid)
+        json_data = dumps(create_handler.handle(order=order , key=form.key))
+        return Response(json_data , status=200, mimetype='application/json')
+    
+    except Exception as e :
+        json_data = dumps({"status_message":str(e)})
+        return Response(json_data , status=400, mimetype='application/json')
+
+
+@OrderController.route('/public/<webhookid>', methods=['POST'])
+def createPublic(webhookid):
     try:
         order_json = request.get_json()
         form = CreateOrderForm(order_json)

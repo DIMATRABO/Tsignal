@@ -1,4 +1,7 @@
 from models.model import Order
+
+from use_cases.utils.map_exchange_response import map_data
+
 import uuid
 from gate_ways.dataBaseSession.sessionContext import SessionContext
 from gate_ways.account.secretsManager import SecretRepo
@@ -37,7 +40,7 @@ class Create:
                         if "id" in response:
                             response = exchange.getOrderDetails(response['id'])
 
-                        order = self.map_data(order=order , response=response)
+                        order = map_data(order=order , response=response)
 
                         self.orderRepo.save(session, order)
                         logger.log(response)
@@ -51,29 +54,3 @@ class Create:
 
 
 
-
-    def map_data(self , order , response ):
-        if not response is None:
-            order.response  =  str(response) 
-            if "id" in response:
-                order.execution_id = response['id'] 
-            else:
-                order.execution_id = None
-            
-            if "status" in response:
-                order.status = response['status'] 
-            else:
-                order.status = 'failed'
-
-            if "average" in response:
-                order.execution_price = response['average'] 
-            else:
-                order.execution_price = None
-
-            if "datetime" in response:
-                order.execution_date = datetime.now() if response['datetime'] == None else datetime.strptime(response["datetime"], "%Y-%m-%dT%H:%M:%S.%fZ")
-            else:
-                 order.execution_date = datetime.now()
-
-        return order
- 

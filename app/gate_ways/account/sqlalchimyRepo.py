@@ -2,7 +2,7 @@
 
 from gate_ways.log import Log
 from sqlalchemy import   exc
-from entities.entity import Base , AccountEntity , StrategyEntity , OrderEntity
+from entities.entity import Base , AccountEntity , StrategyEntity , OrderEntity , SubscriptionEntity
 from gate_ways.account.secretsManager import SecretRepo
 from models.model import Account
 import uuid
@@ -100,3 +100,10 @@ class SqlAlchimy_repo :
 
 
 
+    def getAccountsByPublicStrategyId(self, session , public_strategy_id):
+        accounts = session.query(AccountEntity).filter(AccountEntity.id .in_(
+                            session.query(SubscriptionEntity.account_id).filter(SubscriptionEntity.strategy_id == public_strategy_id)
+                        ))
+        return [account.to_domain() for account in accounts]
+      
+ 
