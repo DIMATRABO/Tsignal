@@ -15,6 +15,6 @@ class SqlAlchimy_repo :
             session.commit()
         except exc.SQLAlchemyError as e:
             session.rollback()
-            raise Exception("subscription not saved")
+            raise Exception("subscription not saved"+ str(e))
         return subscriptionEntity.to_domain()
         
