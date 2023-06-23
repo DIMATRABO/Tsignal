@@ -456,15 +456,15 @@ class SubscriptionEntity(Base):
     strategy_id = Column(String)
     account_id = Column(String)
     created_at = Column(DateTime)
-    unsabscription_date = Column(DateTime)
+    unsubscription_date = Column(DateTime)
 
-    def __init__(self, id=None, user_id=None, strategy_id=None, account_id=None , created_at=None , unsabscription_date=None):
+    def __init__(self, id=None, user_id=None, strategy_id=None, account_id=None , created_at=None , unsubscription_date=None):
         self.id = id
         self.user_id = user_id
         self.strategy_id = strategy_id
         self.account_id = account_id
         self.created_at = created_at
-        self.unsabscription_date = unsabscription_date
+        self.unsubscription_date = unsubscription_date
 
     def __repr__(self):
         return "<SubscriptionEntity(id='%s', user_id='%s', strategy_id='%s')>" % (
@@ -479,7 +479,7 @@ class SubscriptionEntity(Base):
         self.strategy_id = model.strategy_id
         self.account_id  = model.account_id
         self.created_at = model.created_at
-        self.unsabscription_date = model.unsabscription_date
+        self.unsubscription_date = model.unsubscription_date
 
     def to_domain(self):
         return Subscription(
@@ -488,5 +488,5 @@ class SubscriptionEntity(Base):
             strategy_id=self.strategy_id,
             account_id = self.account_id,
             created_at=self.created_at,
-            unsabscription_date = self.unsabscription_date
+            unsubscription_date = self.unsubscription_date
         )

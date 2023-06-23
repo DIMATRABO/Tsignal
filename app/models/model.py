@@ -181,7 +181,7 @@ class Subscription:
     strategy_id: str = None
     account_id: str = None
     created_at: datetime = None
-    unsabscription_date: datetime = None
+    unsubscription_date: datetime = None
 
     @classmethod
     def from_dict(self, d):
@@ -189,6 +189,6 @@ class Subscription:
 
     def to_dict(self):
         self.created_at = self.created_at.isoformat() if self.created_at else None
-        self.unsabscription_date = self.unsabscription_date.isoformat() if self.unsabscription_date else None
+        self.unsubscription_date = self.unsubscription_date.isoformat() if self.unsubscription_date else None
         return asdict(self)
     
