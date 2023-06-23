@@ -267,7 +267,7 @@ class OrderEntity(Base):
         return Order(
             id=self.id,
             strategy_id=self.strategy_id,
-            subscription_id, self.subscription_id,
+            subscription_id = self.subscription_id,
             is_buy=self.is_buy,
             is_future=self.is_future,
             is_limit=self.is_limit,
