@@ -200,6 +200,7 @@ class OrderEntity(Base):
     
     id = Column(String, primary_key=True)
     strategy_id = Column(String)
+    subscription_id = Column(String)
     is_buy = Column(Boolean)
     is_future = Column(Boolean)
     is_limit = Column(Boolean)
@@ -214,12 +215,13 @@ class OrderEntity(Base):
     execution_date= Column(DateTime)
     response = Column(String)
 
-    def __init__(self, id=None, strategy_id=None, is_buy=None, is_future=None,
+    def __init__(self, id=None, strategy_id=None,subscription_id=None, is_buy=None, is_future=None,
                  is_limit=None, limit_price=None, symbol=None, symbol_id=None,
                  amount=None, status=None, reception_date=None, execution_id=None,
                  execution_price=None, execution_date=None, response=None):
         self.id = id
         self.strategy_id = strategy_id
+        self.subscription_id = subscription_id
         self.is_buy = is_buy
         self.is_future = is_future
         self.is_limit = is_limit
@@ -246,6 +248,7 @@ class OrderEntity(Base):
     def from_domain(self, model: Order):
         self.id = model.id
         self.strategy_id = model.strategy_id
+        self.subscription_id = model.subscription_id
         self.is_buy = model.is_buy
         self.is_future = model.is_future
         self.is_limit = model.is_limit
@@ -264,6 +267,7 @@ class OrderEntity(Base):
         return Order(
             id=self.id,
             strategy_id=self.strategy_id,
+            subscription_id, self.subscription_id,
             is_buy=self.is_buy,
             is_future=self.is_future,
             is_limit=self.is_limit,

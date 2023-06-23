@@ -25,10 +25,11 @@ class CreatePublic:
 
 
 
-    def accountTreatment(self, order:Order , account:Account):
+    def accountTreatment(self, order:Order , account:Account , subscription_id:str):
         try:
             order.account_id = account.id
             order.id = str(uuid.uuid4())
+            order.subscription_id = subscription_id
             account.key = self.secretRepo.read(account.key_id)
             exchange = ExchangeExecution(account.exchange.id , account.key)
             response = exchange.executeOrder(order)
@@ -46,27 +47,24 @@ class CreatePublic:
 
 
 
-    def handle(self, order:Order , key:str):
+    
+    def handle(self, order: Order, key: str):
         with self.sessionContext as session:
-            publicStrategy = self.publicStrategyRepo.getStrategyByWebhookId(session , order.strategy_id)
-            if not publicStrategy is None:
+            publicStrategy = self.publicStrategyRepo.getStrategyByWebhookId(session, order.strategy_id)
+            if publicStrategy is not None:
                 if publicStrategy.webhook_key == key:
                     order.reception_date = datetime.now()
-                    accounts = self.accountRepo.getActifAccountsByPublicStrategyId(session , publicStrategy.webhook_id)
-                    i=0
-                    for account in accounts:
-                        thread = Thread(target=self.accountTreatment , args=( order , account ))
+                    account_subscriptions = self.accountRepo.getActifAccountsByPublicStrategyId(session, publicStrategy.webhook_id)
+                    i = 0
+                    for account, subscription_id in account_subscriptions:
+                        thread = Thread(target=self.accountTreatment, args=(order, account, subscription_id))
                         thread.start()
-                        i+=1
-                    return {"executed":i}
-                        
-                else :
-                    raise  Exception("invalide key")
-            else :
-                raise  Exception("unkown strategy")
+                        i += 1
+                    return {"executed": i}
+                else:
+                    raise Exception("Invalid key")
+            else:
+                raise Exception("Unknown strategy")
 
-
-
-
+        
     
- 

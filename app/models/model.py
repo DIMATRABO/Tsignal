@@ -22,6 +22,7 @@ class Exchange:
 class Order:
     id: str = None
     strategy_id:str = None
+    subscription_id:str = None
     is_buy: bool = None
     is_future: bool = None
     is_limit: bool = None
