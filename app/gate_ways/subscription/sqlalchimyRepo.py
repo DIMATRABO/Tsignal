@@ -18,3 +18,7 @@ class SqlAlchimy_repo :
             raise Exception("subscription not saved"+ str(e))
         return subscriptionEntity.to_domain()
         
+
+    def unsubscribe(self , session , strategy_id , account_id):
+        # Delete the subscription 
+        session.query(SubscriptionEntity).filter(SubscriptionEntity.strategy_id == strategy_id , SubscriptionEntity.account_id == account_id).delete(synchronize_session='fetch')
