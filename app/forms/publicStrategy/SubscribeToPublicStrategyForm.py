@@ -12,12 +12,12 @@ class SubscribeToPublicStrategyForm:
     def __init__(self, json_data):
         self.validate_fields(json_data)
 
-        self.strategy_id = json_data.get('strategy_id')
+        self.strategy_id = json_data.get('webhook_id')
         self.account_id = json_data.get('account_id')
 
     def validate_fields(self, json_data):
         required_fields = [
-             'strategy_id', 'account_id'
+             'webhook_id', 'account_id'
         ]
         missing_fields = [field for field in required_fields if field not in json_data]
 

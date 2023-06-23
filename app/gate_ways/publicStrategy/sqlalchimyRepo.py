@@ -73,3 +73,4 @@ class SqlAlchimy_repo :
     def getStrategyByWebhookId(self, session , webhookid):
         strategy = session.query(PublicStrategyEntity).filter(PublicStrategyEntity.webhook_id == webhookid).first()
         return None if strategy == None else strategy.to_domain()
+   

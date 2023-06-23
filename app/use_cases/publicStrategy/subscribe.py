@@ -16,7 +16,7 @@ class Subscribe:
         with self.sessionContext as session:
             if(not self.account_repo.user_have_account(session, subscription.user_id, subscription.account_id)):
                 raise Exception("account not found")
-            if(self.public_strategy_repo.getPublicStrategyById(session, subscription.strategy_id) is None):
+            if(self.public_strategy_repo.getStrategyByWebhookId(session, subscription.strategy_id) is None):
                 raise Exception("strategy not found")
 
             subscription.id = str(uuid.uuid4())
