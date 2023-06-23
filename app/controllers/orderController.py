@@ -14,6 +14,7 @@ from use_cases.order.getAllPaginated import GetAllPaginated
 
 from gate_ways.account.sqlalchimyRepo import SqlAlchimy_repo as AccountRepo
 from gate_ways.strategy.sqlalchimyRepo import SqlAlchimy_repo as StrategyRepo
+from gate_ways.publicStrategy.sqlalchimyRepo import SqlAlchimy_repo as PublicStrategyRepo
 from gate_ways.order.sqlalchimyRepo import SqlAlchimy_repo as OrderRepo
 from gate_ways.log import Log
 from flask_jwt_extended import jwt_required, get_jwt
@@ -28,8 +29,9 @@ logger = Log()
 orderRepo = OrderRepo()
 accountRepo = AccountRepo()
 strategyRepo = StrategyRepo()
+publicStrategyRepo = PublicStrategyRepo()
 create_handler = Create(orderRepo = orderRepo , accountRepo=accountRepo , strategyRepo=strategyRepo)
-create_public_handler = CreatePublic(orderRepo = orderRepo , accountRepo=accountRepo , strategyRepo=strategyRepo)
+create_public_handler = CreatePublic(orderRepo = orderRepo , accountRepo=accountRepo , publicStrategyRepo=publicStrategyRepo , )
 getOderDetails_handler = GetDetails(order_repo=orderRepo , strategy_repo= strategyRepo , account_repo= accountRepo)
 getOrders_handler = GetAll(repo=orderRepo)
 getOrdersPaginated_handler = GetAllPaginated(repo=orderRepo)
@@ -59,7 +61,7 @@ def createPublic(webhookid):
         order = form.to_domain()
         order.strategy_id=webhookid
         logger.log("new order on strategy :"+webhookid)
-        json_data = dumps(create_handler.handle(order=order , key=form.key))
+        json_data = dumps(create_public_handler.handle(order=order , key=form.key))
         return Response(json_data , status=200, mimetype='application/json')
     
     except Exception as e :

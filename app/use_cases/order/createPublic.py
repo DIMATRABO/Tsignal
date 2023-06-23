@@ -16,11 +16,10 @@ logger = Log()
 
 
 class CreatePublic:
-    def __init__(self ,  orderRepo , accountRepo , publicStrategyRepo , subscriptionRepo):
+    def __init__(self ,  orderRepo , accountRepo , publicStrategyRepo):
         self.orderRepo = orderRepo
         self.accountRepo = accountRepo
         self.publicStrategyRepo = publicStrategyRepo
-        self.subscriptionRepo = subscriptionRepo
         self.sessionContext = SessionContext()
         self.secretRepo = SecretRepo()
 
