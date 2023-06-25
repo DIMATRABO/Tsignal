@@ -32,4 +32,4 @@ class SqlAlchimy_repo :
             # Update the unsubscription date to the current datetime
             subscription.unsubscription_date = datetime.now()
             session.commit()
-        return subscription
+        return subscription.to_domain()
