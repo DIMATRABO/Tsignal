@@ -14,6 +14,7 @@ from use_cases.publicStrategy.getOne import GetOne
 from use_cases.publicStrategy.getAll import GetAll
 from use_cases.publicStrategy.getAllAdvanced import GetAllAdvanced
 from use_cases.publicStrategy.subscribe import Subscribe
+from use_cases.publicStrategy.unsubscribe import Unsubscribe
 
 from use_cases.publicStrategy.inputs.getOneInput import GetOneInput
 from use_cases.publicStrategy.inputs.getAllInput import GetAllInput
@@ -21,6 +22,7 @@ from gate_ways.log import Log
 
 from forms.publicStrategy.createPublicStrategyForm import CreatePublicStrategyForm
 from forms.publicStrategy.SubscribeToPublicStrategyForm import SubscribeToPublicStrategyForm
+from forms.publicStrategy.UnsubscribeToPublicStrategyForm import UnsubscribeToPublicStrategyForm
 
 from flask import Response
 from flask_jwt_extended import jwt_required, get_jwt
@@ -44,7 +46,7 @@ getOne = GetOne(publicStrategy_repo)
 getAll = GetAll(publicStrategy_repo)
 getAllAdvanced = GetAllAdvanced(publicStrategy_repo, account_repo,order_repo)
 subscribe_handler = Subscribe(subscription_repo, publicStrategy_repo , account_repo)
-
+unsubscribe_handler = Unsubscribe(subscription_repo, publicStrategy_repo , account_repo)
 
 @PublicStrategyController.route('/', methods=['POST'])
 @jwt_required()
@@ -85,6 +87,27 @@ def subscribe():
     except Exception as e :
         json_data = json.dumps({"status_message":str(e)})
         return Response(json_data , status=400, mimetype='application/json')
+
+
+
+@PublicStrategyController.route('/unsubscribe', methods=['POST'])
+@jwt_required()
+def unsubscribe():
+    try:
+        userId = get_jwt()["userId"]
+        publicStrategy_json = request.get_json()
+        form = UnsubscribeToPublicStrategyForm(publicStrategy_json)
+        subscription = form.to_domain()
+        subscription.user_id = userId
+        logger.log(f'user id = {userId} subscribed to PublicStrategy id = {form.strategy_id}')
+        json_data = json.dumps({"status_message":unsubscribe_handler.handle(subscription).to_dict()})
+        return Response(json_data , status=200, mimetype='application/json')
+    
+    except Exception as e :
+        json_data = json.dumps({"status_message":str(e)})
+        return Response(json_data , status=400, mimetype='application/json')
+
+
 
 
 """
