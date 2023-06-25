@@ -20,6 +20,10 @@ class Unsubscribe:
                 raise Exception("strategy not found")
             
 
-            return self.repo.unsubscribe(session , subscription.user_id, subscription.strategy_id , subscription.account_id)
-
+            unsubscribe = self.repo.unsubscribe(session , subscription.user_id, subscription.strategy_id , subscription.account_id)
+            if(unsubscribe is None):
+                raise Exception("no subscription found")
+            
+            return unsubscribe
+                
    
