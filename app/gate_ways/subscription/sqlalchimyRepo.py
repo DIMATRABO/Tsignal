@@ -25,7 +25,8 @@ class SqlAlchimy_repo :
         subscription = session.query(SubscriptionEntity).filter(
             SubscriptionEntity.user_id ==  user_id,
             SubscriptionEntity.strategy_id == strategy_id,
-            SubscriptionEntity.account_id == account_id
+            SubscriptionEntity.account_id == account_id,
+            SubscriptionEntity.unsubscription_date == None
         ).first()
 
         if subscription:
