@@ -63,13 +63,37 @@ class SqlAlchimy_repo :
         
         users = session.query("users")
         
-        return users
+        return [user.to_domain() for user in users]
 
-    def getUserByEmail(self, session , email):
-        user = session.query(UserEntity).filter(UserEntity.email == email).first()
-        return None if user == None else user.to_domain()
+
     
     def getUserById(self, session , uuid):
         user = session.query(UserEntity).filter(UserEntity.id == uuid).first()
         return None if user == None else user.to_domain()
+    
+
+    
+
+
+    def getAllPaginated(self, session, page_number, page_size):
+        users = session.query(UserEntity).offset((page_number - 1) * page_size).limit(page_size)
+        return [user.to_domain() for user in users]
+
+    def getAllByFisrtAndLastName(self, session, first_name, last_name, page_number, page_size):
+        users = session.query(UserEntity).filter(
+            and_(UserEntity.first_name == first_name, UserEntity.last_name == last_name)
+        ).offset((page_number - 1) * page_size).limit(page_size)
+        return [user.to_domain() for user in users]
+
+    def getAllByFisrtName(self, session, first_name, page_number, page_size):
+        users = session.query(UserEntity).filter(
+            UserEntity.first_name == first_name
+        ).offset((page_number - 1) * page_size).limit(page_size)
+        return [user.to_domain() for user in users]
+
+    def getAllByLastName(self, session, last_name, page_number, page_size):
+        users = session.query(UserEntity).filter(
+            UserEntity.last_name == last_name
+        ).offset((page_number - 1) * page_size).limit(page_size)
+        return [user.to_domain() for user in users]
     

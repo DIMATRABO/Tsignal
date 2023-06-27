@@ -6,6 +6,8 @@ from use_cases.user.getOne import GetOne
 from use_cases.user.auth import Auth
 from use_cases.user.changePassword import ChangePassword
 from use_cases.user.inputs.getOneInput import GetOneInput
+from use_cases.user.getPaginated import GetPaginated 
+
 from gate_ways.log import Log
 from forms.user.authUserForm import AuthUserForm
 from forms.user.saveUserForm import SaveUserForm
@@ -18,6 +20,7 @@ from models.model import User
 import json
 
 from controllers.decorations.checkAdminPermissions import check_admin_permission
+from controllers.decorations.paginate import paginate
 
 
 UserController = Blueprint("UserController", __name__)
@@ -30,6 +33,8 @@ delete_handler = Delete(postgres_repo)
 getOne = GetOne(postgres_repo)
 auth = Auth(postgres_repo)
 changePassword = ChangePassword(postgres_repo)
+
+get_users_paginated_handler = GetPaginated(postgres_repo)
 
 
 
@@ -47,6 +52,22 @@ def getUserById(userId):
     except Exception as e :
         json_data = json.dumps({"status_message":str(e)})
         return Response(json_data , status=400, mimetype='application/json')
+
+
+@UserController.route('paginate', methods=['GET'])
+@jwt_required()
+@check_admin_permission("genin")
+@paginate
+def usersPaginated(page_number, page_size):
+    try:
+        data = get_users_paginated_handler.handle(page_number, page_size)
+        json_data = json.dumps(data.to_dict())
+        return Response(json_data, status=200, mimetype='application/json')
+
+    except Exception as e:
+        json_data = json.dumps({"status_message": str(e)})
+        return Response(json_data, status=400, mimetype='application/json')
+
 
 
 
