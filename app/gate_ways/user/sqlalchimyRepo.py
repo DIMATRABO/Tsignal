@@ -63,16 +63,17 @@ class SqlAlchimy_repo :
         
         users = session.query("users")
         
-        return [user.to_domain() for user in users]
+        return users
 
-
+    def getUserByEmail(self, session , email):
+        user = session.query(UserEntity).filter(UserEntity.email == email).first()
+        return None if user == None else user.to_domain()
     
     def getUserById(self, session , uuid):
         user = session.query(UserEntity).filter(UserEntity.id == uuid).first()
         return None if user == None else user.to_domain()
     
-
-    
+ 
 
 
     def getAllPaginated(self, session, page_number, page_size):
