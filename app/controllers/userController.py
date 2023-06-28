@@ -6,6 +6,7 @@ from use_cases.user.getOne import GetOne
 from use_cases.user.auth import Auth
 from use_cases.user.changePassword import ChangePassword
 from use_cases.user.inputs.getOneInput import GetOneInput
+from use_cases.user.inputs.getAllInput import GetAllInput
 from use_cases.user.getPaginated import GetPaginated 
 
 from gate_ways.log import Log
@@ -60,7 +61,7 @@ def getUserById(userId):
 @paginate
 def usersPaginated(page_number, page_size):
     try:
-        data = get_users_paginated_handler.handle(page_number, page_size)
+        data = get_users_paginated_handler.handle(GetAllInput("all"), page_number, page_size)
         json_data = json.dumps(data.to_dict())
         return Response(json_data, status=200, mimetype='application/json')
 
