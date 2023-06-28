@@ -62,7 +62,7 @@ def getUserById(userId):
 def usersPaginated(page_number, page_size):
     try:
         data = get_users_paginated_handler.handle(GetAllInput("all"), page_number, page_size)
-        json_data = json.dumps(data.to_dict())
+        json_data = json.dumps([user.to_dict() for user in data])
         return Response(json_data, status=200, mimetype='application/json')
 
     except Exception as e:
