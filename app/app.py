@@ -17,7 +17,7 @@ config = Config_handler()
 
 app = Flask(__name__)
 app.config["JWT_SECRET_KEY"] = config.get_jwt_secret()
-app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(seconds=config.get_jwt_expiration())
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(seconds=10)
 
 jwt = JWTManager(app)
 
