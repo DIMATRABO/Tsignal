@@ -58,7 +58,7 @@ class Config_handler :
         return self.data["jwt"]["secret"]
     
     def get_jwt_expiration(self):
-        return self.data["jwt"]["expiration"]
+        return int(self.data["jwt"]["expiration"])
     
     
 
