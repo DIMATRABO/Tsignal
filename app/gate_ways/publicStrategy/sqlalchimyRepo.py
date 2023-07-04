@@ -75,3 +75,12 @@ class SqlAlchimy_repo :
         return None if strategy == None else strategy.to_domain()
     
   
+    def getAllPaginated(self, session, page_number, page_size):
+        strategies = session.query(PublicStrategyEntity).offset((page_number - 1) * page_size).limit(page_size)
+        return [strategy.to_domain() for strategy in strategies]
+    
+    def getAllByAccountId(self , session, account_id):
+        pass
+
+    def getAllByUserId(self, session ,user_id):
+        pass

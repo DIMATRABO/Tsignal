@@ -6,10 +6,10 @@ class GetAll:
         self.repo=repo
         self.sessionContext = SessionContext() 
 
-    def handle(self  ,getStrategiesInput):
+    def handle(self  ,getStrategiesInput, page_number, page_size):
         with self.sessionContext as session:
             if not getStrategiesInput.all is None :
-                to_return = self.repo.getAllStrategies(session )
+                to_return = self.repo.getAllPaginated(session, page_number, page_size)
             if not getStrategiesInput.account_id is  None : 
                 to_return = self.repo.getAllByAccountId(session, getStrategiesInput.account_id)
             if not getStrategiesInput.user_id is  None : 

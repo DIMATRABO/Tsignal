@@ -8,6 +8,7 @@ from gate_ways.subscription.sqlalchimyRepo import SqlAlchimy_repo as Subscriptio
 
 
 
+
 from use_cases.publicStrategy.save import Save
 from use_cases.publicStrategy.delete import Delete
 from use_cases.publicStrategy.getOne import GetOne
@@ -30,7 +31,7 @@ from models.model import PublicStrategy
 import json
 
 from controllers.decorations.checkAdminPermissions import check_admin_permission
-
+from controllers.decorations.paginate import paginate
 
 PublicStrategyController = Blueprint("PublicStrategyController", __name__)
 
@@ -110,105 +111,16 @@ def unsubscribe():
 
 
 
-"""
-
-@PublicStrategyController.route('/<publicStrategyId>', methods=['GET'])
+@PublicStrategyController.route('', methods=['GET'])
 @jwt_required()
-@check_admin_permission('genin')
-def getPublicStrategyById(publicStrategyId):
+@paginate
+def getAllPaginated(page_number, page_size):
     try:
-        publicStrategy = getOne.handle(getPublicStrategyInput=GetOneInput(id=publicStrategyId))
-        if(publicStrategy is None):
-            json_data = json.dumps({"status_message":"no publicStrategy found"})
-            return Response(json_data ,  status=400, mimetype='application/json')
-        return Response( json.dumps(publicStrategy.to_dict()) , status = 200, mimetype='application/json')
-      
-    except Exception as e :
-        json_data = json.dumps({"status_message":str(e)})
-        return Response(json_data , status=400, mimetype='application/json')
+        data = getAll.handle(GetAllInput(all="all"), page_number, page_size)
+        json_data = json.dumps([strategy.to_dict() for strategy in data])
+        return Response(json_data, status=200, mimetype='application/json')
 
+    except Exception as e:
+        json_data = json.dumps({"status_message": str(e)})
+        return Response(json_data, status=400, mimetype='application/json')
 
-
-@PublicStrategyController.route('/me/<publicStrategyId>', methods=['GET'])
-@jwt_required()
-def getMyPublicStrategyById(publicStrategyId):
-    try:
-        userId = get_jwt()["userId"]
-        publicStrategy = getOne.handle(getPublicStrategyInput=GetOneInput(id=publicStrategyId , user_id=userId))
-        if(publicStrategy is None):
-            json_data = json.dumps({"status_message":"no publicStrategy found"})
-            return Response(json_data ,  status=400, mimetype='application/json')
-        return Response( json.dumps(publicStrategy.to_dict()) , status = 200, mimetype='application/json')
-      
-    except Exception as e :
-        json_data = json.dumps({"status_message":str(e)})
-        return Response(json_data , status=400, mimetype='application/json')
-
-
-
-@PublicStrategyController.route('/me', methods=['GET'])
-@jwt_required()
-def getAccountsByUserId():
-    try:
-        userId = get_jwt()["userId"]
-        strategies = getAll.handle(getStrategiesInput=GetAllInput(user_id=userId))
-        json_data = json.dumps([publicStrategy.to_dict() for publicStrategy in strategies] )
-        return Response(json_data, status = 200, mimetype='application/json')
-      
-    except Exception as e :
-        json_data = json.dumps({"status_message":str(e)})
-        return Response(json_data , status=400, mimetype='application/json')
-
-
-@PublicStrategyController.route('/advanced/me', methods=['GET'])
-@jwt_required()
-def getStrategiesByUserId():
-    try:
-        userId = get_jwt()["userId"]
-        strategies = getAllAdvanced.handle(user_id=userId)
-        json_data = json.dumps([publicStrategy.to_dict() for publicStrategy in strategies] )
-        return Response(json_data, status = 200, mimetype='application/json')
-      
-    except Exception as e :
-        json_data = json.dumps({"status_message":str(e)})
-        return Response(json_data , status=400, mimetype='application/json')
-
-
-@PublicStrategyController.route('/account/<accountId>', methods=['GET'])
-@jwt_required()
-def getStrategiesByAccountId(accountId):
-    try:
-        strategies = getAll.handle(getStrategiesInput=GetAllInput(account_id=accountId))
-        json_data = json.dumps([publicStrategy.to_dict() for publicStrategy in strategies] )
-        return Response(json_data, status = 200, mimetype='application/json')
-      
-    except Exception as e :
-        json_data = json.dumps({"status_message":str(e)})
-        return Response(json_data , status=400, mimetype='application/json')
-
-
-
-
-
-
-
-@PublicStrategyController.route('/<id>', methods=['DELETE'])
-@jwt_required()
-def delete(id):
-    try:
-        userId = get_jwt()["userId"]
-        delete_handler.handle(publicStrategy= PublicStrategy(id=id) , user_id=userId)
-        status_message = "PublicStrategy deleted successfully"
-        logger.log(status_message)
-        json_data = json.dumps({"status_message":status_message})
-        return  Response(json_data , status=200, mimetype='application/json')
-
-    except Exception as e :
-        json_data = json.dumps({"status_message":str(e)})
-        return Response(json_data , status=400, mimetype='application/json')
-
-
-    
-
-
-"""
