@@ -11,9 +11,9 @@ class GetAll:
             if not getStrategiesInput.all is None :
                 to_return = self.repo.getAllPaginated(session, page_number, page_size)
             if not getStrategiesInput.account_id is  None : 
-                to_return = self.repo.getAllByAccountId(session, getStrategiesInput.account_id)
+                to_return = self.repo.getAllByAccountId(session, getStrategiesInput.account_id, page_number, page_size)
             if not getStrategiesInput.user_id is  None : 
-                to_return = self.repo.getAllByUserId(session, getStrategiesInput.user_id)
+                to_return = self.repo.getAllByUserId(session, getStrategiesInput.user_id, page_number, page_size)
             
             return to_return
 

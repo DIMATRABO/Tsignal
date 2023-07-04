@@ -2,7 +2,7 @@
 
 from gate_ways.log import Log
 from sqlalchemy import   exc
-from entities.entity import Base , PublicStrategyEntity , AccountEntity , OrderEntity
+from entities.entity import Base , PublicStrategyEntity , SubscriptionEntity 
 from models.model import PublicStrategy 
 import uuid
 
@@ -79,8 +79,25 @@ class SqlAlchimy_repo :
         strategies = session.query(PublicStrategyEntity).offset((page_number - 1) * page_size).limit(page_size)
         return [strategy.to_domain() for strategy in strategies]
     
-    def getAllByAccountId(self , session, account_id):
-        pass
+    def getAllByAccountId(self , session, account_id, page_number, page_size):
+        subquery = session.query(SubscriptionEntity.strategy_id).filter(
+            SubscriptionEntity.account_id == account_id
+        ).subquery()
 
-    def getAllByUserId(self, session ,user_id):
-        pass
+        strategies = session.query(PublicStrategyEntity).filter(
+            PublicStrategyEntity.webhook_id.in_(subquery)
+        ).offset((page_number - 1) * page_size).limit(page_size)
+
+        return [strategy.to_domain() for strategy in strategies]
+
+
+    def getAllByUserId(self, session, user_id, page_number, page_size):
+        subquery = session.query(SubscriptionEntity.strategy_id).filter(
+            SubscriptionEntity.user_id == user_id
+        ).subquery()
+
+        strategies = session.query(PublicStrategyEntity).filter(
+            PublicStrategyEntity.webhook_id.in_(subquery)
+        ).offset((page_number - 1) * page_size).limit(page_size)
+
+        return [strategy.to_domain() for strategy in strategies]

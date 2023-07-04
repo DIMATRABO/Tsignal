@@ -124,3 +124,32 @@ def getAllPaginated(page_number, page_size):
         json_data = json.dumps({"status_message": str(e)})
         return Response(json_data, status=400, mimetype='application/json')
 
+
+@PublicStrategyController.route('/subscribed/me', methods=['GET'])
+@jwt_required()
+@paginate
+def getSubscribedPaginated(page_number, page_size):
+    try:
+        userId = get_jwt()["userId"]
+        data = getAll.handle(GetAllInput(user_id=userId), page_number, page_size)
+        json_data = json.dumps([strategy.to_dict() for strategy in data])
+        return Response(json_data, status=200, mimetype='application/json')
+
+    except Exception as e:
+        json_data = json.dumps({"status_message": str(e)})
+        return Response(json_data, status=400, mimetype='application/json')
+
+
+@PublicStrategyController.route('/subscribed/<account_id>', methods=['GET'])
+@jwt_required()
+@paginate
+def getSubscribedPaginated(account_id, page_number, page_size):
+    try:
+        data = getAll.handle(GetAllInput(account_id=account_id), page_number, page_size)
+        json_data = json.dumps([strategy.to_dict() for strategy in data])
+        return Response(json_data, status=200, mimetype='application/json')
+
+    except Exception as e:
+        json_data = json.dumps({"status_message": str(e)})
+        return Response(json_data, status=400, mimetype='application/json')
+
