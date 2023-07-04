@@ -243,3 +243,26 @@ def changePasswordFUNCTION():
         return Response(json_data , status=400, mimetype='application/json')
 
 
+
+
+@UserController.route('/activate<userId>', methods=['POST'])
+@jwt_required()
+@check_admin_permission("genin")
+def activate():    
+    try:
+        password_json = request.get_json()
+        form = ChangePasswordForm(password_json)
+    except Exception as e :
+        logger.log("exeption: "+str(e))
+        json_data = json.dumps({"error":str(e)})
+        return Response(json_data , status = 400, mimetype='application/json')
+    
+    try:
+        user_updated = changePassword.handle(user_id=get_jwt()["userId"] , old_password = form.last_password , new_password=form.new_password )
+        json_data = json.dumps(user_updated.to_dict())
+        return Response(json_data , status=200, mimetype='application/json')
+    except Exception as e :
+        json_data = json.dumps({"status_message":str(e)})
+        return Response(json_data , status=400, mimetype='application/json')
+
+
