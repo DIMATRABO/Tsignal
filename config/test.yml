@@ -19,4 +19,4 @@ logging:
 
 jwt:
   secret: MYSECRET
-  expiration: 1
+  expiration: 5
