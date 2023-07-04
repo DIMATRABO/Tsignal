@@ -125,10 +125,10 @@ def getAllPaginated(page_number, page_size):
         return Response(json_data, status=400, mimetype='application/json')
 
 
-@PublicStrategyController.route('/subscribed/me', methods=['GET'])
+@PublicStrategyController.route('/subscribed', methods=['GET'])
 @jwt_required()
 @paginate
-def getSubscribedPaginated(page_number, page_size):
+def getMySubscriptionsPaginated(page_number, page_size):
     try:
         userId = get_jwt()["userId"]
         data = getAll.handle(GetAllInput(user_id=userId), page_number, page_size)
