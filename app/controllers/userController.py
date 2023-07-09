@@ -1,6 +1,7 @@
 from gate_ways.user.sqlalchimyRepo import SqlAlchimy_repo
 from use_cases.user.save import Save
 from use_cases.user.update import Update
+from use_cases.user.activate import Activate
 from use_cases.user.delete import Delete
 from use_cases.user.getOne import GetOne
 from use_cases.user.auth import Auth
@@ -30,6 +31,7 @@ logger = Log()
 postgres_repo = SqlAlchimy_repo()
 saving_handler = Save(postgres_repo)
 update_handler = Update(postgres_repo)
+activate_handler = Activate(postgres_repo)
 delete_handler = Delete(postgres_repo)
 getOne = GetOne(postgres_repo)
 auth = Auth(postgres_repo)
@@ -245,24 +247,14 @@ def changePasswordFUNCTION():
 
 
 
-@UserController.route('/activate<userId>', methods=['POST'])
+@UserController.route('/activate<userId>', methods=['PATCH'])
 @jwt_required()
 @check_admin_permission("genin")
-def activate():    
+def activate(userId):    
     try:
-        password_json = request.get_json()
-        form = ChangePasswordForm(password_json)
-    except Exception as e :
-        logger.log("exeption: "+str(e))
-        json_data = json.dumps({"error":str(e)})
-        return Response(json_data , status = 400, mimetype='application/json')
-    
-    try:
-        user_updated = changePassword.handle(user_id=get_jwt()["userId"] , old_password = form.last_password , new_password=form.new_password )
+        user_updated = activate_handler.handle(user_id=userId)
         json_data = json.dumps(user_updated.to_dict())
         return Response(json_data , status=200, mimetype='application/json')
     except Exception as e :
         json_data = json.dumps({"status_message":str(e)})
         return Response(json_data , status=400, mimetype='application/json')
-
-

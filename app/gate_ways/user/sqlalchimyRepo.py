@@ -61,7 +61,7 @@ class SqlAlchimy_repo :
 
     def getAllUsers(self, session):
         
-        users = session.query("users")
+        users = session.query(UserEntity).all()
         
         return users
 
