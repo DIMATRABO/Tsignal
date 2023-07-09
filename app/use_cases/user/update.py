@@ -15,7 +15,7 @@ class Update:
 
 
     
-    def patchUser(old_user:User , new_user:User):
+    def patchUser(self, old_user:User , new_user:User):
         
         # Update the non-null fields of the user entity
         if new_user.email is not None:
