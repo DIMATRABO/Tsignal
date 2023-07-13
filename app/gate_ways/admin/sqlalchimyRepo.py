@@ -2,6 +2,9 @@
 
 from gate_ways.log import Log
 from entities.entity import Base , AdminEntity 
+import uuid
+from sqlalchemy import   exc
+
 
 logger = Log()
 class SqlAlchimy_repo :
@@ -9,7 +12,20 @@ class SqlAlchimy_repo :
         self.Base = Base
 
         
-
+    def save(self, session , admin):
+        adminEntity = AdminEntity()
+        adminEntity.from_domain(model=admin)
+        adminEntity.id=str(uuid.uuid4())
+        
+        session.add(adminEntity)
+        try:        
+            session.commit()
+        except exc.SQLAlchemyError as e:
+            logger.log(e)
+            session.rollback()
+            raise Exception("admin not saved")
+         
+        return adminEntity.to_domain()
 
     def getAdminByLogin(self, session , login):
         admin = session.query(AdminEntity).filter(AdminEntity.login == login).first()

@@ -2,7 +2,12 @@ from gate_ways.alchemy_db_create import Db_creator
 from gate_ways.config_handler import Config_handler
 from gate_ways.exchange.sqlalchimyRepo import SqlAlchimy_repo as Exchange_repo
 from use_cases.exchange.save import Save
-from models.model import Exchange
+
+from gate_ways.admin.sqlalchimyRepo import SqlAlchimy_repo as Admin_repo
+from use_cases.admin.save import Save as SaveAdmin
+
+
+from models.model import Exchange , Admin
 
 #creating database
 config = Config_handler()
@@ -16,6 +21,9 @@ pg.create()
 
 exchange_repo = Exchange_repo()
 saving_handler = Save(exchange_repo)
+
+admin_repo = Admin_repo()
+savingAdmin_handler = SaveAdmin(admin_repo)
 
 exchanges = []
 binance = Exchange(id="binance",
@@ -44,3 +52,9 @@ exchanges.append(bybit)
 
 for exchange in exchanges:
     saving_handler.handle(exchange=exchange)
+
+
+
+
+def_admin = Admin(login="anass",password='12345678',first_name="anass" , last_name="anass" , privilege="genin")
+savingAdmin_handler.handle(admin=def_admin)

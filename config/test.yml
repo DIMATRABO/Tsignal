@@ -11,8 +11,8 @@ database:
   host: db
   port: 5432
   name: tsignal
-  user: postgres
-  password: postgres
+  user: 9l3oldindimakdaba
+  password: ohadapassword9l3ohtahoa
 logging:
   level: info
   filename: app.log

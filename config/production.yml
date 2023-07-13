@@ -11,8 +11,8 @@ database:
   host: db
   port: 5432
   name: my_database
-  user: my_user
-  password: my_password
+  user: 9l3oldindimakdaba
+  password: ohadapassword9l3ohtahoa
 logging:
   level: info
   filename: myapp.log
