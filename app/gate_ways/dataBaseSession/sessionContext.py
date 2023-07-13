@@ -12,7 +12,12 @@ class SessionContext:
         password = config.get_db_passwd()
         port = config.get_db_port()
         host = config.get_db_host()
-        engine = create_engine("postgresql+psycopg2://"+ user+":"+ password+"@"+host+":"+str(port)+"/"+dbname)
+
+        if port == "_":
+            engine = create_engine("postgresql+psycopg2://"+user+":"+password+"@"+host+"/"+dbname)
+        else:
+            engine = create_engine("postgresql+psycopg2://"+user+":"+password+"@"+host+":"+str(port)+"/"+dbname)
+
         Session = sessionmaker(bind=engine)
         self.session = Session()
 
