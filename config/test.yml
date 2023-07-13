@@ -9,7 +9,7 @@ environment:
   
 database:
   host: db
-  port: 5432
+  port: _
   name: tsignal
   user: 9l3oldindimakdaba
   password: ohadapassword9l3ohtahoa

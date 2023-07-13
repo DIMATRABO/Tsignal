@@ -10,7 +10,10 @@ class Db_creator :
         self.port = config.get_db_port()
         self.host=config.get_db_host()
 
-        self.engine = create_engine("postgresql+psycopg2://"+self.user+":"+self.password+"@"+self.host+":"+str(self.port)+"/"+self.dbname)
+        if self.port == "_":
+            self.engine = create_engine("postgresql+psycopg2://"+self.user+":"+self.password+"@"+self.host+"/"+self.dbname)
+        else:
+            self.engine = create_engine("postgresql+psycopg2://"+self.user+":"+self.password+"@"+self.host+":"+str(self.port)+"/"+self.dbname)
         self.Base = Base
 
     def create(self):
