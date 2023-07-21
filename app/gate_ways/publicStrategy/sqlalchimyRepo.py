@@ -4,7 +4,7 @@ from gate_ways.log import Log
 from sqlalchemy import   exc
 from entities.entity import Base , PublicStrategyEntity , SubscriptionEntity 
 from models.model import PublicStrategy 
-from forms.publicStrategy.publicStrategiesPaginated import Pu
+from forms.publicStrategy.publicStrategiesPaginated import PublicStrategiesPaginated
 import uuid
 
 
