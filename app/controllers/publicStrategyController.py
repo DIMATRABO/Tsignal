@@ -117,7 +117,7 @@ def unsubscribe():
 def getAllPaginated(page_number, page_size):
     try:
         data = getAll.handle(GetAllInput(all="all"), page_number, page_size)
-        json_data = json.dumps([strategy.to_dict() for strategy in data])
+        json_data = json.dumps([strategy.to_dict() for strategy in data.strategies])
         return Response(json_data, status=200, mimetype='application/json')
 
     except Exception as e:
