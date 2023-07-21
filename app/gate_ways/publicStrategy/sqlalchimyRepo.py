@@ -88,7 +88,7 @@ class SqlAlchimy_repo :
             total_records =  total_records,
             page_number= page_number,
             page_size= page_size,
-            strategies= [query.to_domain() for strategy in strategies]
+            strategies= [strategy.to_domain() for strategy in strategies]
             )
 
     
