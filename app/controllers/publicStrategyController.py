@@ -131,8 +131,8 @@ def getAllPaginated(page_number, page_size):
 def getMySubscriptionsPaginated(page_number, page_size):
     try:
         userId = get_jwt()["userId"]
-        data = getAll.handle(GetAllInput(user_id=userId), page_number, page_size)
-        json_data = json.dumps([strategy.to_dict() for strategy in data])
+        publicStrategiesPaginated = getAll.handle(GetAllInput(user_id=userId), page_number, page_size)
+        json_data = json.dumps(publicStrategiesPaginated.to_dict())
         return Response(json_data, status=200, mimetype='application/json')
 
     except Exception as e:
