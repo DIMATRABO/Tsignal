@@ -4,6 +4,7 @@ from gate_ways.log import Log
 from sqlalchemy import   exc
 from entities.entity import Base , PublicStrategyEntity , SubscriptionEntity 
 from models.model import PublicStrategy 
+from forms.publicStrategy.publicStrategiesPaginated import Pu
 import uuid
 
 
@@ -76,8 +77,20 @@ class SqlAlchimy_repo :
     
   
     def getAllPaginated(self, session, page_number, page_size):
-        strategies = session.query(PublicStrategyEntity).offset((page_number - 1) * page_size).limit(page_size)
-        return [strategy.to_domain() for strategy in strategies]
+        query = session.query(PublicStrategyEntity).offset((page_number - 1) * page_size).limit(page_size)
+
+        total_records = query.count()
+        starting_index = (page_number - 1) * page_size
+     
+        strategies = query.offset(starting_index).limit(page_size).all()
+
+        return PublicStrategiesPaginated(
+            total_records =  total_records,
+            page_number= page_number,
+            page_size= page_size,
+            strategies= [query.to_domain() for strategy in strategies]
+            )
+
     
     def getAllByAccountId(self , session, account_id, page_number, page_size):
         subquery = session.query(SubscriptionEntity.strategy_id).filter(
