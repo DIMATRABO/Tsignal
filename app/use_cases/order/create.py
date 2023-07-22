@@ -38,7 +38,7 @@ class Create:
                         response = exchange.executeOrder(order)
                         
                         if "id" in response:
-                            response = exchange.getOrderDetails(response['id'])
+                            response = exchange.getOrderDetails(response['id'], order.symbol_id)
 
                         order = map_data(order=order , response=response)
 

@@ -34,7 +34,7 @@ class CreatePublic:
             exchange = ExchangeExecution(account.exchange.id , account.key)
             response = exchange.executeOrder(order)
             if "id" in response:
-                response = exchange.getOrderDetails(response['id'])
+                response = exchange.getOrderDetails(response['id'] , order.symbol_id)
             order = map_data(order=order , response=response)
             with self.sessionContext as session:
                 self.orderRepo.save(session, order)

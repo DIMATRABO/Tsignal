@@ -94,9 +94,9 @@ class ExchangeExecution:
 
 
 
-    def getOrderDetails(self , order_id):
+    def getOrderDetails(self , order_id , symbol = None):
         try:
-            order = self.exchange.fetch_order(order_id)
+            order = self.exchange.fetch_order(order_id, symbol)
             return order  # Do something with the order details
         except ccxt.BaseError as e:
             return (f"Error fetching order: {e}")
