@@ -145,8 +145,8 @@ def getMySubscriptionsPaginated(page_number, page_size):
 @paginate
 def getSubscribedPaginated(account_id, page_number, page_size):
     try:
-        data = getAll.handle(GetAllInput(account_id=account_id), page_number, page_size)
-        json_data = json.dumps([strategy.to_dict() for strategy in data])
+        publicStrategiesPaginated = getAll.handle(GetAllInput(account_id=account_id), page_number, page_size)
+        json_data = json.dumps(publicStrategiesPaginated.to_dict())
         return Response(json_data, status=200, mimetype='application/json')
 
     except Exception as e:

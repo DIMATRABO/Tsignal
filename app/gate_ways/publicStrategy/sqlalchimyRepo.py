@@ -97,11 +97,21 @@ class SqlAlchimy_repo :
             SubscriptionEntity.account_id == account_id
         ).subquery()
 
-        strategies = session.query(PublicStrategyEntity).filter(
+        query = session.query(PublicStrategyEntity).filter(
             PublicStrategyEntity.webhook_id.in_(subquery)
         ).offset((page_number - 1) * page_size).limit(page_size)
 
-        return [strategy.to_domain() for strategy in strategies]
+        total_records = query.count()
+        starting_index = (page_number - 1) * page_size
+     
+        strategies = query.offset(starting_index).limit(page_size).all()
+
+        return PublicStrategiesPaginated(
+            total_records =  total_records,
+            page_number= page_number,
+            page_size= page_size,
+            strategies= [strategy.to_domain() for strategy in strategies]
+            )
 
 
     def getAllByUserId(self, session, user_id, page_number, page_size):
@@ -109,8 +119,18 @@ class SqlAlchimy_repo :
             SubscriptionEntity.user_id == user_id
         ).subquery()
 
-        strategies = session.query(PublicStrategyEntity).filter(
+        query = session.query(PublicStrategyEntity).filter(
             PublicStrategyEntity.webhook_id.in_(subquery)
         ).offset((page_number - 1) * page_size).limit(page_size)
 
-        return [strategy.to_domain() for strategy in strategies]
+        total_records = query.count()
+        starting_index = (page_number - 1) * page_size
+     
+        strategies = query.offset(starting_index).limit(page_size).all()
+
+        return PublicStrategiesPaginated(
+            total_records =  total_records,
+            page_number= page_number,
+            page_size= page_size,
+            strategies= [strategy.to_domain() for strategy in strategies]
+            )
