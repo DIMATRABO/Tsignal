@@ -77,7 +77,7 @@ class SqlAlchimy_repo :
     
   
     def getAllPaginated(self, session, page_number, page_size):
-        query = session.query(PublicStrategyEntity).offset((page_number - 1) * page_size).limit(page_size)
+        query = session.query(PublicStrategyEntity)
 
         total_records = query.count()
         starting_index = (page_number - 1) * page_size
@@ -99,7 +99,7 @@ class SqlAlchimy_repo :
 
         query = session.query(PublicStrategyEntity).filter(
             PublicStrategyEntity.webhook_id.in_(subquery)
-        ).offset((page_number - 1) * page_size).limit(page_size)
+        )
 
         total_records = query.count()
         starting_index = (page_number - 1) * page_size
@@ -121,7 +121,7 @@ class SqlAlchimy_repo :
 
         query = session.query(PublicStrategyEntity).filter(
             PublicStrategyEntity.webhook_id.in_(subquery)
-        ).offset((page_number - 1) * page_size).limit(page_size)
+        )
 
         total_records = query.count()
         starting_index = (page_number - 1) * page_size

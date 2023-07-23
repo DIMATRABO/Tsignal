@@ -924,8 +924,6 @@ class SqlAlchimy_repo :
         )
         ).order_by(OrderEntity.reception_date.desc())
 
-
-
         total_records = query.count()
         starting_index = (page_number - 1) * page_size
      
