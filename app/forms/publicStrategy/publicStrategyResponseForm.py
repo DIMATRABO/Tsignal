@@ -47,5 +47,5 @@ class PublicStrategyResponseForm:
     def to_dict(self):
         self.created_at = self.created_at.isoformat() if self.created_at else None
         self.backtesting_start_date = self.backtesting_start_date.isoformat() if self.backtesting_start_date else None
-        self.backtesting_start_date = self.backtesting_start_date.isoformat() if self.backtesting_start_date else None
+        self.backtesting_end_date = self.backtesting_end_date.isoformat() if self.backtesting_end_date else None
         return asdict(self)
