@@ -176,6 +176,7 @@ class PublicStrategy:
         self.backtesting_end_date=self.backtesting_end_date.isoformat() if self.backtesting_end_date else None
         return asdict(self)
     
+  
 
 @dataclass
 class Subscription:
