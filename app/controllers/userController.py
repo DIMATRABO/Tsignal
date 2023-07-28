@@ -74,7 +74,7 @@ def getUserById(userId):
 def usersPaginated(page_number, page_size):
     try:
         data = get_users_paginated_handler.handle(GetAllInput("all"), page_number, page_size)
-        json_data = json.dumps([user.to_dict() for user in data])
+        json_data = json.dumps(data.to_dict())
         return Response(json_data, status=200, mimetype='application/json')
 
     except Exception as e:
@@ -89,8 +89,8 @@ def usersPaginated(page_number, page_size):
 @paginate
 def usersFirstnamePaginated(firstname , page_number, page_size):
     try:
-        data = get_users_paginated_handler.handle(GetAllInput(first_name=firstname), page_number, page_size)
-        json_data = json.dumps([user.to_dict() for user in data])
+        userPage = get_users_paginated_handler.handle(GetAllInput(first_name=firstname), page_number, page_size)
+        json_data = json.dumps(userPage.to_dict())
         return Response(json_data, status=200, mimetype='application/json')
 
     except Exception as e:
@@ -105,7 +105,7 @@ def usersFirstnamePaginated(firstname , page_number, page_size):
 def usersLastnamePaginated(lastname , page_number, page_size):
     try:
         data = get_users_paginated_handler.handle(GetAllInput(last_name=lastname), page_number, page_size)
-        json_data = json.dumps([user.to_dict() for user in data])
+        json_data = json.dumps(data.to_dict())
         return Response(json_data, status=200, mimetype='application/json')
 
     except Exception as e:
