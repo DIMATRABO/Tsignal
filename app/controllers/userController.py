@@ -121,12 +121,11 @@ def getUserBycardId():
     try:
         if checkAdmin.handle(get_jwt()["adminId"], get_jwt()["login"], get_jwt()["privilege"], "genin"):
             admin = getOneAdmin.handle(getAdminInput=GetOneAdminInput(id=get_jwt()["adminId"]))
-            return Response( json.dumps(admin.to_dict()) , status = 200, mimetype='application/json')
-        
+            return Response( json.dumps(admin.to_dict()) , status = 200, mimetype='application/json') 
     except:
         pass
-    finally:
-        try:
+  
+    try:
             userId = get_jwt()["userId"]
             user = User()
             user = getOne.handle(getUserInput=GetOneInput(id=userId))
@@ -135,7 +134,7 @@ def getUserBycardId():
                 return Response(json_data ,  status=400, mimetype='application/json')
             return Response( json.dumps(user.to_dict()) , status = 200, mimetype='application/json')
         
-        except Exception as e :
+    except Exception as e :
             json_data = json.dumps({"status_message":str(e)})
             return Response(json_data , status=400, mimetype='application/json')
 
