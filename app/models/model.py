@@ -141,6 +141,7 @@ class Admin:
         return self(**d)
 
     def to_dict(self):
+        self.id = None
         self.password = None
         return asdict(self)
     

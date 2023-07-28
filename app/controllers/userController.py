@@ -1,4 +1,12 @@
 from gate_ways.user.sqlalchimyRepo import SqlAlchimy_repo
+
+from use_cases.admin.checkAdmin import CheckAdmin
+from gate_ways.admin.sqlalchimyRepo import SqlAlchimy_repo as AdminRepo
+
+from use_cases.admin.getOne import GetOne
+from use_cases.admin.inputs.getOneInput import GetOneInput as GetOneAdminInput
+
+
 from use_cases.user.save import Save
 from use_cases.user.update import Update
 from use_cases.user.activate import Activate
@@ -29,6 +37,7 @@ UserController = Blueprint("UserController", __name__)
 
 logger = Log()
 postgres_repo = SqlAlchimy_repo()
+admin_repo = AdminRepo()
 saving_handler = Save(postgres_repo)
 update_handler = Update(postgres_repo)
 activate_handler = Activate(postgres_repo)
@@ -38,7 +47,7 @@ auth = Auth(postgres_repo)
 changePassword = ChangePassword(postgres_repo)
 
 get_users_paginated_handler = GetPaginated(postgres_repo)
-
+checkAdmin = CheckAdmin(admin_repo)
 
 
 @UserController.route('/<userId>', methods=['GET'])
@@ -109,13 +118,20 @@ def usersLastnamePaginated(lastname , page_number, page_size):
 @jwt_required()
 def getUserBycardId():
     try:
-        userId = get_jwt()["userId"]
-        user = User()
-        user = getOne.handle(getUserInput=GetOneInput(id=userId))
-        if(user is None):
-            json_data = json.dumps({"status_message":"no user found"})
-            return Response(json_data ,  status=400, mimetype='application/json')
-        return Response( json.dumps(user.to_dict()) , status = 200, mimetype='application/json')
+        try:
+            if checkAdmin.handle(get_jwt()["adminId"], get_jwt()["login"], get_jwt()["privilege"], "genin"):
+                admin = getOne.handle(getAdminInput=GetOneAdminInput(id=get_jwt()["adminId"]))
+                return Response( json.dumps(admin.to_dict()) , status = 200, mimetype='application/json')
+            
+        finally:
+            userId = get_jwt()["userId"]
+            user = User()
+            user = getOne.handle(getUserInput=GetOneInput(id=userId))
+            if(user is None):
+                json_data = json.dumps({"status_message":"no user found"})
+                return Response(json_data ,  status=400, mimetype='application/json')
+            return Response( json.dumps(user.to_dict()) , status = 200, mimetype='application/json')
+        
     except Exception as e :
         json_data = json.dumps({"status_message":str(e)})
         return Response(json_data , status=400, mimetype='application/json')
