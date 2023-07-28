@@ -4,6 +4,7 @@ from gate_ways.log import Log
 from sqlalchemy import  and_ , exc
 from entities.entity import Base , UserEntity 
 from models.model import User
+from forms.user.userssPaginated import UsersPage
 import uuid
 
 logger = Log()
@@ -77,24 +78,52 @@ class SqlAlchimy_repo :
 
 
     def getAllPaginated(self, session, page_number, page_size):
-        users = session.query(UserEntity).offset((page_number - 1) * page_size).limit(page_size)
-        return [user.to_domain() for user in users]
+        query =  session.query(UserEntity)
+        total_records = query.count()
+        starting_index = (page_number - 1) * page_size
+        users = query.offset(starting_index).limit(page_size).all()
+        return UsersPage(
+             total_records =  total_records,
+            page_number= page_number,
+            page_size= page_size,
+            users= [user.to_domain() for user in users]
+            )
+
 
     def getAllByFisrtAndLastName(self, session, first_name, last_name, page_number, page_size):
-        users = session.query(UserEntity).filter(
-            and_(UserEntity.first_name == first_name, UserEntity.last_name == last_name)
-        ).offset((page_number - 1) * page_size).limit(page_size)
-        return [user.to_domain() for user in users]
-
+        query = session.query(UserEntity).filter(and_(UserEntity.first_name == first_name, UserEntity.last_name == last_name))
+        total_records = query.count()
+        starting_index = (page_number - 1) * page_size
+        users = query.offset(starting_index).limit(page_size).all()
+        return UsersPage(
+             total_records =  total_records,
+            page_number= page_number,
+            page_size= page_size,
+            users= [user.to_domain() for user in users]
+            )
+    
+ 
     def getAllByFisrtName(self, session, first_name, page_number, page_size):
-        users = session.query(UserEntity).filter(
-            UserEntity.first_name == first_name
-        ).offset((page_number - 1) * page_size).limit(page_size)
-        return [user.to_domain() for user in users]
-
+        query =  session.query(UserEntity).filter(UserEntity.first_name == first_name)
+        total_records = query.count()
+        starting_index = (page_number - 1) * page_size
+        users = query.offset(starting_index).limit(page_size).all()
+        return UsersPage(
+             total_records =  total_records,
+            page_number= page_number,
+            page_size= page_size,
+            users= [user.to_domain() for user in users]
+            )
+    
     def getAllByLastName(self, session, last_name, page_number, page_size):
-        users = session.query(UserEntity).filter(
-            UserEntity.last_name == last_name
-        ).offset((page_number - 1) * page_size).limit(page_size)
-        return [user.to_domain() for user in users]
+        query =  session.query(UserEntity).filter(UserEntity.last_name == last_name)
+        total_records = query.count()
+        starting_index = (page_number - 1) * page_size
+        users = query.offset(starting_index).limit(page_size).all()
+        return UsersPage(
+             total_records =  total_records,
+            page_number= page_number,
+            page_size= page_size,
+            users= [user.to_domain() for user in users]
+            )
     

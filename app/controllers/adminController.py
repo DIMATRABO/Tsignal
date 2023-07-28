@@ -1,8 +1,8 @@
 from gate_ways.admin.sqlalchimyRepo import SqlAlchimy_repo
 from use_cases.admin.getOne import GetOne
+from use_cases.admin.inputs.getOneInput import GetOneInput
 from use_cases.admin.auth import Auth
 
-from use_cases.admin.inputs.getOneInput import GetOneInput
 
 from gate_ways.log import Log
 from forms.admin.authAdminForm import AuthAdminForm
