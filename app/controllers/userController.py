@@ -3,7 +3,7 @@ from gate_ways.user.sqlalchimyRepo import SqlAlchimy_repo
 from use_cases.admin.checkAdmin import CheckAdmin
 from gate_ways.admin.sqlalchimyRepo import SqlAlchimy_repo as AdminRepo
 
-from use_cases.admin.getOne import GetOne
+from use_cases.admin.getOne import GetOne as GetOneAdmin
 from use_cases.admin.inputs.getOneInput import GetOneInput as GetOneAdminInput
 
 
@@ -43,6 +43,7 @@ update_handler = Update(postgres_repo)
 activate_handler = Activate(postgres_repo)
 delete_handler = Delete(postgres_repo)
 getOne = GetOne(postgres_repo)
+getOneAdmin = GetOneAdmin(admin_repo)
 auth = Auth(postgres_repo)
 changePassword = ChangePassword(postgres_repo)
 
@@ -117,7 +118,7 @@ def usersLastnamePaginated(lastname , page_number, page_size):
 @UserController.route('/me', methods=['GET'])
 @jwt_required()
 def getUserBycardId():
-    admin = getOne.handle(getAdminInput=GetOneAdminInput(id=get_jwt()["adminId"]))
+    admin = getOneAdmin.handle(getAdminInput=GetOneAdminInput(id=get_jwt()["adminId"]))
     return Response( json.dumps(admin.to_dict()) , status = 200, mimetype='application/json')
     try:
         try:
