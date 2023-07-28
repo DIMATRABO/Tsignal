@@ -118,12 +118,11 @@ def usersLastnamePaginated(lastname , page_number, page_size):
 @UserController.route('/me', methods=['GET'])
 @jwt_required()
 def getUserBycardId():
-    admin = getOneAdmin.handle(getAdminInput=GetOneAdminInput(id=get_jwt()["adminId"]))
-    return Response( json.dumps(admin.to_dict()) , status = 200, mimetype='application/json')
+  
     try:
         try:
             if checkAdmin.handle(get_jwt()["adminId"], get_jwt()["login"], get_jwt()["privilege"], "genin"):
-                admin = getOne.handle(getAdminInput=GetOneAdminInput(id=get_jwt()["adminId"]))
+                admin = getOneAdmin.handle(getAdminInput=GetOneAdminInput(id=get_jwt()["adminId"]))
                 return Response( json.dumps(admin.to_dict()) , status = 200, mimetype='application/json')
             
         finally:
