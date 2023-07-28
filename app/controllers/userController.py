@@ -117,7 +117,6 @@ def usersLastnamePaginated(lastname , page_number, page_size):
 @UserController.route('/me', methods=['GET'])
 @jwt_required()
 def getUserBycardId():
-    return Response( json.dumps(get_jwt()["adminId"]) , status = 200, mimetype='application/json')
     try:
         try:
             if checkAdmin.handle(get_jwt()["adminId"], get_jwt()["login"], get_jwt()["privilege"], "genin"):
