@@ -5,7 +5,7 @@ from models.model import PublicStrategy
 @dataclass
 class PublicStrategyResponseForm:
     id: str = None
-    name: str = None
+    webhook_id: str = None
     name: str = None
     symbol: str = None
     symbol_id: str = None
