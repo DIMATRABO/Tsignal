@@ -5,8 +5,6 @@ from datetime import datetime
 @dataclass
 class CreatePublicStrategyForm:
     name: str = None
-    webhook_id: str = None
-    webhook_key: str = None
     symbol: str = None
     symbol_id: str = None
     is_future: bool = None
@@ -24,8 +22,6 @@ class CreatePublicStrategyForm:
         self.validate_fields(json_data)
 
         self.name = json_data.get('name')
-        self.webhook_id = json_data.get('webhook_id')
-        self.webhook_key = json_data.get('webhook_key')
         self.symbol = json_data.get('symbol')
         self.symbol_id = json_data.get('symbol_id')
         self.is_future = json_data.get('is_future')
@@ -41,7 +37,7 @@ class CreatePublicStrategyForm:
 
     def validate_fields(self, json_data):
         required_fields = [
-            'name', 'webhook_id', 'webhook_key',
+            'name',
             'symbol', 'symbol_id', 'is_future', 'leverage',
             'capital', 'backtesting_start_date',
             'backtesting_end_date', 'backtesting_initial_capital',
@@ -56,8 +52,6 @@ class CreatePublicStrategyForm:
     def to_domain(self):
         return PublicStrategy(
             name=self.name,
-            webhook_id=self.webhook_id,
-            webhook_key=self.webhook_key,
             symbol=self.symbol,
             symbol_id=self.symbol_id,
             is_future=self.is_future,
