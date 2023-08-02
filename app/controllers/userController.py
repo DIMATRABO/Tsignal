@@ -207,18 +207,18 @@ def refresh():
 @jwt_required()
 @check_admin_permission("genin")
 def delete(id):
-   
-        if delete_handler.handle(user= User(id=id)):
-
-            status_message = "User deleted successfully"
-            logger.log(status_message)
-            json_data = json.dumps({"status_message":status_message})
-            return  Response(json_data , status=200, mimetype='application/json')
+    try:
+        delete_handler.handle(user= User(id=id)):
 
         status_message = "User deleted successfully"
+        logger.log(status_message)
         json_data = json.dumps({"status_message":status_message})
-        return  Response(json_data , status=400, mimetype='application/json')
-
+        return  Response(json_data , status=200, mimetype='application/json')
+    
+    except Exception as e :
+        logger.log("exeption: "+str(e))
+        json_data = json.dumps({"error":str(e)})
+        return Response(json_data , status = 400, mimetype='application/json')
         
 
 

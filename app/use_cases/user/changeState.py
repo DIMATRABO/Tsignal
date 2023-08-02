@@ -7,6 +7,7 @@ class ChangeState:
     def handle(self, user_id):
         with self.sessionContext as session:
             user = self.repo.getUserById(session, user_id)
-            user.is_actif = not user.is_actif
+            if not user is None :
+                user.is_actif = not user.is_actif
             return self.repo.update(session , user)
     
