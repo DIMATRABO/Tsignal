@@ -24,7 +24,7 @@ class PublicStrategyResponseForm:
 
     def __init__(self, strategy: PublicStrategy):
         self.id = strategy.id
-        self.webhook_id = strategy.webhook_id
+        self.webhook_id = strategy.webhook_id #here
         self.name = strategy.name
         self.symbol = strategy.symbol
         self.symbol_id = strategy.symbol_id
