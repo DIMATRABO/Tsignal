@@ -208,8 +208,7 @@ def refresh():
 @check_admin_permission("genin")
 def delete(id):
     try:
-        delete_handler.handle(user= User(id=id)):
-
+        delete_handler.handle(user= User(id=id))
         status_message = "User deleted successfully"
         logger.log(status_message)
         json_data = json.dumps({"status_message":status_message})
