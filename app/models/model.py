@@ -185,6 +185,8 @@ class Subscription:
     user_id: str = None
     strategy_id: str = None
     account_id: str = None
+    amount : float = None
+    capital : float = None
     created_at: datetime = None
     unsubscription_date: datetime = None
 

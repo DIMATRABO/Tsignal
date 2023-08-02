@@ -459,14 +459,18 @@ class SubscriptionEntity(Base):
     user_id = Column(String)
     strategy_id = Column(String)
     account_id = Column(String)
+    amount = Column(Float)
+    capital = Column(Float)
     created_at = Column(DateTime)
     unsubscription_date = Column(DateTime)
 
-    def __init__(self, id=None, user_id=None, strategy_id=None, account_id=None , created_at=None , unsubscription_date=None):
+    def __init__(self, id=None, user_id=None, strategy_id=None, account_id=None ,amount=None ,capital = None, created_at=None , unsubscription_date=None):
         self.id = id
         self.user_id = user_id
         self.strategy_id = strategy_id
         self.account_id = account_id
+        self.amount = amount
+        self.capital = capital
         self.created_at = created_at
         self.unsubscription_date = unsubscription_date
 
@@ -483,6 +487,8 @@ class SubscriptionEntity(Base):
         self.strategy_id = model.strategy_id
         self.account_id  = model.account_id
         self.created_at = model.created_at
+        self.amount = model.amount
+        self.capital = model.capital
         self.unsubscription_date = model.unsubscription_date
 
     def to_domain(self):
@@ -491,6 +497,8 @@ class SubscriptionEntity(Base):
             user_id=self.user_id,
             strategy_id=self.strategy_id,
             account_id = self.account_id,
+            amount = self.amount,
+            capital = self.capital,
             created_at=self.created_at,
             unsubscription_date = self.unsubscription_date
         )
