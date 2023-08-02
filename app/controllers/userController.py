@@ -85,29 +85,14 @@ def usersPaginated(page_number, page_size):
 
 
 
-@UserController.route('paginate/firstname/<firstname>', methods=['GET'])
+@UserController.route('paginate/<search>', methods=['GET'])
 @jwt_required()
 @check_admin_permission("genin")
 @paginate
-def usersFirstnamePaginated(firstname , page_number, page_size):
+def usersFirstnamePaginated(search , page_number, page_size):
     try:
-        userPage = get_users_paginated_handler.handle(GetAllInput(first_name=firstname), page_number, page_size)
+        userPage = get_users_paginated_handler.handle(GetAllInput(search=search), page_number, page_size)
         json_data = json.dumps(userPage.to_dict())
-        return Response(json_data, status=200, mimetype='application/json')
-
-    except Exception as e:
-        json_data = json.dumps({"status_message": str(e)})
-        return Response(json_data, status=400, mimetype='application/json')
-
-
-@UserController.route('paginate/lastname/<lastname>', methods=['GET'])
-@jwt_required()
-@check_admin_permission("genin")
-@paginate
-def usersLastnamePaginated(lastname , page_number, page_size):
-    try:
-        data = get_users_paginated_handler.handle(GetAllInput(last_name=lastname), page_number, page_size)
-        json_data = json.dumps(data.to_dict())
         return Response(json_data, status=200, mimetype='application/json')
 
     except Exception as e:

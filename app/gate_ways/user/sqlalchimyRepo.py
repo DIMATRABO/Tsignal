@@ -1,7 +1,7 @@
 
 
 from gate_ways.log import Log
-from sqlalchemy import  and_ , exc
+from sqlalchemy import  and_ , exc , or_
 from entities.entity import Base , UserEntity 
 from models.model import User
 from forms.user.userssPaginated import UsersPage
@@ -127,3 +127,20 @@ class SqlAlchimy_repo :
             users= [user.to_domain() for user in users]
             )
     
+    def getAllByNameOrEmail(self, session, search, page_number, page_size):
+        query = session.query(UserEntity).filter(
+        or_(
+            UserEntity.first_name.ilike(f"%{search}%"),
+            UserEntity.last_name.ilike(f"%{search}%"),
+            UserEntity.email.ilike(f"%{search}%")
+            )
+        )
+        total_records = query.count()
+        starting_index = (page_number - 1) * page_size
+        users = query.offset(starting_index).limit(page_size).all()
+        return UsersPage(
+             total_records =  total_records,
+            page_number= page_number,
+            page_size= page_size,
+            users= [user.to_domain() for user in users]
+            )

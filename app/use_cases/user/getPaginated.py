@@ -20,7 +20,8 @@ class GetPaginated:
                  return self.repo.getAllByLastName(session , getAllInput.last_name  , page_number, page_size)
             
 
-
+            if( not getAllInput.search is None):
+                return self.repo.getAllByNameOrEmail(session , getAllInput.search, page_number, page_size)
           
         
 
