@@ -10,6 +10,7 @@ from use_cases.admin.inputs.getOneInput import GetOneInput as GetOneAdminInput
 from use_cases.user.save import Save
 from use_cases.user.update import Update
 from use_cases.user.activate import Activate
+from use_cases.user.changeState import ChangeState
 from use_cases.user.delete import Delete
 from use_cases.user.getOne import GetOne
 from use_cases.user.auth import Auth
@@ -41,6 +42,7 @@ admin_repo = AdminRepo()
 saving_handler = Save(postgres_repo)
 update_handler = Update(postgres_repo)
 activate_handler = Activate(postgres_repo)
+change_state_handler = ChangeState(postgres_repo)
 delete_handler = Delete(postgres_repo)
 getOne = GetOne(postgres_repo)
 getOneAdmin = GetOneAdmin(admin_repo)
@@ -271,6 +273,20 @@ def changePasswordFUNCTION():
 def activate(userId):    
     try:
         user_updated = activate_handler.handle(user_id=userId)
+        json_data = json.dumps(user_updated.to_dict())
+        return Response(json_data , status=200, mimetype='application/json')
+    except Exception as e :
+        json_data = json.dumps({"status_message":str(e)})
+        return Response(json_data , status=400, mimetype='application/json')
+
+
+
+@UserController.route('/changestate<userId>', methods=['PATCH'])
+@jwt_required()
+@check_admin_permission("genin")
+def changestate(userId):    
+    try:
+        user_updated = change_state_handler.handle(user_id=userId)
         json_data = json.dumps(user_updated.to_dict())
         return Response(json_data , status=200, mimetype='application/json')
     except Exception as e :
