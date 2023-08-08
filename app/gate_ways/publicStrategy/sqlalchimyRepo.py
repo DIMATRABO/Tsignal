@@ -94,7 +94,8 @@ class SqlAlchimy_repo :
     
     def getAllByAccountId(self , session, account_id, page_number, page_size):
         subquery = session.query(SubscriptionEntity.strategy_id).filter(
-            SubscriptionEntity.account_id == account_id
+            SubscriptionEntity.account_id == account_id,
+            SubscriptionEntity.unsubscription_date == None 
         ).subquery()
 
         query = session.query(PublicStrategyEntity).filter(
@@ -115,13 +116,17 @@ class SqlAlchimy_repo :
 
 
     def getAllByUserId(self, session, user_id, page_number, page_size):
+         
         subquery = session.query(SubscriptionEntity.strategy_id).filter(
-            SubscriptionEntity.user_id == user_id
+            SubscriptionEntity.user_id == user_id,
+            SubscriptionEntity.unsubscription_date == None 
         ).subquery()
 
         query = session.query(PublicStrategyEntity).filter(
             PublicStrategyEntity.webhook_id.in_(subquery)
         )
+
+        logger.log(f'{user_id} -- {query}')
 
         total_records = query.count()
         starting_index = (page_number - 1) * page_size
