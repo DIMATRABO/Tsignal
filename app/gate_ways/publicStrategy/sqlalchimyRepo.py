@@ -123,9 +123,9 @@ class SqlAlchimy_repo :
         ).subquery()
 
         query = session.query(PublicStrategyEntity).filter(
-            PublicStrategyEntity.webhook_id.in_(select([subquery.c.strategy_id]))
+            PublicStrategyEntity.webhook_id.in_(session.query(subquery))
         )
-         
+        
         total_records = query.count()
         starting_index = (page_number - 1) * page_size
      
