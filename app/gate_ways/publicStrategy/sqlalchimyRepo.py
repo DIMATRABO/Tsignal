@@ -138,11 +138,11 @@ class SqlAlchimy_repo :
 
     def getNotSubscribedPaginated(self, session,user_id, page_number, page_size):
         subquery = session.query(SubscriptionEntity.strategy_id).filter(
-            SubscriptionEntity.user_id != user_id
+            SubscriptionEntity.user_id == user_id
         ).subquery()
 
         query = session.query(PublicStrategyEntity).filter(
-            PublicStrategyEntity.webhook_id.in_(subquery)
+        ~PublicStrategyEntity.webhook_id.in_(subquery)
         )
 
         total_records = query.count()
