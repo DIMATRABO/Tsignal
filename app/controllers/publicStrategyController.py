@@ -140,7 +140,7 @@ def getMySubscriptionsPaginated(page_number, page_size):
         return Response(json_data, status=400, mimetype='application/json')
 
 
-@PublicStrategyController.route('/subscribed/account/<account_id>', methods=['GET'])
+@PublicStrategyController.route('/subscribed/<account_id>', methods=['GET'])
 @jwt_required()
 @paginate
 def getSubscribedPaginated(account_id, page_number, page_size):

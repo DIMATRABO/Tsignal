@@ -1,7 +1,7 @@
 
 
 from gate_ways.log import Log
-from sqlalchemy import   exc , select
+from sqlalchemy import   exc
 from entities.entity import Base , PublicStrategyEntity , SubscriptionEntity 
 from models.model import PublicStrategy 
 from forms.publicStrategy.publicStrategiesPaginated import PublicStrategiesPaginated
@@ -94,8 +94,7 @@ class SqlAlchimy_repo :
     
     def getAllByAccountId(self , session, account_id, page_number, page_size):
         subquery = session.query(SubscriptionEntity.strategy_id).filter(
-            SubscriptionEntity.account_id == account_id,
-            SubscriptionEntity.unsubscription_date == None 
+            SubscriptionEntity.account_id == account_id
         ).subquery()
 
         query = session.query(PublicStrategyEntity).filter(
@@ -116,21 +115,12 @@ class SqlAlchimy_repo :
 
 
     def getAllByUserId(self, session, user_id, page_number, page_size):
-        return  session.query(SubscriptionEntity.strategy_id).filter(
-            SubscriptionEntity.user_id == user_id,
-            SubscriptionEntity.unsubscription_date == None 
-        ).all()
-
-
-
- 
-        """subquery = session.query(SubscriptionEntity.strategy_id).filter(
-            SubscriptionEntity.user_id == user_id,
-            SubscriptionEntity.unsubscription_date == None 
+        subquery = session.query(SubscriptionEntity.strategy_id).filter(
+            SubscriptionEntity.user_id == user_id
         ).subquery()
 
         query = session.query(PublicStrategyEntity).filter(
-            PublicStrategyEntity.webhook_id.in_(session.query(subquery))
+            PublicStrategyEntity.webhook_id.in_(subquery)
         )
 
         total_records = query.count()
@@ -144,4 +134,3 @@ class SqlAlchimy_repo :
             page_size= page_size,
             strategies= [strategy.to_domain() for strategy in strategies]
             )
-"""
