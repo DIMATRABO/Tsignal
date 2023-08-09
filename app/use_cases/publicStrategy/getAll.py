@@ -16,7 +16,7 @@ class GetAll:
             if not getStrategiesInput.user_id is  None : 
                 to_return = self.repo.getAllByUserId(session, getStrategiesInput.user_id, page_number, page_size)
            
-            to_return.strategies = [ PublicStrategyResponseForm(strategy) for strategy in to_return.strategies]
+            #to_return.strategies = [ PublicStrategyResponseForm(strategy) for strategy in to_return.strategies]
 
             return to_return
 
