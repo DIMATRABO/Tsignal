@@ -15,6 +15,11 @@ class GetAll:
                 to_return = self.repo.getAllByAccountId(session, getStrategiesInput.account_id, page_number, page_size)
             if not getStrategiesInput.user_id is  None : 
                 to_return = self.repo.getAllByUserId(session, getStrategiesInput.user_id, page_number, page_size)
+
+            if not getStrategiesInput.not_user_id is  None : 
+                to_return = self.repo.getNotSubscribedPaginated(session, getStrategiesInput.not_user_id, page_number, page_size)
+
+                
            
             to_return.strategies = [ PublicStrategyResponseForm(strategy) for strategy in to_return.strategies]
 

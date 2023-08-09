@@ -153,3 +153,18 @@ def getSubscribedPaginated(account_id, page_number, page_size):
         json_data = json.dumps({"status_message": str(e)})
         return Response(json_data, status=400, mimetype='application/json')
 
+
+@PublicStrategyController.route('/not-subscribed', methods=['GET'])
+@jwt_required()
+@paginate
+def getNotSubscriptionsPaginated(page_number, page_size):
+    try:
+        userId = get_jwt()["userId"]
+        publicStrategiesPaginated = getAll.handle(GetAllInput(not_user_id=userId), page_number, page_size)
+        json_data = json.dumps(publicStrategiesPaginated.to_dict())
+        return Response(json_data, status=200, mimetype='application/json')
+
+    except Exception as e:
+        json_data = json.dumps({"status_message": str(e)})
+        return Response(json_data, status=400, mimetype='application/json')
+
