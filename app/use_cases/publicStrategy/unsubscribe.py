@@ -14,13 +14,12 @@ class Unsubscribe:
     
     def handle(self, subscription:Subscription):
         with self.sessionContext as session:
-            if(not self.account_repo.user_have_account(session, subscription.user_id, subscription.account_id)):
-                raise Exception("account not found")
+    
             if(self.public_strategy_repo.getStrategyByWebhookId(session, subscription.strategy_id) is None):
                 raise Exception("strategy not found")
             
 
-            unsubscribe = self.repo.unsubscribe(session , subscription.user_id, subscription.strategy_id , subscription.account_id)
+            unsubscribe = self.repo.unsubscribe(session , subscription.user_id, subscription.strategy_id)
             if(unsubscribe is None):
                 raise Exception("no subscription found")
             

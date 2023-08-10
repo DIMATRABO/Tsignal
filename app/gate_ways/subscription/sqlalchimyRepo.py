@@ -20,12 +20,11 @@ class SqlAlchimy_repo :
         return subscriptionEntity.to_domain()
         
 
-    def unsubscribe(self, session, user_id , strategy_id, account_id):
+    def unsubscribe(self, session, user_id , strategy_id):
         # Find the subscription to update
         subscription = session.query(SubscriptionEntity).filter(
             SubscriptionEntity.user_id ==  user_id,
             SubscriptionEntity.strategy_id == strategy_id,
-            SubscriptionEntity.account_id == account_id,
             SubscriptionEntity.unsubscription_date == None
         ).first()
 
