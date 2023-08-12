@@ -18,6 +18,12 @@ class UpdateUserForm:
         else:
             self.id=jsonUser["id"]
 
+        if(  not "client_id" in  jsonUser):
+            raise Exception("client_id required")
+        else:
+            self.client_id=jsonUser["client_id"]
+            
+
         if(  not "email" in  jsonUser):
             raise Exception("email required")
         else:
@@ -48,6 +54,7 @@ class UpdateUserForm:
     def to_domain(self):
         return User(
             id=self.id,
+            client_id= self.client_id,
             email=self.email,
             first_name=self.first_name,
             last_name=self.last_name,
