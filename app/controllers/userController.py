@@ -69,7 +69,7 @@ def getUserById(userId):
         return Response(json_data , status=400, mimetype='application/json')
 
 
-@UserController.route('paginate', methods=['GET'])
+@UserController.route('paginate/', methods=['GET'])
 @jwt_required()
 @check_admin_permission("genin")
 @paginate
