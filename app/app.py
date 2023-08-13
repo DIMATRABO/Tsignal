@@ -36,7 +36,7 @@ app.register_blueprint(DashboardController,url_prefix = "/dashboards")
 app.register_blueprint(ExchangeController,url_prefix = "/exchanges")
 app.register_error_handler(404, not_found)
 
-CORS(app, origins=['https://tsignal.store'], supports_credentials=True, methods=["PATCH"], allow_headers=["Content-Type"])
+CORS(app)
 
 if __name__ == "__main__":
     app.run(host=config.get_app_host(), port=config.get_app_port() , debug=config.get_app_debug_mode())
