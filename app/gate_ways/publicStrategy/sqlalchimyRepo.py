@@ -91,6 +91,22 @@ class SqlAlchimy_repo :
             strategies= [strategy.to_domain() for strategy in strategies]
             )
 
+
+    def getAllAdminPaginated(self, session, page_number, page_size):
+        query = session.query(PublicStrategyEntity)
+
+        total_records = query.count()
+        starting_index = (page_number - 1) * page_size
+     
+        strategies = query.offset(starting_index).limit(page_size).all()
+
+        return PublicStrategiesPaginated(
+            total_records =  total_records,
+            page_number= page_number,
+            page_size= page_size,
+            strategies= [strategy.to_domain_admin() for strategy in strategies]
+            )
+
     
     def getAllByAccountId(self , session, account_id, page_number, page_size):
         subquery = session.query(SubscriptionEntity.strategy_id).filter(

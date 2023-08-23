@@ -434,6 +434,25 @@ class PublicStrategyEntity(Base):
         return PublicStrategy(
             id=self.id,
             name=self.name,
+            symbol=self.symbol,
+            symbol_id=self.symbol_id,
+            is_future=self.is_future,
+            leverage=self.leverage,
+            capital=self.capital,
+            created_at=self.created_at,
+            backtesting_start_date=self.backtesting_start_date,
+            backtesting_end_date=self.backtesting_end_date,
+            backtesting_initial_capital=self.backtesting_initial_capital,
+            net_profit=self.net_profit,
+            total_closed_trades=self.total_closed_trades,
+            percentage_profitable=self.percentage_profitable,
+            max_drawdown=self.max_drawdown
+        )
+    
+    def to_domain_admin(self):
+        return PublicStrategy(
+            id=self.id,
+            name=self.name,
             webhook_id=self.webhook_id,
             webhook_key=self.webhook_key,
             symbol=self.symbol,
@@ -502,3 +521,5 @@ class SubscriptionEntity(Base):
             created_at=self.created_at,
             unsubscription_date = self.unsubscription_date
         )
+    
+ 

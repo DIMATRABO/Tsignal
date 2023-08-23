@@ -7,7 +7,8 @@ from gate_ways.subscription.sqlalchimyRepo import SqlAlchimy_repo as Subscriptio
 
 
 
-
+from use_cases.admin.checkAdmin import CheckAdmin
+from gate_ways.admin.sqlalchimyRepo import SqlAlchimy_repo as AdminRepo
 
 from use_cases.publicStrategy.save import Save
 from use_cases.publicStrategy.delete import Delete
@@ -40,6 +41,7 @@ publicStrategy_repo = PublicStrategy_repo()
 account_repo = Account_repo()
 order_repo = Order_repo()
 subscription_repo = Subscription_repo()
+admin_repo = AdminRepo()
 
 saving_handler = Save(publicStrategy_repo)
 delete_handler = Delete(publicStrategy_repo)
@@ -48,6 +50,8 @@ getAll = GetAll(publicStrategy_repo)
 getAllAdvanced = GetAllAdvanced(publicStrategy_repo, account_repo,order_repo)
 subscribe_handler = Subscribe(subscription_repo, publicStrategy_repo , account_repo)
 unsubscribe_handler = Unsubscribe(subscription_repo, publicStrategy_repo , account_repo)
+checkAdmin = CheckAdmin(admin_repo)
+
 
 @PublicStrategyController.route('/', methods=['POST'])
 @jwt_required()
@@ -116,6 +120,14 @@ def unsubscribe():
 @paginate
 def getAllPaginated(page_number, page_size):
     try:
+        if checkAdmin.handle(get_jwt()["adminId"], get_jwt()["login"], get_jwt()["privilege"], "genin"):
+            publicStrategiesPaginated = getAll.handle(GetAllInput(all="all_admin"), page_number, page_size)
+            json_data = json.dumps(publicStrategiesPaginated.to_dict())
+            return Response(json_data, status=200, mimetype='application/json')
+    except:
+        pass
+
+    try:
         publicStrategiesPaginated = getAll.handle(GetAllInput(all="all"), page_number, page_size)
         json_data = json.dumps(publicStrategiesPaginated.to_dict())
         return Response(json_data, status=200, mimetype='application/json')
@@ -123,6 +135,8 @@ def getAllPaginated(page_number, page_size):
     except Exception as e:
         json_data = json.dumps({"status_message": str(e)})
         return Response(json_data, status=400, mimetype='application/json')
+
+
 
 
 @PublicStrategyController.route('/subscribed', methods=['GET'])

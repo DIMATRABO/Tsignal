@@ -6,6 +6,7 @@ from models.model import PublicStrategy
 class PublicStrategyResponseForm:
     id: str = None
     webhook_id: str = None
+    webhook_key: str = None
     name: str = None
     symbol: str = None
     symbol_id: str = None
@@ -24,7 +25,8 @@ class PublicStrategyResponseForm:
 
     def __init__(self, strategy: PublicStrategy):
         self.id = strategy.id
-        self.webhook_id = strategy.webhook_id #here
+        self.webhook_id = strategy.webhook_id 
+        self.webhook_key= strategy.webhook_key
         self.name = strategy.name
         self.symbol = strategy.symbol
         self.symbol_id = strategy.symbol_id
