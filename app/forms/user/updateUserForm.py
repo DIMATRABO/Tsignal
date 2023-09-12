@@ -11,7 +11,7 @@ class UpdateUserForm:
 
     def __init__(self , jsonUser):
 
-        validator = Validator()
+      
 
         if(  not "id" in  jsonUser):
             raise Exception("id required")

@@ -208,7 +208,6 @@ def delete(id):
 
 @UserController.route('', methods=['PATCH'])
 @jwt_required()
-@check_admin_permission("genin")
 def update():    
     try:
         user_json = request.get_json()
