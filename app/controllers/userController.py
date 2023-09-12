@@ -208,7 +208,7 @@ def delete(id):
 
 @UserController.route('', methods=['PATCH'])
 @jwt_required()
-def update():    
+def update_():    
     try:
         user_json = request.get_json()
         form = UpdateUserForm(user_json)
