@@ -364,6 +364,7 @@ class SqlAlchimy_repo :
                 func.sum(OrderEntity.execution_price * OrderEntity.amount)
             )
             .filter(
+                not OrderEntity.execution_price is None,
                 OrderEntity.is_buy == False,
                 OrderEntity.status == 'closed',
                 OrderEntity.strategy_id.in_(subquery_2),
@@ -413,6 +414,7 @@ class SqlAlchimy_repo :
                 func.sum(OrderEntity.execution_price * OrderEntity.amount)
             )
             .filter(
+                not OrderEntity.execution_price is None,
                 OrderEntity.is_buy == True,
                 OrderEntity.status == 'closed',
                 OrderEntity.strategy_id.in_(subquery_2),
@@ -732,6 +734,7 @@ class SqlAlchimy_repo :
                 func.sum(OrderEntity.execution_price * OrderEntity.amount)
             )
             .filter(
+                not OrderEntity.execution_price is None,
                 OrderEntity.strategy_id == strategy_id,
                 OrderEntity.is_buy == False,
                 OrderEntity.status == 'closed',
@@ -780,6 +783,7 @@ class SqlAlchimy_repo :
                 func.sum(OrderEntity.execution_price * OrderEntity.amount)
             )
             .filter(
+                not OrderEntity.execution_price is None,
                 OrderEntity.strategy_id == strategy_id,
                 OrderEntity.is_buy == True,
                 OrderEntity.status == 'closed',
