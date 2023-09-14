@@ -373,6 +373,9 @@ class SqlAlchimy_repo :
             .all()
         )
 
+        logger.log(monthly_profits)
+
+
         # Initialize list with 12 elements representing each month of the year
         monthly_income = [0] * 12
         
@@ -418,7 +421,7 @@ class SqlAlchimy_repo :
             .group_by(extract('month', OrderEntity.execution_date))
             .all()
         )
-
+        logger.log(monthly_invested)
         monthly_investeds = [0] * 12
         
         for month_decimal, invested in monthly_invested:
@@ -738,6 +741,7 @@ class SqlAlchimy_repo :
             .group_by(extract('month', OrderEntity.execution_date))
             .all()
         )
+        logger.log(monthly_profits)
 
         # Initialize list with 12 elements representing each month of the year
         monthly_income = [0] * 12
@@ -785,6 +789,8 @@ class SqlAlchimy_repo :
             .group_by(extract('month', OrderEntity.execution_date))
             .all()
         )
+        logger.log(monthly_invested)
+
 
         monthly_investeds = [0] * 12
         
