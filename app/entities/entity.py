@@ -434,6 +434,7 @@ class PublicStrategyEntity(Base):
         return PublicStrategy(
             id=self.id,
             name=self.name,
+            webhook_id=self.webhook_id,
             symbol=self.symbol,
             symbol_id=self.symbol_id,
             is_future=self.is_future,
