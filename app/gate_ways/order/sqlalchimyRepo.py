@@ -381,7 +381,10 @@ class SqlAlchimy_repo :
             month_index = int(month_decimal)
 
             # Assign the profit to the corresponding month index
-            monthly_income[month_index - 1] = float(profit)
+            if profit is None:
+                 monthly_income[month_index - 1] = 0
+            else:
+                monthly_income[month_index - 1] = float(profit)
         return monthly_income
     
 
@@ -420,8 +423,10 @@ class SqlAlchimy_repo :
         
         for month_decimal, invested in monthly_invested:
             month_index = int(month_decimal)
-
-            monthly_investeds[month_index - 1] = float(invested)
+            if invested is None:
+                 monthly_investeds[month_index - 1] = 0
+            else:
+                monthly_investeds[month_index - 1] = float(invested)
         return monthly_investeds
     
 
@@ -742,7 +747,10 @@ class SqlAlchimy_repo :
             month_index = int(month_decimal)
 
             # Assign the profit to the corresponding month index
-            monthly_income[month_index - 1] = float(profit)
+            if profit is None:
+                 monthly_income[month_index - 1] = 0
+            else:
+                monthly_income[month_index - 1] = float(profit)
         return monthly_income
     
 
@@ -782,8 +790,10 @@ class SqlAlchimy_repo :
         
         for month_decimal, invested in monthly_invested:
             month_index = int(month_decimal)
-
-            monthly_investeds[month_index - 1] = float(invested)
+            if invested is None:
+                 monthly_investeds[month_index - 1] = 0
+            else:
+                monthly_investeds[month_index - 1] = float(invested )
         return monthly_investeds
     
 
