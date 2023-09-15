@@ -17,8 +17,6 @@ pg.create()
 
 
 
-
-
 exchange_repo = Exchange_repo()
 saving_handler = Save(exchange_repo)
 
@@ -46,7 +44,6 @@ bybit = Exchange(id="bybit",
                     name="Bybit",
                     image="https://th.bing.com/th/id/OIP.RxhSjRFe38GxfJ5phvUOewAAAA?pid=ImgDet&w=474&h=276&rs=1"
                     )
-
 
 exchanges.append(bybit)
 

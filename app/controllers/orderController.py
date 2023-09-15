@@ -3,10 +3,12 @@ from json import dumps
 from flask import Response , request
 
 from forms.order.createOrder import CreateOrderForm
+from forms.order.createBasicOrder import CreateBasicOrderForm
 
 from use_cases.order.inputs.getAllInput import GetAllInput
 from use_cases.order.getDetails import GetDetails
 from use_cases.order.create import Create
+from use_cases.order.createBasic import CreateBasic
 from use_cases.order.createPublic import CreatePublic
 from use_cases.order.getAll import GetAll
 from use_cases.order.getAllPaginated import GetAllPaginated
@@ -31,13 +33,14 @@ accountRepo = AccountRepo()
 strategyRepo = StrategyRepo()
 publicStrategyRepo = PublicStrategyRepo()
 create_handler = Create(orderRepo = orderRepo , accountRepo=accountRepo , strategyRepo=strategyRepo)
-create_public_handler = CreatePublic(orderRepo = orderRepo , accountRepo=accountRepo , publicStrategyRepo=publicStrategyRepo , )
+create_basic_handler = CreateBasic(orderRepo = orderRepo , accountRepo=accountRepo , strategyRepo=strategyRepo)
+create_public_handler = CreatePublic(orderRepo = orderRepo , accountRepo=accountRepo , publicStrategyRepo=publicStrategyRepo )
 getOderDetails_handler = GetDetails(order_repo=orderRepo , strategy_repo= strategyRepo , account_repo= accountRepo)
 getOrders_handler = GetAll(repo=orderRepo)
 getOrdersPaginated_handler = GetAllPaginated(repo=orderRepo)
 
 
-@OrderController.route('/<webhookid>', methods=['POST'])
+@OrderController.route('/advanced/<webhookid>', methods=['POST'])
 def create(webhookid):
     try:
         order_json = request.get_json()
@@ -51,6 +54,24 @@ def create(webhookid):
     except Exception as e :
         json_data = dumps({"status_message":str(e)})
         return Response(json_data , status=400, mimetype='application/json')
+
+
+@OrderController.route('/<webhookid>', methods=['POST'])
+def createBasic(webhookid):
+    try:
+        order_json = request.get_json()
+        form = CreateBasicOrderForm(order_json)
+        logger.log("new basic order on strategy :"+webhookid)
+        json_data = dumps(create_basic_handler.handle(order=order , key=form.key))
+        return Response(json_data , status=200, mimetype='application/json')
+    
+    except Exception as e :
+        json_data = dumps({"status_message":str(e)})
+        return Response(json_data , status=400, mimetype='application/json')
+
+
+
+
 
 
 @OrderController.route('/public/<webhookid>', methods=['POST'])
