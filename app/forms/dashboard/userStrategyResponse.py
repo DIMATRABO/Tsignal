@@ -28,8 +28,8 @@ class UserStrategyResponse:
         return self(**d)
     
     def to_dict(self):
-        self.average_sell_price = round(self.average_sell_price , 4) 
-        self.average_buy_price = round(self.average_buy_price , 4) 
-        self.total_sell_quantitiy = round(self.total_sell_quantitiy , 4) 
-        self.total_buy_quantity = round(self.total_buy_quantity , 4) 
+        self.average_sell_price = 0 if self.average_sell_price is None else round(self.average_sell_price , 4) 
+        self.average_buy_price = 0 if self.average_buy_price is None else  round(self.average_buy_price , 4) 
+        self.total_sell_quantitiy =0 if self.total_sell_quantitiy is None else   round(self.total_sell_quantitiy , 4) 
+        self.total_buy_quantity = 0 if self.total_buy_quantity is None else  round(self.total_buy_quantity , 4) 
         return asdict(self)
