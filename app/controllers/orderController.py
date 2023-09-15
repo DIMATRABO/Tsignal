@@ -62,7 +62,7 @@ def createBasic(webhookid):
         order_json = request.get_json()
         form = CreateBasicOrderForm(order_json)
         logger.log("new basic order on strategy :"+webhookid)
-        json_data = dumps(create_basic_handler.handle(order=order , key=form.key))
+        json_data = dumps(create_basic_handler.handle(basicOrder=form , webhookId=webhookid))
         return Response(json_data , status=200, mimetype='application/json')
     
     except Exception as e :
