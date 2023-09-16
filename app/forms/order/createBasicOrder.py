@@ -15,7 +15,7 @@ class CreateBasicOrderForm:
         if(  not "side" in  jsonAccount):
             raise Exception("side required")
         
-        elif( jsonAccount["side"] == "BUY"  or jsonAccount["side"] == "SELL" ):
+        elif(not( jsonAccount["side"] == "BUY"  or jsonAccount["side"] == "SELL") ):
             raise Exception("side must be equal to BUY or SELL ")
         else:
             self.side=jsonAccount["side"]
