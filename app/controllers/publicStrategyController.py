@@ -183,15 +183,16 @@ def getNotSubscriptionsPaginated(page_number, page_size):
         return Response(json_data, status=400, mimetype='application/json')
 
 
-@PublicStrategyController.route('/delete', methods=['POST'])
+@PublicStrategyController.route('/<strategy_id>', methods=['DELETE'])
 @jwt_required()
 @check_admin_permission('genin')
-def delete():
+def delete(strategy_id):
     try:
-        userId = get_jwt()["userId"]
-        publicStrategiesPaginated = getAll.handle(GetAllInput(not_user_id=userId), page_number, page_size)
-        json_data = json.dumps(publicStrategiesPaginated.to_dict())
-        return Response(json_data, status=200, mimetype='application/json')
+        delete_handler.handle(strategy= PublicStrategy(id=strategy_id))
+        status_message = "Strategy deleted successfully"
+        logger.log(status_message)
+        json_data = json.dumps({"status_message":status_message})
+        return  Response(json_data , status=200, mimetype='application/json')
 
     except Exception as e:
         json_data = json.dumps({"status_message": str(e)})
