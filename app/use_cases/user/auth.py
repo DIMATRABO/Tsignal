@@ -9,7 +9,7 @@ class Auth:
 
     def handle(self, authForm:AuthUserForm):
         with self.sessionContext as session:
-            user = self.repo.getUserByEmail(session , authForm.email)
+            user = self.repo.getActiveUserByEmail(session , authForm.email)
             if not user is None:
                 if bcrypt.checkpw(
                     authForm.password.encode('utf-8'),

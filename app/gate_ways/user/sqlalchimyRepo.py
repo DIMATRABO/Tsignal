@@ -65,14 +65,19 @@ class SqlAlchimy_repo :
         users = session.query(UserEntity).all()
         
         return users
-
+    
     def getUserByEmail(self, session , email):
         user = session.query(UserEntity).filter(UserEntity.email == email).first()
-        return None if user == None else user.to_domain()
+        return None if user is None else user.to_domain()
+    
+
+    def getActiveUserByEmail(self, session , email):
+        user = session.query(UserEntity).filter(UserEntity.email == email , UserEntity.is_actif).first()
+        return None if user is None else user.to_domain()
     
     def getUserById(self, session , uuid):
         user = session.query(UserEntity).filter(UserEntity.id == uuid).first()
-        return None if user == None else user.to_domain()
+        return None if user is None else user.to_domain()
     
  
 
