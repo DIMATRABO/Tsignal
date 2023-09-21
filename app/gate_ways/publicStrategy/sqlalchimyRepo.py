@@ -1,8 +1,8 @@
 
 
 from gate_ways.log import Log
-from sqlalchemy import   exc
-from entities.entity import Base , PublicStrategyEntity , SubscriptionEntity 
+from sqlalchemy import   exc  
+from entities.entity import Base , PublicStrategyEntity , SubscriptionEntity , OrderEntity
 from models.model import PublicStrategy 
 from forms.publicStrategy.publicStrategiesPaginated import PublicStrategiesPaginated
 import uuid
@@ -43,24 +43,26 @@ class SqlAlchimy_repo :
             session.rollback()
             raise Exception("publicStrategy not updated")
          
-      
-    """ 
-    def deleteUsersPublicStrategy(self, session, publicStrategy, user_id):
+       
+    def deletePublicStrategy(self, session, publicStrategy):
         try:
-            # Delete associated orders first
-            session.query(OrderEntity).filter(OrderEntity.publicStrategy_id == publicStrategy.webhook_id, PublicStrategyEntity.account_id == AccountEntity.id, AccountEntity.user_id == user_id).delete(synchronize_session='fetch')
+            subquery = session.query(SubscriptionEntity.id).filter(SubscriptionEntity.strategy_id== publicStrategy.webhook_id).subquery()
+            # Delete all associated orders
+            session.query(OrderEntity).filter(OrderEntity.subscription_id.in_(subquery)).delete(synchronize_session='fetch')
+            # Delete all subscriptions
+            session.query(SubscriptionEntity).filter(SubscriptionEntity.strategy_id== publicStrategy.webhook_id).delete(synchronize_session='fetch')
 
-            # Delete the publicStrategy only if it belongs to the user
-            num_deleted = session.query(PublicStrategyEntity).filter(PublicStrategyEntity.id == publicStrategy.id, PublicStrategyEntity.account_id == AccountEntity.id, AccountEntity.user_id == user_id).delete(synchronize_session='fetch')
+            # Delete the publicStrategy
+            num_deleted = session.query(PublicStrategyEntity).filter(PublicStrategyEntity.id == publicStrategy.id).delete(synchronize_session='fetch')
             if num_deleted == 0:
                 # Handle case where no matching records were found
-                raise Exception("No matching records found for publicStrategy ID {} belonging to user ID {}".format(publicStrategy.id, user_id))
+                raise Exception("No matching records found for publicStrategy ID {} ".format(publicStrategy.id))
 
             session.commit()
         except exc.SQLAlchemyError as e:
             session.rollback()
-            raise Exception("Error deleting publicStrategy with ID {} belonging to user ID {}: {}".format(publicStrategy.id, user_id, str(e)))
-    """
+            raise Exception("Error deleting publicStrategy with ID {} : {}".format(publicStrategy.id, str(e)))
+    
 
     def getAllStrategies(self, session):
         strategies = session.query(PublicStrategyEntity).all()
