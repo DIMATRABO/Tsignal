@@ -7,6 +7,6 @@ class Delete:
 
     def handle(self, strategy:Strategy):
         with self.sessionContext as session:
-            strategy = self.repo.getStrategyById(session, strategy.id)
+            strategy = self.repo.getPublicStrategyById(session, strategy.id)
             return self.repo.deletePublicStrategy(session, strategy)
     
