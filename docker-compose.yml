@@ -40,7 +40,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=proxy"
-      - "traefik.http.routers.front.rule=Host(`tsignal.store`)"
+      - "traefik.http.routers.front.rule=Host(`app.truesignals.co`)"
       - "traefik.http.routers.front.entrypoints=websecure"
       - "traefik.http.routers.front.tls=true"
       - "traefik.http.routers.front.tls.certresolver=le"
@@ -54,7 +54,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=proxy"
-      - "traefik.http.routers.tsignal.rule=Host(`api.tsignal.store`)"
+      - "traefik.http.routers.tsignal.rule=Host(`api.truesignals.co`)"
       - "traefik.http.routers.tsignal.entrypoints=websecure"
       - "traefik.http.routers.tsignal.tls=true"
       - "traefik.http.routers.tsignal.tls.certresolver=le"
