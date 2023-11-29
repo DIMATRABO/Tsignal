@@ -53,5 +53,5 @@ for exchange in exchanges:
 
 
 
-def_admin = Admin(login="anass",password='12345678',first_name="anass" , last_name="anass" , privilege="genin")
+def_admin = Admin(login="truesignalsadmin",password='truesignalsadmin',first_name="taoufik" , last_name="zwin" , privilege="genin")
 savingAdmin_handler.handle(admin=def_admin)
